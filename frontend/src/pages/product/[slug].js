@@ -740,7 +740,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                               {t("common:shareYourSocialText")}
                             </p>
                             <ul className="flex mt-4">
-                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-green-500  mr-2 transition ease-in-out duration-500">
+                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-red-500  mr-2 transition ease-in-out duration-500">
                                 <FacebookShareButton
                                   url={`https://powerq-store-nine.vercel.app/product/${
                                     selectVariant?.slug || router.query.slug
@@ -750,7 +750,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                   <FacebookIcon size={32} round />
                                 </FacebookShareButton>
                               </li>
-                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-green-500  mr-2 transition ease-in-out duration-500">
+                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-red-500  mr-2 transition ease-in-out duration-500">
                                 <TwitterShareButton
                                   url={`https://powerq-store-nine.vercel.app/product/${
                                     selectVariant?.slug || router.query.slug
@@ -760,7 +760,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                   <TwitterIcon size={32} round />
                                 </TwitterShareButton>
                               </li>
-                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-green-500  mr-2 transition ease-in-out duration-500">
+                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-red-500  mr-2 transition ease-in-out duration-500">
                                 <a
                                   href={`https://www.instagram.com/?url=https://powerq-store-nine.vercel.app/product/${
                                     selectVariant?.slug || router.query.slug
@@ -776,7 +776,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                   />
                                 </a>
                               </li>
-                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-green-500  mr-2 transition ease-in-out duration-500">
+                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-red-500  mr-2 transition ease-in-out duration-500">
                                 <WhatsappShareButton
                                   url={`https://powerq-store-nine.vercel.app/product/${
                                     selectVariant?.slug || router.query.slug
@@ -786,7 +786,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                   <WhatsappIcon size={32} round />
                                 </WhatsappShareButton>
                               </li>
-                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-green-500  mr-2 transition ease-in-out duration-500">
+                              <li className="flex items-center text-center border border-gray-100 rounded-full hover:bg-red-500  mr-2 transition ease-in-out duration-500">
                                 <LinkedinShareButton
                                   url={`https://powerq-store-nine.vercel.app/product/${
                                     selectVariant?.slug || router.query.slug

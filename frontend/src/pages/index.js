@@ -914,7 +914,7 @@ const Home = ({
                   </p>
                   <button
                     onClick={() => handleGetQuoteClick("")}
-                        className="bg-[#5F9C2F] hover:bg-[#4E8026] text-white font-bold py-4 px-8 rounded-lg text-lg uppercase"
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg uppercase"
                   >
                     REQUEST A QUOTE
                   </button>
@@ -1292,7 +1292,7 @@ const Home = ({
                     </p>
                     <button
                       onClick={() => handleGetQuoteClick("")}
-                      className="bg-[#5F9C2F] hover:bg-[#4E8026] text-white font-bold py-4 px-8 rounded-lg text-lg uppercase transition-colors duration-300"
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg uppercase transition-colors duration-300"
                     >
                       REQUEST A QUOTE
                     </button>
@@ -1329,7 +1329,7 @@ const Home = ({
                   {/* Green Button with enhanced styling */}
                   <button
                     onClick={() => handleGetQuoteClick("")}
-                    className="bg-gradient-to-r from-[#5F9C2F] to-[#4E8026] hover:from-[#4E8026] hover:to-[#3D6B1F] text-white font-bold py-4 px-10 rounded-xl text-lg uppercase transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 border-2 border-white/20"
+                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-10 rounded-xl text-lg uppercase transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 border-2 border-white/20"
                   >
                     REQUEST A QUOTE
                   </button>
