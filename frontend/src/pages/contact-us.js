@@ -1,263 +1,267 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
-import useTranslation from "next-translate/useTranslation";
-import { FiMail, FiMapPin, FiBell } from "react-icons/fi";
-
-//internal import
 import Layout from "@layout/Layout";
-import Label from "@components/form/Label";
-import Error from "@components/form/Error";
-import { notifySuccess } from "@utils/toast";
-import useGetSetting from "@hooks/useGetSetting";
-import InputArea from "@components/form/InputArea";
-import PageHeader from "@components/header/PageHeader";
-import CMSkeleton from "@components/preloader/CMSkeleton";
-import useUtilsFunction from "@hooks/useUtilsFunction";
+import { FiClock, FiMapPin, FiPhoneCall, FiMail } from "react-icons/fi";
+
+const services = [
+  "Electrical Testing & Tagging",
+  "Fire Extinguishers",
+  "RCD/Safety Switches",
+  "Three Phase Testing",
+  "Microwave Testing",
+  "Emergency Exit Light Testing",
+  "Smoke Alarm Service",
+];
 
 const ContactUs = () => {
-  const { t } = useTranslation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    location: "",
+    schedule: "",
+    message: "",
+  });
+  const [notRobotChecked, setNotRobotChecked] = useState(false);
 
-  const { showingTranslateValue } = useUtilsFunction();
-  const { storeCustomizationSetting, loading, error } = useGetSetting();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const submitHandler = () => {
-    notifySuccess(
-      "your message sent successfully. We will contact you shortly."
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!notRobotChecked) {
+      alert("Please confirm you're not a robot.");
+      return;
+    }
+    console.log("Contact request:", formData);
+    alert("Thank you! We will contact you shortly.");
   };
 
   return (
-    <Layout title="Contact Us" description="This is contact us page">
-      <PageHeader
-        headerBg={storeCustomizationSetting?.contact_us?.header_bg}
-        title={showingTranslateValue(
-          storeCustomizationSetting?.contact_us?.title
-        )}
-      />
+    <Layout title="Contact Us" description="Get in touch with PowerQ">
+      <div className="relative bg-[#111] text-white min-h-[380px] sm:min-h-[380px] lg:min-h-[420px]">
+        <Image
+          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/Microwave-Testing.jpg.bv.webp"
+          alt="Hero background"
+          fill
+          className="object-cover opacity-40"
+          priority
+        />
+        <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-10 py-24 lg:py-32 text-center">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">Contact Us</h1>
+          <div className="w-40 h-0.5 bg-white mx-auto" />
+        </div>
+      </div>
 
-      <div className="bg-white">
-        <div className="max-w-screen-2xl mx-auto lg:py-20 py-10 px-4 sm:px-10">
-          {/* contact promo */}
-          <div className="grid md:grid-cols-2 gap-6 lg:grid-cols-3 xl:gap-8 font-serif">
-            {loading ? (
-              <CMSkeleton
-                count={10}
-                height={20}
-                error={error}
-                loading={loading}
-              />
-            ) : (
-              <div className="border p-10 rounded-lg text-center">
-                <span className="flex justify-center text-4xl text-[#EF4036] mb-4">
-                  <FiMail />
-                </span>
-                <h5 className="text-xl mb-2 font-bold">
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us?.email_box_title
-                  )}
-                </h5>
-                <p className="mb-0 text-base opacity-90 leading-7">
-                  <a
-                    href={`mailto:${storeCustomizationSetting?.contact_us?.email_box_email}`}
-                    className="text-[#EF4036]"
-                  >
-                    {showingTranslateValue(
-                      storeCustomizationSetting?.contact_us?.email_box_email
-                    )}
-                  </a>{" "}
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us?.email_box_text
-                  )}
-                </p>
+      <div className="bg-[#f7f7f7] py-12 px-4 sm:px-10">
+        <div className="max-w-screen-2xl mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
+            <div className="flex justify-center mb-3">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-3xl group-hover:bg-green-100 group-hover:scale-110 transition-transform duration-300">
+                <FiClock />
               </div>
-            )}
-
-            {loading ? (
-              <CMSkeleton
-                count={10}
-                height={20}
-                error={error}
-                loading={loading}
-              />
-            ) : (
-              <div className="border p-10 rounded-lg text-center">
-                <span className="flex justify-center text-4xl text-[#EF4036] mb-4">
-                  <FiBell />
-                </span>
-                <h5 className="text-xl mb-2 font-bold">
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us?.call_box_title
-                  )}
-                </h5>
-                <p className="mb-0 text-base opacity-90 leading-7">
-                  <a
-                    href={`mailto:${storeCustomizationSetting?.contact_us?.call_box_phone}`}
-                    className="text-[#EF4036]"
-                  >
-                    {showingTranslateValue(
-                      storeCustomizationSetting?.contact_us?.call_box_phone
-                    )}
-                  </a>{" "}
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us?.call_box_text
-                  )}
-                </p>
-              </div>
-            )}
-            {loading ? (
-              <CMSkeleton
-                count={10}
-                height={20}
-                error={error}
-                loading={loading}
-              />
-            ) : (
-              <div className="border p-10 rounded-lg text-center">
-                <span className="flex justify-center text-4xl text-[#EF4036] mb-4">
-                  <FiMapPin />
-                </span>
-                <h5 className="text-xl mb-2 font-bold">
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us?.address_box_title
-                  )}
-                </h5>
-                <p className="mb-0 text-base opacity-90 leading-7">
-                  <span>
-                    {showingTranslateValue(
-                      storeCustomizationSetting?.contact_us
-                        ?.address_box_address_one
-                    )}
-                  </span>{" "}
-                  <br />
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us
-                      ?.address_box_address_two
-                  )}{" "}
-                  <br />
-                  {showingTranslateValue(
-                    storeCustomizationSetting?.contact_us
-                      ?.address_box_address_three
-                  )}
-                </p>
-              </div>
-            )}
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Our Hours</h3>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-600">Mon - Fri: 9am - 7pm</p>
+              <p className="text-sm text-gray-600">Sat - Sun: 10am - 2pm</p>
+            </div>
           </div>
 
-          {/* contact form */}
-          <div className="px-0 pt-24 mx-auto items-center flex flex-col md:flex-row w-full justify-between">
-            <div className="hidden md:w-full lg:w-5/12 lg:flex flex-col h-full">
-              <Image
-                width={874}
-                height={874}
-                src={
-                  storeCustomizationSetting?.contact_us?.left_col_img ||
-                  "/contact-us.png"
-                }
-                alt="PowerQ"
-                className="block w-auto"
-              />
+          <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
+            <div className="flex justify-center mb-3">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-3xl group-hover:bg-green-100 group-hover:scale-110 transition-transform duration-300">
+                <FiMapPin />
+              </div>
             </div>
-            <div className="px-0 pb-2 lg:w-5/12 flex flex-col md:flex-row">
-              <form
-                onSubmit={handleSubmit(submitHandler)}
-                className="w-full mx-auto flex flex-col justify-center"
-              >
-                <div className="mb-12">
-                  <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold font-serif mb-3">
-                    <CMSkeleton
-                      count={1}
-                      height={50}
-                      loading={loading}
-                      data={storeCustomizationSetting?.contact_us?.form_title}
-                    />
-                  </h3>
-                  <p className="text-base opacity-90 leading-7">
-                    <CMSkeleton
-                      count={2}
-                      height={20}
-                      loading={loading}
-                      data={
-                        storeCustomizationSetting?.contact_us?.form_description
-                      }
-                    />
-                  </p>
-                </div>
+            <h3 className="text-xl font-bold text-gray-900">Location</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              43 Wonnangatta Cres, Melton South
+              <br />
+              VIC 3338, Australia
+            </p>
+          </div>
 
-                <div className="flex flex-col space-y-5">
-                  <div className="flex flex-col md:flex-row space-y-5 md:space-y-0">
-                    <div className="w-full md:w-1/2 ">
-                      <InputArea
-                        register={register}
-                        label={t("common:contact-page-form-input-name")}
-                        name="name"
-                        type="text"
-                        placeholder={t(
-                          "common:contact-page-form-plaholder-name"
-                        )}
-                      />
-                      <Error errorName={errors.name} />
-                    </div>
-                    <div className="w-full md:w-1/2 md:ml-2.5 lg:ml-5 mt-2 md:mt-0">
-                      <InputArea
-                        register={register}
-                        label={t("common:contact-page-form-input-email")}
-                        name="email"
-                        type="email"
-                        placeholder={t(
-                          "common:contact-page-form-plaholder-email"
-                        )}
-                      />
-                      <Error errorName={errors.email} />
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <InputArea
-                      register={register}
-                      label={t("common:contact-page-form-input-subject")}
-                      name="subject"
-                      type="text"
-                      placeholder={t(
-                        "common:contact-page-form-plaholder-subject"
-                      )}
-                    />
-                    <Error errorName={errors.subject} />
-                  </div>
-                  <div className="relative mb-4">
-                    <Label
-                      label={t("common:contact-page-form-input-message")}
-                    />
-                    <textarea
-                      {...register("message", {
-                        required: `Message is required!`,
-                      })}
-                      name="message"
-                      className="px-4 py-3 flex items-center w-full rounded appearance-none opacity-75 transition duration-300 ease-in-out text-sm focus:ring-0 bg-white border border-gray-300 focus:shadow-none focus:outline-none focus:border-gray-500 placeholder-body"
-                      autoComplete="off"
-                      spellCheck="false"
-                      rows="4"
-                      placeholder={t(
-                        "common:contact-page-form-plaholder-message"
-                      )}
-                    ></textarea>
-                    <Error errorName={errors.message} />
-                  </div>
-                  <div className="relative">
-                    <button
-                      data-variant="flat"
-                      className="md:text-sm leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold text-center justify-center border-0 border-transparent rounded-md placeholder-white focus-visible:outline-none focus:outline-none bg-[#EF4036] text-white px-5 md:px-6 lg:px-8 py-3 md:py-3.5 lg:py-3 hover:text-white hover:bg-[#C53030] h-12 mt-1 text-sm lg:text-base w-full sm:w-auto"
-                    >
-                      {t("common:contact-page-form-send-btn")}
-                    </button>
-                  </div>
-                </div>
-              </form>
+          <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
+            <div className="flex justify-center mb-3">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-3xl group-hover:bg-green-100 group-hover:scale-110 transition-transform duration-300">
+                <FiPhoneCall />
+              </div>
             </div>
+            <h3 className="text-xl font-bold text-gray-900">Contact Us</h3>
+            <p className="text-sm text-gray-600">Phone: 0433SAFETY / 0433723389</p>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
+            <div className="flex justify-center mb-3">
+              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center text-green-600 text-3xl group-hover:bg-green-100 group-hover:scale-110 transition-transform duration-300">
+                <FiMail />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900">Email</h3>
+            <p className="text-sm text-gray-600">info@powerq.com.au</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 py-12 lg:py-16 grid lg:grid-cols-2 gap-8">
+          <div className="w-full h-[520px] rounded-lg overflow-hidden shadow border">
+            <iframe
+              title="PowerQ Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31526.2553889358!2d144.577!3d-37.688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad6fbce4f4e0fbf%3A0x9c7c44a1e1e0e7e7!2s43%20Wonnangatta%20Cres%2C%20Melton%20South%20VIC%203338%2C%20Australia!5e0!3m2!1sen!2sau!4v1700000000000!5m2!1sen!2sau"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+            ></iframe>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg border border-gray-300 p-6 lg:p-8">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Contact Number"
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  required
+                />
+                <select
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
+                  required
+                >
+                  <option value="">Select Service</option>
+                  {services.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Your Location"
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                required
+              />
+
+              <select
+                name="schedule"
+                value={formData.schedule}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
+                required
+              >
+                <option value="">When do you want service to be done</option>
+                <option>As soon as possible</option>
+                <option>Within 1-2 weeks</option>
+                <option>Within a month</option>
+                <option>Flexible / Not sure</option>
+              </select>
+
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Your Message (Optional)"
+                rows={4}
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+              />
+
+              <div className="flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => setNotRobotChecked((v) => !v)}
+                  role="checkbox"
+                  aria-checked={notRobotChecked}
+                  className={`inline-flex items-center gap-3 bg-white border rounded px-3 py-2.5 shadow-sm cursor-pointer hover:shadow transition-shadow ${
+                    notRobotChecked ? "border-blue-500 ring-2 ring-blue-100" : "border-gray-300"
+                  }`}
+                >
+                  <div
+                    className={`w-5 h-5 border-2 rounded-sm flex-shrink-0 flex items-center justify-center ${
+                      notRobotChecked ? "border-blue-500 bg-blue-500" : "border-gray-400 bg-white"
+                    }`}
+                  >
+                    {notRobotChecked && (
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M2 6.5 4.5 9 10 3.5"
+                          stroke="#fff"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+
+                  <span className="text-sm text-gray-900 font-normal whitespace-nowrap">I'm not a robot</span>
+
+                  <div className="flex items-center gap-1.5 ml-1">
+                    <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L16 6H13V10H11V6H8L12 2Z" fill="#4285F4" />
+                        <path d="M12 22L8 18H11V14H13V18H16L12 22Z" fill="#9E9E9E" />
+                      </svg>
+                    </div>
+
+                    <div className="flex flex-col items-start leading-tight">
+                      <span className="text-[10px] text-gray-900 font-medium">reCAPTCHA</span>
+                      <span className="text-[9px] text-gray-500">Privacy - Terms</span>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-lg"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -266,3 +270,4 @@ const ContactUs = () => {
 };
 
 export default ContactUs;
+
