@@ -1,5 +1,5 @@
 import { SidebarContext } from "@context/SidebarContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -34,6 +34,7 @@ import {
   FaBolt,
   FaStar,
   FaChevronRight,
+  FaChevronLeft,
 } from "react-icons/fa";
 import MainModal from "@components/modal/MainModal";
 import InputArea from "@components/form/InputArea";
@@ -51,6 +52,9 @@ const Home = ({
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  const testimonialScrollRef = useRef(null);
+  const autoScrollIntervalRef = useRef(null);
 
   const {
     register,
@@ -141,6 +145,123 @@ const Home = ({
     }
     setQuoteModalOpen(true);
   };
+
+  // Testimonials carousel functions
+  const testimonials = [
+    {
+      id: 1,
+      name: "Dayana Hernandez",
+      date: "2022-01-27",
+      avatar: "D",
+      avatarBg: "bg-red-800",
+      text: "We use PowerQ Test and Tag Services. They are very professional, reliable, always on time, and send the reports usually the next day. Very Happy with their Service",
+      hasImage: false,
+    },
+    {
+      id: 2,
+      name: "Lucinda Gulliver",
+      date: "2021-02-26",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+      avatarBg: "bg-purple-200",
+      text: "Professional, quick and very easy to deal with. Lovely communication",
+      hasImage: true,
+    },
+    {
+      id: 3,
+      name: 'Max "The Big Fundamental" Powers',
+      date: "2020-05-01",
+      avatar: "M",
+      avatarBg: "bg-amber-800",
+      text: "Very prompt and Professional service. Urgently needed a job done first thing the following day. The Boys at PowerQ moved some jobs around to help me out. Will...",
+      hasReadMore: true,
+    },
+    {
+      id: 4,
+      name: "Bon C",
+      date: "2020-01-31",
+      avatar: "B",
+      avatarBg: "bg-blue-800",
+      text: "Arrived on time even on a short notice. Excellent workmanship, timing and clear communication. Very professional, polite and respectful. They kept their work area clean. Pleased with price. Couldn't recommend them more highly.",
+    },
+    {
+      id: 5,
+      name: "Jason Tan",
+      date: "2020-01-25",
+      avatar: "J",
+      avatarBg: "bg-green-800",
+      text: "Great service, very flexible times and efficient. Thanks! Good price too.",
+    },
+    {
+      id: 6,
+      name: "Punardeep Singh",
+      date: "2020-01-20",
+      avatar: "P",
+      avatarBg: "bg-indigo-800",
+      text: "Good chaps with 'take your time' and 'do it properly' approach. Recommendable experience.",
+    },
+  ];
+
+  const totalTestimonials = testimonials.length;
+  const cardsPerView = 3;
+
+  const scrollToTestimonial = (index) => {
+    if (testimonialScrollRef.current) {
+      const cardWidth = 320 + 24; // card width + gap
+      const scrollPosition = index * cardWidth;
+      testimonialScrollRef.current.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth",
+      });
+    }
+    setCurrentTestimonialIndex(index);
+  };
+
+  const nextTestimonial = () => {
+    const maxIndex = Math.max(totalTestimonials - cardsPerView, 0);
+    const nextIndex =
+      currentTestimonialIndex >= maxIndex ? 0 : currentTestimonialIndex + 1;
+    scrollToTestimonial(nextIndex);
+  };
+
+  const prevTestimonial = () => {
+    const maxIndex = Math.max(totalTestimonials - cardsPerView, 0);
+    const prevIndex =
+      currentTestimonialIndex === 0 ? maxIndex : currentTestimonialIndex - 1;
+    scrollToTestimonial(prevIndex);
+  };
+
+  // Auto-scroll effect
+  useEffect(() => {
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+
+    const interval = setInterval(() => {
+      setCurrentTestimonialIndex((prevIndex) => {
+        const maxIndex = Math.max(totalTestimonials - cardsPerView, 0);
+        const nextIndex = prevIndex >= maxIndex ? 0 : prevIndex + 1;
+
+        if (testimonialScrollRef.current) {
+          const cardWidth = 320 + 24;
+          const scrollPosition = nextIndex * cardWidth;
+          testimonialScrollRef.current.scrollTo({
+            left: scrollPosition,
+            behavior: "smooth",
+          });
+        }
+
+        return nextIndex;
+      });
+    }, 5000); // Auto-scroll every 5 seconds
+
+    autoScrollIntervalRef.current = interval;
+
+    return () => {
+      if (autoScrollIntervalRef.current) {
+        clearInterval(autoScrollIntervalRef.current);
+      }
+    };
+  }, [totalTestimonials]);
 
   // Get featured product image for the modal
   const getFeaturedImage = () => {
@@ -763,34 +884,42 @@ const Home = ({
             </div>
 
             {/* We Specialize Section */}
-            <div 
-              className="relative py-20 lg:py-24 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: `url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1920&q=80')`,
-              }}
-            >
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-black/70"></div>
-              
-              {/* Blur effect */}
-              <div className="absolute inset-0 backdrop-blur-sm"></div>
-              
-              {/* Content */}
-              <div className="relative z-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <div className="text-center max-w-4xl mx-auto">
-                  <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight">
+            <div className="bg-gray-50 py-20 lg:py-24">
+              <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
+                <div className="rounded-2xl overflow-hidden bg-white">
+                  {/* Full Width Heading */}
+                  <div className="px-6 lg:px-10 pt-8 lg:pt-12 pb-6">
+                    <h2 className="text-2xl lg:text-3xl xl:text-3xl font-bold text-gray-900 mb-3 leading-tight text-center">
                     We specialize in all types of Testing & Tagging in Melbourne
                   </h2>
-                  <p className="text-white text-base lg:text-lg leading-relaxed mb-8">
+                  </div>
+                  
+                  {/* Image and Content Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    {/* Image on Left */}
+                    <div className="relative h-80 lg:h-full min-h-[400px] order-2 lg:order-1 overflow-hidden border-4 border-red-500 rounded-xl">
+                      <img
+                        src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1920&q=80"
+                        alt="Testing & Tagging Services"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+                    </div>
+                    
+                    {/* Content on Right */}
+                    <div className="px-6 lg:px-10 pb-8 lg:pb-12 order-1 lg:order-2">
+                      <p className="text-gray-700 mt-6 text-base lg:text-base leading-relaxed mb-4">
                     At Testing & Tagging Melbourne, we are committed to providing excellent services when it comes to{" "}
-                    <span className="text-blue-400 font-semibold">electrical testing and tagging</span>. We understand the risks associated with faulty or damaged equipment, which is why we specialise in making sure all electrical appliances are up to safety standards. Our experienced team will offer advice as to what regulations your machines must meet, as well as conducting regular tests and inspections to ensure that everything is functioning correctly and safely. By taking care of all your test and tagging needs, you can have peace of mind knowing that your equipment won't put people at risk of an electrical hazard. We are dedicated to providing you and your premises with comprehensive testing services and solutions for a safer work environment!
+                        <span className="text-blue-600 font-semibold">electrical testing and tagging</span>. We understand the risks associated with faulty or damaged equipment, which is why we specialise in making sure all electrical appliances are up to safety standards. Our experienced team will offer advice as to what regulations your machines must meet, as well as conducting regular tests and inspections to ensure that everything is functioning correctly and safely. By taking care of all your test and tagging needs, you can have peace of mind knowing that your equipment won't put people at risk of an electrical hazard. We are dedicated to providing you and your premises with comprehensive testing services and solutions for a safer work environment!
                   </p>
                   <button
                     onClick={() => handleGetQuoteClick("")}
-                    className="bg-[#5F9C2F] hover:bg-[#4E8026] text-white font-bold py-4 px-8 rounded-lg text-lg uppercase transition-colors duration-300"
+                        className="bg-[#5F9C2F] hover:bg-[#4E8026] text-white font-bold py-4 px-8 rounded-lg text-lg uppercase"
                   >
                     REQUEST A QUOTE
                   </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -798,6 +927,9 @@ const Home = ({
             {/* Our Expertise Section */}
             <div className="bg-white py-20">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
+                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-12 text-center">
+                  Our Expertise
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
                   {/* Commercial */}
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[350px] lg:h-[400px] group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:z-10">
@@ -883,6 +1015,239 @@ const Home = ({
               </div>
             </div>
 
+            {/* PowerQ Test and Tag Services Section */}
+            <div className="bg-white py-16 lg:py-20">
+              <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
+                <h2 className="text-2xl lg:text-3xl xl:text-3xl font-bold text-gray-900 mb-12 text-center">
+                  PowerQ Test and Tag Services
+                </h2>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                  {/* Service Card 1 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064.jpg.bv.webp"
+                        alt="Electrical Cord Test and Tag"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        Ensure safety and compliance with professional electrical cord test and tag services across Melbourne.
+                        </p>
+                       
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Electrical Cord Test and Tag in Melbourne
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 2 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
+                        </p>
+                       
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Fire Extinguisher Testing Melbourne
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 3 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
+                        alt="RCD Safety Switches"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ tests and services RCDs to ensure optimal protection from electrical hazards.
+                        </p>
+                        
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        RCD/ Safety Switches
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 4 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/04/3-Phase-to-240V-power-board-scaled.jpg.bv.webp"
+                        alt="Three Phase Testing"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ delivers accurate three phase testing to ensure equipment safety and performance.
+                        </p>
+                        
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Three Phase Testing
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 5 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/Microwave-Testing.jpg.bv.webp?bv_host=www.powerq.com.au"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
+                        </p>
+                      
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Microwave Testing
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 6 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/green-emergency-exit-sign-ceiling_53876-123089.jpg.bv.webp"
+                        alt="Emergency Exit Light Testing"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ ensures your emergency exit lights are fully functional and compliant with safety standards.
+                        </p>
+                     
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Emergency Exit Light Testing
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 7 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
+                        alt="Smoke Alarm Service"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        PowerQ offers professional smoke alarm testing and servicing for reliable fire detection.
+                        </p>
+                       
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Smoke Alarm Service
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Service Card 8 */}
+                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                    <div className="relative h-48 lg:h-56 overflow-hidden">
+                      <img
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064-600x443.jpg.bv.webp"
+                        alt="Portable Appliance Testing"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Overlay - appears on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      {/* Hover Content */}
+                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <div className="mb-3">
+                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                        </div>
+                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                        Portable Appliance Testing ensures your electrical appliances are safe, compliant, and ready for everyday use.
+                        </p>
+                      
+                      </div>
+                    </div>
+                    <div className="p-4 lg:p-6 text-center">
+                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                        Portable Appliance Testing
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Why Choose PowerQ Section */}
             <div className="bg-white py-16">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
@@ -937,25 +1302,34 @@ const Home = ({
             </div>
 
             {/* We Offer Our Services All Over Melbourne Banner */}
-            <div className="relative bg-[#FF6B6B] py-16">
+            <div className="relative bg-gradient-to-t from-red-600 via-red-500 to-red-600 py-20 lg:py-24 overflow-hidden">
+              {/* Decorative background elements */}
+              <div className="absolute inset-0">
+                <div className="absolute top-10 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-10 right-10 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+              </div>
+              
               {/* White strip at top */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-white"></div>
               {/* White strip at bottom */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-white"></div>
               
               <div className="relative z-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <div className="flex flex-col items-center justify-center">
-                  {/* Blue Box */}
-                  <div className="bg-blue-600 px-8 py-6 mb-6 rounded-lg shadow-lg">
-                    <h2 className="text-2xl lg:text-3xl font-bold text-white text-center">
+                <div className="flex flex-col items-center justify-center text-center">
+                  {/* Blue Box with enhanced styling */}
+                 
+                    <h2 className="text-2xl lg:text-3xl xl:text-3xl font-bold text-white text-center leading-tight drop-shadow-lg mb-5">
                       We Offer Our Services All Over Melbourne
                     </h2>
-                  </div>
                   
-                  {/* Green Button */}
+                  
+                  
+                  
+                  {/* Green Button with enhanced styling */}
                   <button
                     onClick={() => handleGetQuoteClick("")}
-                    className="bg-[#5F9C2F] hover:bg-[#4E8026] text-white font-bold py-4 px-8 rounded-lg text-lg uppercase transition-colors duration-300 shadow-lg"
+                    className="bg-gradient-to-r from-[#5F9C2F] to-[#4E8026] hover:from-[#4E8026] hover:to-[#3D6B1F] text-white font-bold py-4 px-10 rounded-xl text-lg uppercase transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 border-2 border-white/20"
                   >
                     REQUEST A QUOTE
                   </button>
@@ -966,474 +1340,96 @@ const Home = ({
             {/* What Our Client Say Section */}
             <div className="bg-gray-100 py-16">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-10">
-                  What Our Client Say-
+                <h2 className="text-2xl lg:text-3xl font-bold text-center text-gray-900 mb-10">
+                  What Our Client Say
                 </h2>
                 <div className="relative">
-                  {/* Scrollable Container */}
-                  <div className="overflow-x-auto scrollbar-hide pb-4">
-                    <div className="flex gap-6 min-w-max">
-                      {/* Testimonial 1 - Dayana Hernandez */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-red-800 flex items-center justify-center mr-3">
-                            <span className="text-white font-bold text-lg">D</span>
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                              <span className="text-xs font-bold text-blue-600">G</span>
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Dayana Hernandez</h4>
-                            <p className="text-sm text-gray-500">2022-01-27</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center mb-3">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
-                          ))}
-                          <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          We use PowerQ Test and Tag Services. They are very professional, reliable, always on time, and send the reports usually the next day. Very Happy with their Service
-                        </p>
-                      </div>
+                  {/* Left Arrow */}
+                  <button
+                    onClick={prevTestimonial}
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-20 bg-gray-200 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hidden lg:flex items-center justify-center"
+                    aria-label="Previous testimonials"
+                  >
+                    <FaChevronLeft className="text-gray-600 text-xl" />
+                  </button>
 
-                      {/* Testimonial 2 - Lucinda Gulliver */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-purple-200 flex items-center justify-center mr-3 overflow-hidden">
+                  {/* Scrollable Container */}
+                  <div 
+                    ref={testimonialScrollRef}
+                    className="overflow-x-hidden scrollbar-hide pb-4 mx-auto"
+                    style={{ 
+                      scrollbarWidth: 'none', 
+                      msOverflowStyle: 'none',
+                      width: '100%',
+                      maxWidth: 'calc(320px * 3 + 24px * 2)'
+                    }}
+                  >
+                    <div
+                      className="flex gap-6 transition-all duration-500 ease-in-out"
+                      style={{ transform: `translateX(-${currentTestimonialIndex * (320 + 24)}px)` }}
+                    >
+                      {testimonials.map((testimonial) => (
+                        <div 
+                          key={testimonial.id} 
+                          className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 shadow-lg p-6 min-w-[320px] max-w-[320px] flex-shrink-0 text-center flex flex-col items-center space-y-3 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+                        >
+                          <div className="absolute inset-x-0 top-0 h-1  opacity-70" />
+                          <div className="flex items-center justify-center mb-2">
+                            <div className={`relative w-12 h-12 rounded-full ${testimonial.avatarBg} flex items-center justify-center mr-3 ${testimonial.hasImage ? 'overflow-hidden' : ''}`}>
+                              {testimonial.hasImage ? (
                             <Image
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
-                              alt="Lucinda Gulliver"
+                                  src={testimonial.avatar}
+                                  alt={testimonial.name}
                               width={48}
                               height={48}
                               className="w-full h-full object-cover"
                             />
+                              ) : (
+                                <span className="text-white font-bold text-lg">{testimonial.avatar}</span>
+                              )}
                             <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
                               <span className="text-xs font-bold text-blue-600">G</span>
                             </div>
                           </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Lucinda Gulliver</h4>
-                            <p className="text-sm text-gray-500">2021-02-26</p>
+                            <div className="text-center">
+                              <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
+                              <p className="text-sm text-gray-500">{testimonial.date}</p>
                           </div>
                         </div>
-                        <div className="flex items-center mb-3">
+                          <div className="flex items-center justify-center mb-2">
                           {[...Array(5)].map((_, i) => (
                             <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
                           ))}
                           <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
                         </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          Professional, quick and very easy to deal with. Lovely communication
+                          <p className="text-gray-700 text-sm leading-relaxed px-2">
+                            {testimonial.text}
                         </p>
+                          {testimonial.hasReadMore && (
+                            <button className="text-blue-600 text-sm mt-1 hover:underline">Read more</button>
+                          )}
+                      </div>
+                      ))}
+                        </div>
                       </div>
 
-                      {/* Testimonial 3 - Max Powers */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-amber-800 flex items-center justify-center mr-3">
-                            <span className="text-white font-bold text-lg">M</span>
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                              <span className="text-xs font-bold text-blue-600">G</span>
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Max "The Big Fundamental" Powers</h4>
-                            <p className="text-sm text-gray-500">2020-05-01</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center mb-3">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
-                          ))}
-                          <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          Very prompt and Professional service. Urgently needed a job done first thing the following day. The Boys at PowerQ moved some jobs around to help me out. Will...
-                        </p>
-                        <button className="text-blue-600 text-sm mt-2 hover:underline">Read more</button>
-                      </div>
-
-                      {/* Testimonial 4 - Bon C */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-blue-800 flex items-center justify-center mr-3">
-                            <span className="text-white font-bold text-lg">B</span>
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                              <span className="text-xs font-bold text-blue-600">G</span>
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Bon C</h4>
-                            <p className="text-sm text-gray-500">2020-01-31</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center mb-3">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
-                          ))}
-                          <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          Arrived on time even on a short notice. Excellent workmanship, timing and clear communication. Very professional, polite and respectful. They kept their work area clean. Pleased with price. Couldn't recommend them more highly.
-                        </p>
-                      </div>
-
-                      {/* Testimonial 5 - Jason Tan */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-green-800 flex items-center justify-center mr-3">
-                            <span className="text-white font-bold text-lg">J</span>
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                              <span className="text-xs font-bold text-blue-600">G</span>
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Jason Tan</h4>
-                            <p className="text-sm text-gray-500">2020-01-25</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center mb-3">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
-                          ))}
-                          <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          Great service, very flexible times and efficient. Thanks! Good price too.
-                        </p>
-                      </div>
-
-                      {/* Testimonial 6 - Punardeep Singh */}
-                      <div className="bg-white rounded-lg shadow-md p-6 min-w-[320px] max-w-[320px]">
-                        <div className="flex items-center mb-4">
-                          <div className="relative w-12 h-12 rounded-full bg-indigo-800 flex items-center justify-center mr-3">
-                            <span className="text-white font-bold text-lg">P</span>
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-gray-200">
-                              <span className="text-xs font-bold text-blue-600">G</span>
-                            </div>
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-gray-900">Punardeep Singh</h4>
-                            <p className="text-sm text-gray-500">2020-01-20</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center mb-3">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className="text-yellow-400 text-sm mr-1" />
-                          ))}
-                          <FaCheckCircle className="text-blue-600 ml-2 text-sm" />
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          Good chaps with 'take your time' and 'do it properly' approach. Recommendable experience.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Scroll Indicator Arrow */}
-                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 -translate-x-4 hidden lg:block">
-                    <FaChevronRight className="text-gray-400 text-2xl" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-           
-            {/* popular products */}
-            {storeCustomizationSetting?.home?.popular_products_status && (
-              <div className="bg-gray-50 lg:py-16 py-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <div className="mb-10 flex justify-center">
-                  <div className="text-center w-full lg:w-2/5">
-                    <h2 className="text-xl lg:text-2xl mb-2 font-serif font-semibold">
-                      <CMSkeleton
-                        count={1}
-                        height={30}
-                        loading={loading}
-                        data={storeCustomizationSetting?.home?.popular_title}
-                      />
-                    </h2>
-                    <p className="text-base font-sans text-gray-600 leading-6">
-                      <CMSkeleton
-                        count={5}
-                        height={10}
-                        error={error}
-                        loading={loading}
-                        data={
-                          storeCustomizationSetting?.home?.popular_description
-                        }
-                      />
-                    </p>
-                  </div>
-                </div>
-                <div className="flex">
-                  <div className="w-full">
-                    {loading ? (
-                      <CMSkeleton
-                        count={20}
-                        height={20}
-                        error={error}
-                        loading={loading}
-                      />
-                    ) : (
-                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
-                        {popularProducts
-                          ?.slice(
-                            0,
-                            storeCustomizationSetting?.home
-                              ?.popular_product_limit
-                          )
-                          .map((product) => (
-                            <ProductCard
-                              key={product._id}
-                              product={product}
-                              attributes={attributes}
-                            />
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Top Products Collage Section */}
-            <TopProductsCollage />
-
-            {/* Get Started Section - Power Backup Solutions */}
-            <div
-              className="relative py-6 lg:py-8"
-              style={{
-                backgroundImage: `url('https://img.freepik.com/premium-photo/electric-sparks-connecting-blue-red-energy-streams-dark-background_1132312-10603.jpg?semt=ais_hybrid&w=740&q=80')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-              }}
-            >
-              {/* Dark overlay for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/70 to-orange-900/80"></div>
-
-              <div className="relative z-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <div className="text-center max-w-2xl mx-auto">
-                  <h2 className="text-xl lg:text-2xl font-bold text-yellow-400 mb-2 leading-tight">
-                    Find New Arrival Products
-                  </h2>
-                  <p className="text-sm lg:text-base text-white mb-4 leading-relaxed opacity-95 max-w-xl mx-auto">
-                    Latest Additions to Our Catalog{" "}
-                  </p>
-                  <Link href="/search?category=transformer&_id=68a865e8361a902eb8e667d4">
-                    <button className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-lg text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                      Get Started
-                      <svg
-                        className="w-4 h-4 ml-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                  {/* Right Arrow */}
+                  <button
+                    onClick={nextTestimonial}
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-20 bg-gray-200 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hidden lg:flex items-center justify-center"
+                    aria-label="Next testimonials"
+                  >
+                    <FaChevronRight className="text-gray-600 text-xl" />
                     </button>
-                  </Link>
                 </div>
               </div>
             </div>
 
-            {/* promotional banner card */}
-            {storeCustomizationSetting?.home?.delivery_status && (
-              <div className="block mx-auto max-w-screen-2xl">
-                <div className="mx-auto max-w-screen-2xl px-4 sm:px-10">
-                  <div className="lg:p-16 p-6 bg-[#FF6B6B] shadow-sm border rounded-lg">
-                    <CardTwo />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* discounted products */}
-            {storeCustomizationSetting?.home?.discount_product_status &&
-              discountProducts?.length > 0 && (
-                <div
-                  id="discount"
-                  className="bg-gray-50 lg:py-16 py-10 mx-auto max-w-screen-2xl px-3 sm:px-10"
-                >
-                  <div className="mb-10 flex justify-center">
-                    <div className="text-center w-full lg:w-2/5">
-                      <h2 className="text-xl lg:text-2xl mb-2 font-serif font-semibold">
-                        <CMSkeleton
-                          count={1}
-                          height={30}
-                          loading={loading}
-                          data={
-                            storeCustomizationSetting?.home
-                              ?.latest_discount_title
-                          }
-                        />
-                      </h2>
-                      <p className="text-base font-sans text-gray-600 leading-6">
-                        <CMSkeleton
-                          count={5}
-                          height={20}
-                          loading={loading}
-                          data={
-                            storeCustomizationSetting?.home
-                              ?.latest_discount_description
-                          }
-                        />
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-full">
-                      {loading ? (
-                        <CMSkeleton
-                          count={20}
-                          height={20}
-                          error={error}
-                          loading={loading}
-                        />
-                      ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
-                          {discountProducts
-                            ?.slice(
-                              0,
-                              storeCustomizationSetting?.home
-                                ?.latest_discount_product_limit
-                            )
-                            .map((product) => (
-                              <ProductCard
-                                key={product._id}
-                                product={product}
-                                attributes={attributes}
-                              />
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-            {/* new arrivals products */}
-            {
-              // storeCustomizationSetting?.home?.new_arrivals_status &&
-              newArrivalsProducts?.length > 0 && (
-                <div
-                  id="new-arrivals"
-                  className="bg-white lg:py-16 py-10 mx-auto max-w-screen-2xl px-3 sm:px-10"
-                >
-                  <div className="mb-10 flex justify-center">
-                    <div className="text-center w-full lg:w-2/5">
-                      {/* <h2 className="text-xl lg:text-2xl mb-2 font-serif font-semibold">
-                       
-                        New Arrivals Product
-                      </h2> */}
-                      <p>
-                        Discover our newest range of stabilizers, transformers,
-                        and power solutions designed to meet modern industry
-                        needs
-                      </p>
-                      <p className="text-base font-sans text-gray-600 leading-6">
-                        <CMSkeleton
-                          count={5}
-                          height={20}
-                          loading={loading}
-                          data={
-                            storeCustomizationSetting?.home
-                              ?.new_arrivals_description
-                          }
-                        />
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div className="w-full">
-                      {loading ? (
-                        <CMSkeleton
-                          count={20}
-                          height={20}
-                          error={error}
-                          loading={loading}
-                        />
-                      ) : (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-3 md:gap-4 lg:gap-5">
-                          {newArrivalsProducts
-                            ?.slice(
-                              0,
-                              storeCustomizationSetting?.home
-                                ?.new_arrivals_product_limit
-                            )
-                            .map((product) => (
-                              <ProductCard
-                                key={product._id}
-                                product={product}
-                                attributes={attributes}
-                              />
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )
-            }
           </div>
         </Layout>
       )}
     </>
   );
-};
-
-export const getServerSideProps = async (context) => {
-  const { cookies } = context.req;
-  const { query, _id } = context.query;
-
-  try {
-    const [data, attributes] = await Promise.all([
-      ProductServices.getShowingStoreProducts({
-        category: _id ? _id : "",
-        title: query ? query : "",
-      }),
-
-      AttributeServices.getShowingAttributes(),
-    ]);
-
-    // Sanitize all data to prevent serialization issues
-    const sanitizedAttributes = sanitizeData(attributes) || [];
-    const sanitizedPopularProducts = sanitizeData(data?.popularProducts) || [];
-    const sanitizedDiscountProducts =
-      sanitizeData(data?.discountedProducts) || [];
-    const sanitizedNewArrivalsProducts =
-      sanitizeData(data?.newArrivalsProducts) || [];
-
-    return {
-      props: {
-        attributes: sanitizedAttributes,
-        cookies: cookies || null,
-        popularProducts: sanitizedPopularProducts,
-        discountProducts: sanitizedDiscountProducts,
-        newArrivalsProducts: sanitizedNewArrivalsProducts,
-      },
-    };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-
-    // Return fallback data on error
-    return {
-      props: {
-        attributes: [],
-        cookies: null,
-        popularProducts: [],
-        discountProducts: [],
-        newArrivalsProducts: [],
-      },
-    };
-  }
 };
 
 export default Home;
