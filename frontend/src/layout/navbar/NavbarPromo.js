@@ -30,16 +30,22 @@ const NavbarPromo = () => {
             onMouseEnter={() => setOpenService(true)}
             onMouseLeave={() => setOpenService(false)}
           >
-            <button className="flex items-center gap-1 hover:text-red-500 transition">
+            <button
+              className="flex items-center gap-1 hover:text-red-500 transition"
+              onClick={() => setOpenService((prev) => !prev)}
+            >
               Service <span className="text-xs">▼</span>
             </button>
             {openService && (
-              <div className="absolute left-0 mt-2 w-72 bg-white text-gray-900 shadow-xl rounded-md overflow-hidden z-30">
+              <div
+                className="absolute left-0 top-full w-72 bg-white text-gray-900 shadow-xl rounded-md overflow-hidden z-30"
+              >
                 {services.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     className="block px-4 py-3 text-sm hover:bg-gray-100"
+                    onClick={() => setOpenService(false)}
                   >
                     {item.label}
                   </Link>

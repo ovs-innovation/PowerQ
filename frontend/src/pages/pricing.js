@@ -219,6 +219,9 @@ const Pricing = () => {
                   Ask for a safe work methods statement prior to commencement of the testing.
                 </li>
               </ol>
+              <div className="text-lg font-bold mb-2">
+                A question we often get from customers is “what are the test and tag prices in Melbourne ?”
+              </div>
             </div>
           </div>
         </div>

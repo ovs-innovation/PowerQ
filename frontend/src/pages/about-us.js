@@ -47,7 +47,7 @@ const AboutUs = () => {
       {/* Hero Section - Why Choose PowerQ */}
       <div className="relative bg-[#111] text-white min-h-[380px] sm:min-h-[380px] lg:min-h-[420px]">
         <Image
-          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/firefighter-station-with-suit-safety-helmet_23-2149206415.jpg.bv.webp"
+          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/emergency-exit-sign-with-siren-light-direction-emergency-exit_35913-3108-1024x652.jpg.bv.webp?bv_host=www.powerq.com.au"
           alt="Hero background"
           fill
           className="object-cover opacity-40"
@@ -107,7 +107,7 @@ const AboutUs = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 group ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 group-hover:text-gray-800 transition-colors duration-300">
+                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-gray-800 transition-colors duration-300">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
                 <p className="text-lg text-gray-700 leading-8 mb-8">
@@ -132,17 +132,17 @@ const AboutUs = () => {
         </div>
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 relative">
           <div className={`text-center mb-3 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <span className="text-red-600 font-semibold text-xl uppercase tracking-wide">Why Choose Us</span>
+            <span className="text-red-600 font-semibold text-lg uppercase tracking-wide">Why Choose Us</span>
           </div>
           <div className="flex justify-center mb-4">
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
           </div>
-          <h2 className={`text-3xl lg:text-4xl font-bold text-gray-900 mb-6 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '200ms' }}>
+          <h2 className={`text-2xl lg:text-3xl font-bold text-gray-900 mb-6 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '200ms' }}>
             Who We Are
           </h2>
           <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '400ms' }}>
             <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl border-l-4 border-red-600 transition-all duration-500 cursor-pointer">
-              <p className="text-lg text-gray-700 leading-8 mb-6">
+              <p className="text-lg text-gray-700 leading-8 mb-2">
                 PowerQ Test & Tag Melbourne is your trusted partner for professional electrical test and tag services. Our team of highly trained experts is dedicated to ensuring the safety of businesses and homes across Melbourne. At PowerQ, we prioritize safety and compliance, following strict regulations and industry standards to keep your appliances and equipment properly tested and tagged. Our efficient processes minimize downtime and disruption, allowing your business to operate smoothly. With a commitment to exceptional customer service, detailed reporting, and best practices, we provide end-to-end solutions for all your test and tag needs. Whether for a workplace, commercial facility, or residential setting, PowerQ Test & Tag Melbourne delivers reliable, hassle-free compliance services to keep your environment safe.
               </p>
             </div>

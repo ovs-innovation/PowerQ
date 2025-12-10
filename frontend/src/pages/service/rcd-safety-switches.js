@@ -36,8 +36,7 @@ const RCDSafetySwitches = () => {
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
-                  alt="Electrical Panel"
+                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/man-electrical-technician-working-switchboard-with-fuses-installation-connection-electrical-equipment-close-up_169016-5076-1024x655.jpg.bv.webp?bv_host=www.powerq.com.au"
                   width={800}
                   height={600}
                   className="w-full object-cover rounded-xl"
@@ -46,10 +45,10 @@ const RCDSafetySwitches = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-3">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
-                <p className="text-lg text-gray-700 leading-8 mb-6">
+                <p className="text-lg text-gray-700 leading-8 mb-3">
                   At PowerQ Test & Tag Melbourne, our focus is on building relationships. We provide cost-effective electrical testing and tagging services with full compliance to test and tag regulations in Victoria. Our team of experienced professionals use their smarts and skills to guarantee you peace of mind that we follow all necessary regulations for your industry. With us, you get the assurance of quality service backed by full public liability cover.
                 </p>
                 <Link href="/contact-us">
@@ -68,17 +67,14 @@ const RCDSafetySwitches = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-black rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
-                <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6">
+              <div className="bg-red-500 rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
+                <h2 className="text-3xl lg:text-3xl font-bold text-white mb-6">
                   Safety Switch Testing Melbourne
                 </h2>
-                <p className="text-lg text-gray-200 leading-8 mb-6">
-                  Are you looking for a reliable safety switch testing service in Melbourne? Look no further! Residual Current Device (RCD) testing is an essential part of electrical safety maintenance in your property, and we are here to provide it.
+                <p className="text-lg text-gray-200 leading-8 ">
+                  Are you looking for a reliable safety switch testing service in Melbourne? Look no further! Residual Current Device (RCD) testing is an essential part of electrical safety maintenance in your property, and we are here to provide it. RCDs are highly sensitive devices that disconnect a circuit or power source as soon as they detect an imbalance in electric current, providing necessary protection and preventing injuries or fatalities. At our service centre, our professionals will take care of all your safety switch testing needs with confidence and accuracy.
                 </p>
-                <p className="text-lg text-gray-200 leading-8 mb-6">
-                  RCDs are highly sensitive devices that disconnect a circuit or power source as soon as they detect an imbalance in electric current, providing necessary protection and preventing injuries or fatalities. At our service centre, our professionals will take care of all your safety switch testing needs with confidence and accuracy.
-                </p>
-                <div className="bg-white rounded-lg p-4 mt-6">
+                <div className="bg-red-100 rounded-lg p-4 mt-6">
                   <p className="text-gray-900 font-medium">
                     We recommend regular RCD tests to ensure the safety of life at work and home that could be endangered in case of an unfortunate contact with a faulty wiring.
                   </p>
@@ -168,40 +164,7 @@ const RCDSafetySwitches = () => {
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-12 lg:py-16">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 text-center">
-            Our RCD Testing Services
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-red-200">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Trip Time Testing</h3>
-              <p className="text-gray-700 leading-7">
-                We test the trip time of RCDs to ensure they disconnect power within the required timeframe.
-              </p>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-red-200">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Visual Inspection</h3>
-              <p className="text-gray-700 leading-7">
-                Comprehensive visual checks for damage, wear, and proper installation of safety switches.
-              </p>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-red-200">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Functional Testing</h3>
-              <p className="text-gray-700 leading-7">
-                We verify that RCDs respond correctly to fault conditions and provide proper protection.
-              </p>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-red-200">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Compliance Reports</h3>
-              <p className="text-gray-700 leading-7">
-                Detailed reports documenting all test results and compliance with Australian Standards.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+     
     </Layout>
   );
 };

@@ -224,8 +224,9 @@ const MainCarousel = () => {
                   sizes="(max-width: 480px) 100vw, (max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, (max-width: 1280px) 100vw, 100vw"
                 />
               </div>
-              <div className="absolute top-0 left-0 z-10 p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 flex-col flex w-full h-full place-items-start justify-center">
-                <div className="w-full sm:w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12 2xl:w-7/12">
+              <div className="absolute top-0 left-0 z-10 w-full h-full">
+                <div className="max-w-screen-xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10 h-full flex flex-col justify-center items-start">
+                  <div className="w-full sm:w-11/12 md:w-10/12 lg:w-1/2 xl:w-5/12 2xl:w-5/12">
                   <h1 className="mb-1 sm:mb-2 font-serif text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-gray-800 leading-tight">
                     {item.title}
                   </h1>
@@ -238,6 +239,7 @@ const MainCarousel = () => {
                   >
                     {item.buttonName}
                   </Link>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>

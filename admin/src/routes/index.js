@@ -5,8 +5,6 @@ import Leads from "@/pages/Leads";
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Attributes = lazy(() => import("@/pages/Attributes"));
 const ChildAttributes = lazy(() => import("@/pages/ChildAttributes"));
-const Products = lazy(() => import("@/pages/Products"));
-const ProductDetails = lazy(() => import("@/pages/ProductDetails"));
 const Category = lazy(() => import("@/pages/Category"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
@@ -43,20 +41,12 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: "/products",
-    component: Products,
-  },
-  {
     path: "/attributes",
     component: Attributes,
   },
   {
     path: "/attributes/:id",
     component: ChildAttributes,
-  },
-  {
-    path: "/product/:id",
-    component: ProductDetails,
   },
   {
     path: "/categories",
@@ -136,7 +126,6 @@ const routeAccessList = [
   //   value: "/",
   // },
   { label: "Dashboard", value: "dashboard" },
-  { label: "Products", value: "products" },
   { label: "Categories", value: "categories" },
   { label: "Attributes", value: "attributes" },
   { label: "Coupons", value: "coupons" },
@@ -149,7 +138,6 @@ const routeAccessList = [
   { label: "ViewStore", value: "store" },
   { label: "StoreCustomization", value: "customization" },
   { label: "StoreSettings", value: "store-settings" },
-  { label: "Product Details", value: "product" },
   { label: "Order Invoice", value: "order" },
   { label: "Edit Profile", value: "edit-profile" },
   {

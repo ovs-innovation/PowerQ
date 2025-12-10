@@ -29,10 +29,6 @@ const sidebar = [
     name: "Catalog",
     routes: [
       {
-        path: "/products",
-        name: "Products",
-      },
-      {
         path: "/categories",
         name: "Categories",
       },

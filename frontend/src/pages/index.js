@@ -1049,6 +1049,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Electrical Cord Test and Tag in Melbourne
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1078,6 +1081,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Fire Extinguisher Testing Melbourne
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1108,6 +1114,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           RCD/ Safety Switches
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1138,6 +1147,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Three Phase Testing
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1167,6 +1179,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Microwave Testing
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1197,6 +1212,9 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Emergency Exit Light Testing
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -1227,37 +1245,45 @@ const Home = ({
                         <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
                           Smoke Alarm Service
                         </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
                   </Link>
 
                   {/* Service Card 8 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064-600x443.jpg.bv.webp"
-                        alt="Portable Appliance Testing"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/electrical-testing-tagging">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064-600x443.jpg.bv.webp"
+                          alt="Portable Appliance Testing"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          Portable Appliance Testing ensures your electrical appliances are safe, compliant, and ready for everyday use.
+                          </p>
+                        
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        Portable Appliance Testing ensures your electrical appliances are safe, compliant, and ready for everyday use.
-                        </p>
-                      
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Portable Appliance Testing
+                        </h3>
+                        <div className="mt-2 text-sm font-semibold text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                          Learn More →
+                        </div>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Portable Appliance Testing
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -1316,7 +1342,7 @@ const Home = ({
             </div>
 
             {/* We Offer Our Services All Over Melbourne Banner */}
-            <div className="relative bg-gradient-to-t from-red-600 via-red-500 to-red-600 py-20 lg:py-24 overflow-hidden">
+            <div className="relative bg-gradient-to-t from-red-400 via-red-300 to-red-400 py-20 lg:py-24 overflow-hidden">
               {/* Decorative background elements */}
               <div className="absolute inset-0">
                 <div className="absolute top-10 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>

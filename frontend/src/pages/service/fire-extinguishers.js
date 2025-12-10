@@ -63,12 +63,17 @@ const FireExtinguishers = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              <div className="bg-white rounded-xl p-2 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
                 <p className="text-lg text-gray-700 leading-8 mb-6">
-                  At PowerQ Test & Tag Melbourne, we believe in fostering relationships that last. As an experienced team of skilled electrical test and tag technicians based in Melbourne, we guarantee peace of mind when you engage us for our test and tag services. We are dedicated to promoting safety in the workplace with full compliance to the relevant regulations for Victoria. We make sure to have all the correct credentials with full public liability cover and competency. We provide a flawless service every single time!
+                At  <Link
+                    href="/"
+                    className="text-red-600 font-semibold hover:text-red-700 underline"
+                  >
+                    PowerQ Test &amp; Tag Melbourne
+                  </Link>, our focus is on building relationships. We provide cost-effective electrical testing and tagging services with full compliance to test and tag regulations in Victoria. Our team of experienced professionals use their smarts and skills to guarantee you peace of mind that we follow all necessary regulations for your industry. With us, you get the assurance of quality service backed by full public liability cover. Furthermore, we possess the necessary public liability cover that gives you the assurance of safety when you choose us for our test and tag services. Rest assured, we abide by all applicable regulations pertinent to your industry sector.
                 </p>
                 <Link href="/contact-us">
                   <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase">
@@ -82,24 +87,24 @@ const FireExtinguishers = () => {
       </div>
 
       {/* Main Content Section */}
-      <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-12 lg:py-16">
+      <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-4 lg:py-6">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Fire Extinguisher Testing Melbourne
                 </h2>
-                <h3 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-gray-800">
                   Keep your fire equipment serviced and maintained
                 </h3>
-                <p className="text-lg text-gray-700 leading-8 mb-6">
+                <p className="text-lg text-gray-700 leading-8 ">
                   Are you looking for reliable fire extinguisher testing services in Melbourne? PowerQ Test & Tag Melbourne provides comprehensive servicing and maintenance of fire protection systems to ensure that your fire extinguishers work when required. We have experience in inspection, assessment and testing of manufacturer's equipment. After completion we provide a report along with compliance certificates for the tests conducted. <Link href="/contact-us" className="text-blue-600 underline hover:text-blue-800">Contact us</Link> today to get your fire extinguishers tested!
                 </p>
-                <h3 className="text-xl lg:text-2xl font-semibold text-gray-800 mb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4">
                   It is extremely important to service and maintain your fire equipment
                 </h3>
-                <Link href="/products">
+                <Link href="/request-a-quote">
                   <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase">
                     Buy Fire Extinguisher Products
                   </button>
@@ -124,7 +129,8 @@ const FireExtinguishers = () => {
       {/* Why Choose Us Section */}
       <div className="bg-gradient-to-br from-red-50 via-white to-red-50 py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8 text-center">
+          <h2 className="text-3xl lg:text-3
+          xl font-bold text-gray-900 mb-8 text-center">
             Why Choose PowerQ for Fire Extinguisher Services
           </h2>
           <div className="grid md:grid-cols-3 gap-6">

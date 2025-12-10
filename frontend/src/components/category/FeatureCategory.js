@@ -28,7 +28,24 @@ const FeatureCategory = () => {
 
   // console.log("category", data);
 
+  const getServiceSlug = (name = "") => {
+    const n = name.toLowerCase();
+    if (n.includes("extinguisher")) return "/service/fire-extinguishers";
+    if (n.includes("electrical") && (n.includes("test") || n.includes("tag"))) return "/service/electrical-testing-tagging";
+    if (n.includes("rcd")) return "/service/rcd-safety-switches";
+    if (n.includes("emergency") || n.includes("exit")) return "/service/emergency-exit-light-testing";
+    if (n.includes("smoke")) return "/service/smoke-alarm-service";
+    if (n.includes("microwave")) return "/service/microwave-testing";
+    if (n.includes("three") && n.includes("phase")) return "/service/three-phase-testing";
+    return null;
+  };
+
   const handleCategoryClick = (id, categoryName) => {
+    const serviceSlug = getServiceSlug(categoryName);
+    if (serviceSlug) {
+      router.push(serviceSlug);
+      return;
+    }
     const category_name = categoryName
       .toLowerCase()
       .replace(/[^A-Z0-9]+/gi, "-");
