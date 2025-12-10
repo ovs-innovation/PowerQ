@@ -18,6 +18,7 @@ const currencyRoutes = require("../routes/currencyRoutes");
 const languageRoutes = require("../routes/languageRoutes");
 const notificationRoutes = require("../routes/notificationRoutes");
 const leadRoutes = require("../routes/leadRoutes");
+const blogRoutes = require("../routes/blogRoutes");
 const { isAuth, isAdmin } = require("../config/auth")
 
 connectDB();
@@ -53,6 +54,7 @@ app.use("/api/currency/", isAuth, currencyRoutes);
 app.use("/api/language/", languageRoutes);
 app.use("/api/notification/", isAuth, notificationRoutes);
 app.use("/api/leads/", leadRoutes);
+app.use("/api/blogs/", blogRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use("/api/admin/", adminRoutes);

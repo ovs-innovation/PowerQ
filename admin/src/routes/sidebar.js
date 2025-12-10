@@ -7,6 +7,7 @@ import {
   FiSlack,
   FiGlobe,
   FiTarget,
+  FiFileText,
 } from "react-icons/fi";
 
 /**
@@ -56,7 +57,11 @@ const sidebar = [
     icon: FiCompass,
     name: "Leads",
   },
-
+  {
+    path: "/blogs",
+    icon: FiFileText,
+    name: "Blogs",
+  },
   {
     path: "/our-staff",
     icon: FiUser,

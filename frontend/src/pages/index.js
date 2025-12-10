@@ -1024,198 +1024,212 @@ const Home = ({
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                   {/* Service Card 1 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064.jpg.bv.webp"
-                        alt="Electrical Cord Test and Tag"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/electrical-testing-tagging">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/electrician-working_53876-16064.jpg.bv.webp"
+                          alt="Electrical Cord Test and Tag"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          Ensure safety and compliance with professional electrical cord test and tag services across Melbourne.
+                          </p>
+                         
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        Ensure safety and compliance with professional electrical cord test and tag services across Melbourne.
-                        </p>
-                       
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Electrical Cord Test and Tag in Melbourne
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Electrical Cord Test and Tag in Melbourne
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 2 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/fire-extinguishers">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
+                          </p>
+                         
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
-                        </p>
-                       
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Fire Extinguisher Testing Melbourne
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Fire Extinguisher Testing Melbourne
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 3 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
-                        alt="RCD Safety Switches"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/rcd-safety-switches">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
+                          alt="RCD Safety Switches"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ tests and services RCDs to ensure optimal protection from electrical hazards.
+                          </p>
+                          
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ tests and services RCDs to ensure optimal protection from electrical hazards.
-                        </p>
-                        
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          RCD/ Safety Switches
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        RCD/ Safety Switches
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 4 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/04/3-Phase-to-240V-power-board-scaled.jpg.bv.webp"
-                        alt="Three Phase Testing"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/three-phase-testing">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/04/3-Phase-to-240V-power-board-scaled.jpg.bv.webp"
+                          alt="Three Phase Testing"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ delivers accurate three phase testing to ensure equipment safety and performance.
+                          </p>
+                          
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ delivers accurate three phase testing to ensure equipment safety and performance.
-                        </p>
-                        
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Three Phase Testing
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Three Phase Testing
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 5 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/Microwave-Testing.jpg.bv.webp?bv_host=www.powerq.com.au"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/microwave-testing">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/Microwave-Testing.jpg.bv.webp?bv_host=www.powerq.com.au"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
+                          </p>
+                        
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ provides precise microwave leakage testing to ensure appliance safety and compliance.
-                        </p>
-                      
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Microwave Testing
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Microwave Testing
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 6 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/green-emergency-exit-sign-ceiling_53876-123089.jpg.bv.webp"
-                        alt="Emergency Exit Light Testing"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/emergency-exit-light-testing">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/green-emergency-exit-sign-ceiling_53876-123089.jpg.bv.webp"
+                          alt="Emergency Exit Light Testing"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ ensures your emergency exit lights are fully functional and compliant with safety standards.
+                          </p>
+                       
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ ensures your emergency exit lights are fully functional and compliant with safety standards.
-                        </p>
-                     
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Emergency Exit Light Testing
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Emergency Exit Light Testing
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 7 */}
-                  <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
-                    <div className="relative h-48 lg:h-56 overflow-hidden">
-                      <img
-                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
-                        alt="Smoke Alarm Service"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Overlay - appears on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      {/* Hover Content */}
-                      <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                        <div className="mb-3">
-                          <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                  <Link href="/service/smoke-alarm-service">
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="relative h-48 lg:h-56 overflow-hidden">
+                        <img
+                          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
+                          alt="Smoke Alarm Service"
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Overlay - appears on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/70 to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        {/* Hover Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center p-4 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                          <div className="mb-3">
+                            <div className="w-12 h-0.5 bg-red-600 mx-auto rounded-full"></div>
+                          </div>
+                          <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
+                          PowerQ offers professional smoke alarm testing and servicing for reliable fire detection.
+                          </p>
+                         
                         </div>
-                        <p className="text-white text-xs lg:text-sm mb-3 leading-relaxed px-2">
-                        PowerQ offers professional smoke alarm testing and servicing for reliable fire detection.
-                        </p>
-                       
+                      </div>
+                      <div className="p-4 lg:p-6 text-center">
+                        <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
+                          Smoke Alarm Service
+                        </h3>
                       </div>
                     </div>
-                    <div className="p-4 lg:p-6 text-center">
-                      <h3 className="text-base lg:text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-300">
-                        Smoke Alarm Service
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
 
                   {/* Service Card 8 */}
                   <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group">
