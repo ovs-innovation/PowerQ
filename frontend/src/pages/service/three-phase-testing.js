@@ -35,7 +35,7 @@ const ThreePhaseTesting = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Three Phase Testing Melbourne
                 </h2>
                 <p className="text-lg text-gray-700 leading-8 mb-6">
@@ -51,7 +51,7 @@ const ThreePhaseTesting = () => {
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15204.avif"
+                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Three-Phase-Testing-Melbourne_-1.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="Electrician with laptop"
                   width={800}
                   height={600}
@@ -64,9 +64,9 @@ const ThreePhaseTesting = () => {
       </div>
 
       {/* Standards Footer Section */}
-      <div className="bg-gray-100 py-8">
+      <div className="bg-gray-200 py-8">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <p className="text-lg font-bold text-gray-900 text-center">
+          <p className="text-xl font-bold text-gray-900 text-center">
             The Australian Standards AS/NZS 3760:2010 recognizes three important tests for compliance of equipment using three phase switch or socket
           </p>
         </div>
@@ -77,22 +77,30 @@ const ThreePhaseTesting = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              {/* <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/04/3-Phase-to-240V-power-board-scaled.jpg.bv.webp"
                   alt="Three Phase Testing Equipment"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className=" object-cover rounded-xl"
+                />
+              </div> */}
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+                <Image
+                  src="https://www.powerq.com.au/wp-content/uploads/2025/04/c1aad3ee-82a1-43d4-a720-304935d55bd5-688x1024.jpeg"
+                  width={800}
+                  height={600}
+                  className=" object-cover rounded-xl"
                 />
               </div>
             </div>
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-4">
                   Three Phase Testing Melbourne
                 </h2>
-                <p className="text-lg text-gray-700 leading-8 mb-8">
+                <p className="text-lg text-gray-700 leading-8 mb-4">
                   These tests are required to successfully complete a three phase testing inspection:
                 </p>
                 
@@ -100,7 +108,7 @@ const ThreePhaseTesting = () => {
                   {/* Test 1 */}
                   <div className="border-l-4 border-red-600 pl-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">1. Earth Continuity</h3>
-                    <p className="text-lg text-gray-700 leading-7 mb-2">
+                    <p className="text-lg text-gray-700">
                       The Earth Continuity test measures the resistance supplied by the equipment or machine's earth wire. For current to pass to earth from the equipment as quickly as feasible, the resistance needs to very low.
                     </p>
                     <p className="text-lg font-semibold text-red-600">
@@ -111,7 +119,7 @@ const ThreePhaseTesting = () => {
                   {/* Test 2 */}
                   <div className="border-l-4 border-red-600 pl-6">
                     <h3 className="text-2xl font-bold text-gray-900 mb-3">2. Insulation resistance</h3>
-                    <p className="text-lg text-gray-700 leading-7 mb-2">
+                    <p className="text-lg text-gray-700 leading-7 ">
                       The Insulation Resistance test measures the resistance provided by the machine/equipment's insulation. This resistance is measured in Ohms (Ω).
                     </p>
                     <p className="text-lg font-semibold text-red-600">
@@ -130,6 +138,20 @@ const ThreePhaseTesting = () => {
                     </p>
                   </div>
                 </div>
+
+                <div className="mt-8">
+                  <p className="text-lg text-gray-700 leading-8 mb-6">
+                    Another test that can be carried out on 3-Phase equipment is RCD trip time test while testing RCD safety switches. The maximum trip time for 3-Phase RCDs must not exceed 300 milliseconds (ms).
+                  </p>
+                  <Link href="/request-a-quote">
+                    <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                      BOOK OUR SERVICES
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -137,38 +159,7 @@ const ThreePhaseTesting = () => {
       </div>
 
       {/* RCD Trip Time Test Section */}
-      <div className="bg-white py-12 lg:py-16">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
-                <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15204.avif"
-                  alt="RCD Testing Device"
-                  width={800}
-                  height={600}
-                  className="w-full object-cover rounded-xl"
-                />
-              </div>
-            </div>
-            <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <p className="text-lg text-gray-700 leading-8 mb-6">
-                  Another test that can be carried out on 3-Phase equipment is RCD trip time test while testing RCD safety switches. The maximum trip time for 3-Phase RCDs must not exceed 300 milliseconds (ms).
-                </p>
-                <Link href="/request-a-quote">
-                  <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase flex items-center gap-2">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    BOOK OUR SERVICES
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+     
     </Layout>
   );
 };

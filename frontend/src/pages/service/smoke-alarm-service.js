@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "@layout/Layout";
-import { FaCheckCircle, FaTimesCircle, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaCheckCircle, FaTimesCircle, FaChevronDown, FaChevronUp, FaFireAlt, FaHeartbeat, FaHome, FaBatteryHalf } from "react-icons/fa";
 import { Disclosure } from "@headlessui/react";
 
 const SmokeAlarmService = () => {
@@ -17,7 +17,7 @@ const SmokeAlarmService = () => {
       {/* Hero Section */}
       <div className="relative bg-[#111] text-white min-h-[380px] sm:min-h-[380px] lg:min-h-[420px]">
         <Image
-          src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
+          src="https://tse1.mm.bing.net/th/id/OIP.xKtOsKOJ7RHAc2zssfcVIwHaEK?cb=ucfimg2&ucfimg=1&w=1366&h=768&rs=1&pid=ImgDetMain&o=7&rm=3"
           alt="Smoke Alarm Service"
           fill
           className="object-cover opacity-40"
@@ -32,11 +32,11 @@ const SmokeAlarmService = () => {
       </div>
 
       {/* We Believe Section - Dark Background */}
-      <div className="bg-gray-900 text-white py-12 lg:py-16">
+      <div className="bg-red-400 text-white py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+              <h2 className="text-3xl lg:text-3xl font-bold mb-6">
                 We at PowerQ Test & Tag Melbourne believe in making relations
               </h2>
               <p className="text-lg text-gray-200 leading-8 mb-6">
@@ -46,7 +46,7 @@ const SmokeAlarmService = () => {
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
+                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/WEB-DEVELOPMENT-4-1024x512.png.bv.webp?bv_host=www.powerq.com.au"
                   alt="Smoke Alarm"
                   width={800}
                   height={600}
@@ -75,10 +75,10 @@ const SmokeAlarmService = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Inspect and Test Stand Alone Smoke Alarms
                 </h2>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
                   Why should I have a smoke alarm?
                 </h3>
                 <ul className="space-y-4 mb-6">
@@ -163,12 +163,10 @@ const SmokeAlarmService = () => {
             </div>
           </div>
 
-          <div className="bg-gray-100 rounded-xl p-6 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              New Smoke Alarm Laws in Victoria
-            </h3>
+          <div className="bg-gray-200 rounded-xl p-6 shadow-lg">
+           
             <p className="text-lg text-gray-700 leading-7">
-              The recently changed Residential Tenancy Regulations has made it mandatory for landlords to conduct regular gas and electric safety checks on their rental properties. Gas and electric safety checks must be done at least every 2 years and smoke alarms must be tested annually.
+            New Smoke Alarm Laws in Victoria. The recently changed Residential Tenancy Regulations has made it mandatory for landlords to conduct regular gas and electric safety checks on their rental properties. Gas and electric safety checks must be done at least every 2 years and smoke alarms must be tested annually.
             </p>
           </div>
         </div>
@@ -180,76 +178,77 @@ const SmokeAlarmService = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <div className="bg-gray-100 rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                  If you don't have a working smoke alarm installed in your home and a fire occurs:
+                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
+                  Smoke alarm facts
                 </h2>
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </div>
-                    <span className="text-lg text-gray-700">
-                      You are more likely to incur property loss and damage.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                      </svg>
-                    </div>
-                    <span className="text-lg text-gray-700">
-                      You are more likely to suffer serious injury or death.
-                    </span>
-                  </li>
-                </ul>
-                
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  All smoke alarms:
-                </h3>
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                      </svg>
-                    </div>
-                    <span className="text-lg text-gray-700">
-                      Need to be tested monthly.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                      </svg>
-                    </div>
-                    <span className="text-lg text-gray-700">
-                      Contain a battery.
-                    </span>
-                  </li>
-                </ul>
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      If you don't have a working smoke alarm installed in your home and a fire occurs:
+                    </h3>
+                    <ul className="space-y-4">
+                      <li className="flex items-start gap-4">
+                        <div className="w-12 h-12 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 flex-shrink-0">
+                          <FaFireAlt className="text-2xl" />
+                        </div>
+                        <span className="text-lg text-gray-700">
+                          You are more likely to incur property loss and damage.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      All smoke alarms:
+                    </h3>
+                    <ul className="space-y-4">
+                      <li className="flex items-start gap-4">
+                        <div className="w-12 h-12 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 flex-shrink-0">
+                          <FaHeartbeat className="text-2xl" />
+                        </div>
+                        <span className="text-lg text-gray-700">
+                          You are more likely to suffer serious injury or death.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-4">
+                        <div className="w-12 h-12 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 flex-shrink-0">
+                          <FaHome className="text-2xl" />
+                        </div>
+                        <span className="text-lg text-gray-700">
+                          Need to be tested monthly.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-4">
+                        <div className="w-12 h-12 border-2 border-red-600 rounded-full flex items-center justify-center text-red-600 flex-shrink-0">
+                          <FaBatteryHalf className="text-2xl" />
+                        </div>
+                        <span className="text-lg text-gray-700">
+                          Contain a battery.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
+                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Need-to-be-replaced-after-10-years.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="House Fire"
                   width={800}
                   height={600}
                   className="w-full object-cover rounded-xl"
                 />
                 {/* Red Info Box Overlay */}
-                <div className="absolute top-4 right-4 bg-red-600 rounded-lg p-4 shadow-xl">
-                  <ul className="space-y-2 text-white">
-                    <li className="flex items-center gap-2">
+                <div className="absolute top-6 right-6 bg-red-600 rounded-xl p-5 shadow-xl max-w-[360px]">
+                  <ul className="space-y-3 text-white text-lg font-semibold">
+                    <li className="flex items-center gap-3">
                       <FaCheckCircle className="text-white" />
                       <span>Need to be cleaned annually</span>
                     </li>
-                    <li className="flex items-center gap-2">
+                    <li className="flex items-center gap-3">
                       <FaCheckCircle className="text-white" />
                       <span>Need to be replaced after 10 years</span>
                     </li>
@@ -336,7 +335,7 @@ const SmokeAlarmService = () => {
       {/* Frequently Asked Questions Section */}
       <div className="bg-white py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
+          <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-8">
             Frequently Asked Questions:
           </h2>
           <div className="space-y-4">
@@ -374,7 +373,8 @@ const SmokeAlarmService = () => {
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
-                    This usually indicates that the battery is low and needs to be replaced. Replace the battery immediately to ensure your smoke alarm continues to function properly.
+                  This could mean that the battery is going flat and needs replacing.
+                  Note: Replace the entire smoke alarm if it still beeps after installing a new battery.
                   </Disclosure.Panel>
                 </div>
               )}
@@ -394,7 +394,7 @@ const SmokeAlarmService = () => {
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
-                    The battery in a 240-volt smoke alarm serves as a backup power source. If the mains power fails, the battery ensures the smoke alarm continues to function and can alert you to danger.
+                  240-volt smoke alarms connected to mains power are required to have a battery to provide back-up power in the event of a power outage.
                   </Disclosure.Panel>
                 </div>
               )}
@@ -414,7 +414,13 @@ const SmokeAlarmService = () => {
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
-                    If your smoke alarm is too close to the kitchen or bathroom, it may be triggered by steam or cooking smoke. Consider relocating the alarm to a more appropriate location, or ensure proper ventilation in these areas.
+                  Do not remove the battery. A primary reason why smoke alarms do not operate when needed is because batteries have been removed after repeated false alarms. What you should do is:
+                  <br />
+                   Check the type of smoke alarm installed – if it is an ionisation type, consider replacing it with a photoelectric type smoke alarm.
+                  <br />
+                  Consider installing an exhaust fan in the kitchen or bathroom.
+                  <br />
+                  Consider relocating the smoke alarm away from the kitchen or bathroom.
                   </Disclosure.Panel>
                 </div>
               )}
@@ -426,23 +432,24 @@ const SmokeAlarmService = () => {
       {/* Rental Properties Section */}
       <div className="bg-gray-100 py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
             Rental Properties:
           </h2>
           <div className="bg-white rounded-xl p-8 shadow-lg">
             <p className="text-lg text-gray-700 leading-7 mb-4">
-              Residential rental providers are responsible for fitting smoke alarms in rented properties.<sup className="text-red-600">1</sup>
+              Residential rental providers are responsible for fitting smoke alarms in rented properties.1
             </p>
             <p className="text-lg text-gray-700 leading-7 mb-4">
-              Victoria's Residential Tenancies Act, Section 68 (1), states "A residential rental provider must ensure that rented premises are provided and maintained in good repair." A landlord must repair or replace a non-functioning smoke alarm once notified by the tenant.<sup className="text-red-600">2</sup>
-            </p>
+              Victoria's Residential Tenancies Act, Section 68 (1), states "A residential rental provider must ensure that rented premises are provided and maintained in good repair." A landlord must repair or replace a non-functioning smoke alarm once notified by the tenant.2
+              </p>
             <p className="text-lg text-gray-700 leading-7 mb-6">
               It is the responsibility of renters to test the smoke alarm each month and it is the responsibility of the landlord or owner to clean the smoke alarm and replace the battery annually (if applicable)
             </p>
             <div className="border-t pt-4 space-y-2 text-sm text-gray-600">
-              <p><sup className="text-red-600">1</sup> Consumer Affairs Victoria, Renting a home: A guide for tenants, p. 20, 32</p>
-              <p><sup className="text-red-600">2</sup> Residential Tenancies Amendment Act 2018</p>
-              <p><sup className="text-red-600">3</sup> Australasian Fire and Emergency Service Authorities Council, Smoke Alarm in Residential Accommodation, 2018, p. 4.</p>
+              <p>1.Consumer Affairs Victoria, Renting a home: <br />  A guide for tenants, p. 20, 32</p>
+              <p>2. Residential Tenancies Amendment Act 2018</p>
+              <p>3. Australasian Fire and Emergency Service</p>
+              <p>4.  Authorities Council, Smoke Alarm in Residential Accommodation, 2018, p. 4.</p>
             </div>
           </div>
         </div>

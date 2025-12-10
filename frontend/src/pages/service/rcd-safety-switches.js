@@ -100,35 +100,35 @@ const RCDSafetySwitches = () => {
       <div className="bg-white py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 mb-6">
+            <div className={`relative pb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
-                  alt="RCD Testing"
-                  width={800}
-                  height={600}
+                  src="https://www.powerq.com.au/wp-content/uploads/2025/03/woman-turning-off-light-switch-1024x816.jpg"
+                  width={900}
+                  height={700}
                   className="w-full object-cover rounded-xl"
+                  priority
                 />
               </div>
-              <div className="relative rounded-xl overflow-hidden shadow-lg">
+              <div className="absolute right-1 -bottom-28 lg:right-2 rounded-xl overflow-hidden shadow-2xl w-4/6 sm:w-3/5 lg:w-2/3">
                 <Image
-                  src="https://www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15204.avif"
-                  alt="Electrical Boxes"
-                  width={400}
-                  height={300}
+                  src="https://www.powerq.com.au/wp-content/uploads/2025/03/concrete-wall-with-meters-pipes-1024x683.jpg"
+                  alt="Electrical distribution boxes"
+                  width={700}
+                  height={520}
                   className="w-full object-cover rounded-xl"
                 />
               </div>
             </div>
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
-                <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 ">
                   RCD or Safety Switches play a vital role in your safety from any hazards with electrical equipment and appliances you use at workplace or at home.
                 </h2>
-                <p className="text-lg text-gray-700 leading-8 mb-6">
-                  It is important to periodically test RCDs to ensure their performance for trip current and time is within specified limits. PowerQ Test & Tag Melbourne provides accurate testing services, adhering to Australia/New Zealand Standards AS/NZS 3760:2010. Our technicians use high-quality test instruments and we recommend biannual safety switch tests.
+                <p className="text-lg text-gray-700 leading-8 mb-4">
+                  RCDs should be tested periodically to check their performance for trip current and time are within the specified limits. At PowerQ Test & Tag Melbourne, we provide accurate testing of your RCDs as required by the Australia/New Zealand Standards AS/NZS 3760:2010. Using a range of high-quality test instruments, our technicians test for trip current and time to ensure they are within specified limits. To satisfy safety obligations, we recommend safety switch tests are done biannually.
                 </p>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                <h3 className="text-2xl font-bold text-gray-900 ">
                   RCD tests to ensure compliance include:
                 </h3>
                 <ul className="space-y-3 mb-6">
