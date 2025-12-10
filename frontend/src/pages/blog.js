@@ -68,7 +68,7 @@ const Blog = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white">
-                  <CMSkeleton count={1} height={300} loading={true} />
+                  <CMSkeleton count={1} height={200} loading={true} />
                   <div className="mt-6">
                     <CMSkeleton count={1} height={24} loading={true} />
                     <CMSkeleton count={1} height={16} loading={true} />
@@ -92,7 +92,7 @@ const Blog = () => {
                   className="bg-white group"
                 >
                   <Link href={`/blog/${blog.slug}`}>
-                    <div className="relative w-full h-[300px] lg:h-[350px] overflow-hidden mb-6">
+                    <div className="relative w-full h-[200px] lg:h-[250px] overflow-hidden mb-6">
                       {blog.image ? (
                         <Image
                           src={blog.image}

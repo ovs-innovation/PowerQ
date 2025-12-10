@@ -363,6 +363,17 @@ const BlogDrawer = ({ id }) => {
             </div>
 
             <div className="col-span-6 md:col-span-6">
+              <LabelArea label="Published Date" />
+              <Input
+                {...register("publishedAt")}
+                name="publishedAt"
+                type="date"
+                className="mb-4"
+              />
+              <Error errorName={errors.publishedAt} />
+            </div>
+
+            <div className="col-span-6 md:col-span-6">
               <LabelArea label="Tags" />
               <div className="mb-4">
                 <Input

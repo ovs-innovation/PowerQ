@@ -140,6 +140,7 @@ const useBlogSubmit = (id) => {
       setValue("author", "");
       setValue("category", "");
       setValue("status", "show");
+      setValue("publishedAt", dayjs().format("YYYY-MM-DD"));
       setTags([]);
       setImageUrl("");
       clearErrors();
@@ -170,6 +171,9 @@ const useBlogSubmit = (id) => {
           notifyError(err?.response?.data?.message || err?.message);
         }
       })();
+    } else {
+      // Set default date for new blog
+      setValue("publishedAt", dayjs().format("YYYY-MM-DD"));
     }
   }, [id, setValue, isDrawerOpen, clearErrors, language, lang]);
 

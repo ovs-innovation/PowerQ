@@ -180,7 +180,7 @@ const BlogDetail = () => {
             <div className="lg:col-span-2">
               {/* Hero Image */}
               {blog.image && (
-                <div className="relative w-full h-[400px] lg:h-[500px] mb-6 overflow-hidden rounded-lg">
+                <div className="relative w-full h-[250px] lg:h-[300px] mb-6 overflow-hidden rounded-lg">
                   <Image
                     src={blog.image}
                     alt={getText(blog.title)}
