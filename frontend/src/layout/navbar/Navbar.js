@@ -1,135 +1,103 @@
-import { useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { FiUser, FiBell } from "react-icons/fi";
-import useTranslation from "next-translate/useTranslation";
-import { IoSearchOutline } from "react-icons/io5";
+import { useState } from "react";
 
-//internal import
-import { getUserSession } from "@lib/auth";
+// internal import
 import useGetSetting from "@hooks/useGetSetting";
-import { handleLogEvent } from "src/lib/analytics";
-import NavbarPromo from "@layout/navbar/NavbarPromo";
-import { SidebarContext } from "@context/SidebarContext";
+
+const services = [
+  { label: "Electrical Testing & Tagging", href: "/service/electrical-testing-tagging" },
+  { label: "Fire Extinguishers", href: "/service/fire-extinguishers" },
+  { label: "RCD/Safety Switches", href: "/service/rcd-safety-switches" },
+  { label: "Three Phase Testing", href: "/service/three-phase-testing" },
+  { label: "Microwave Testing", href: "/service/microwave-testing" },
+  { label: "Emergency Exit Light Testing", href: "/service/emergency-exit-light-testing" },
+  { label: "Smoke Alarm Service", href: "/service/smoke-alarm-service" },
+];
 
 const Navbar = () => {
-  const { t, lang } = useTranslation("common");
-  const [searchText, setSearchText] = useState("");
-  // Cart removed
   const router = useRouter();
-
-  const userInfo = getUserSession();
-
+  const [openService, setOpenService] = useState(false);
   const { storeCustomizationSetting } = useGetSetting();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // return;
-    if (searchText) {
-      router.push(`/search?query=${searchText}`, null, { scroll: false });
-      setSearchText("");
-      handleLogEvent("search", `searched ${searchText}`);
-    } else {
-      router.push(`/ `, null, { scroll: false });
-      setSearchText("");
-    }
-  };
 
   return (
     <>
-      {/* CartDrawer removed */}
       <div className="bg-white sticky top-0 z-20">
-        <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
-          <div className="top-bar h-16 lg:h-auto flex items-center justify-between py-4 mx-auto">
-            <Link
-              href="/"
-              className="mr-3 lg:mr-12 xl:mr-12 hidden md:hidden lg:block"
-            >
-              <div className="relative w-33 h-11">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-12">
+          <div className="h-16 flex items-center gap-6">
+            {/* Logo left */}
+            <Link href="/" className="flex-shrink-0 flex items-center">
+              <div className="relative w-32 h-10">
                 <Image
                   width="0"
                   height="0"
                   sizes="100vw"
-                  className="w-full h-12"
+                  className="w-full h-full object-contain"
                   priority
                   src={"/logo/full-logo.png" || storeCustomizationSetting?.navbar?.logo}
                   alt="PowerQ"
                 />
               </div>
             </Link>
-            <div className="w-full transition-all duration-200 ease-in-out lg:flex lg:max-w-[520px] xl:max-w-[750px] 2xl:max-w-[900px] md:mx-12 lg:mx-4 xl:mx-0">
-              <div className="w-full flex flex-col justify-center flex-shrink-0 relative z-30">
-                <div className="flex flex-col mx-auto w-full">
-                  <form
-                    onSubmit={handleSubmit}
-                    className="relative pr-12 md:pr-14 bg-white overflow-hidden shadow-sm rounded-md w-full"
-                  >
-                    <label className="flex items-center py-0.5">
-                      <input
-                        onChange={(e) => setSearchText(e.target.value)}
-                        value={searchText}
-                        className="form-input w-full pl-5 appearance-none transition ease-in-out border text-input text-sm font-sans rounded-md min-h-10 h-10 duration-200 bg-[#F3F4F6] focus:ring-0 outline-none border-none focus:outline-none placeholder-gray-500 placeholder-opacity-75"
-                        placeholder={t("search-placeholder")}
-                      />
-                    </label>
-                    <button
-                      aria-label="Search"
-                      type="submit"
-                      className="outline-none text-xl absolute top-0 right-0 end-0 w-12 md:w-14 h-full flex items-center justify-center transition duration-200 ease-in-out hover:text-heading focus:outline-none text-[#EF4036]"
+
+            {/* Nav right with service-style font */}
+            <nav className="ml-auto flex items-center gap-6 text-[15px] font-semibold text-gray-900 relative">
+              <Link href="/" className="hover:text-red-500 transition">
+                Home
+              </Link>
+              <Link href="/about-us" className="hover:text-red-500 transition">
+                About Us
+              </Link>
+              <div
+                className="relative"
+                onMouseEnter={() => setOpenService(true)}
+                onMouseLeave={() => setOpenService(false)}
+              >
+                <button
+                  className="flex items-center gap-1 hover:text-red-500 transition"
+                  onClick={() => setOpenService((prev) => !prev)}
+                >
+                  Service <span className="text-xs">▼</span>
+                </button>
+                <div
+                  className={`absolute right-0 top-full pt-2 w-72 bg-white text-gray-900 shadow-xl rounded-md overflow-hidden z-30 transition-all duration-200 ease-out origin-top ${
+                    openService
+                      ? "opacity-100 scale-100 visible translate-y-0"
+                      : "opacity-0 scale-95 invisible pointer-events-none translate-y-1"
+                  }`}
+                >
+                  {services.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className="block px-4 py-3 text-sm hover:bg-gray-100"
+                      onClick={() => setOpenService(false)}
                     >
-                      <IoSearchOutline />
-                    </button>
-                  </form>
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
-            </div>
-            {/* <div className="hidden md:hidden md:items-center lg:flex xl:block absolute inset-y-0 right-0 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button
-                className="pr-5 text-[#EF4036] text-2xl font-bold"
-                aria-label="Alert"
-              >
-                <FiBell className="w-6 h-6 drop-shadow-xl" />
-              </button>
-             
-              <button
-                className="pl-5 text-[#EF4036] text-2xl font-bold"
-                aria-label="Login"
-              >
-                {userInfo?.image ? (
-                  <Link
-                    href="/user/dashboard"
-                    className="relative top-1 w-6 h-6"
-                  >
-                    <Image
-                      width={29}
-                      height={29}
-                      src={userInfo?.image}
-                      alt="user"
-                      className="bg-white rounded-full"
-                    />
-                  </Link>
-                ) : userInfo?.name ? (
-                  <Link
-                    href="/user/dashboard"
-                    className="leading-none font-bold font-serif block"
-                  >
-                    {userInfo?.name[0]}
-                  </Link>
-                ) : (
-                  <Link href="/auth/login">
-                    <FiUser className="w-6 h-6 drop-shadow-xl" />
-                  </Link>
-                )}
-              </button>
-            </div> */}
+              <Link href="/pricing" className="hover:text-red-500 transition">
+                Pricing
+              </Link>
+              <Link href="/faq" className="hover:text-red-500 transition">
+                Faq
+              </Link>
+              <Link href="/request-a-quote" className="hover:text-red-500 transition">
+                Request A Quote
+              </Link>
+              <Link href="/blog" className="hover:text-red-500 transition">
+                Blog
+              </Link>
+              <Link href="/contact-us" className="hover:text-red-500 transition">
+                Contact Us
+              </Link>
+            </nav>
           </div>
         </div>
-
-        {/* second header */}
-        <NavbarPromo />
       </div>
     </>
   );

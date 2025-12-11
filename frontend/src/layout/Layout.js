@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { ToastContainer } from "react-toastify";
+import { FiPhoneCall, FiChevronUp } from "react-icons/fi";
 
 //internal import
 
@@ -10,6 +11,12 @@ import MobileFooter from "@layout/footer/MobileFooter";
 import FeatureCard from "@components/feature-card/FeatureCard";
 
 const Layout = ({ title, description, children }) => {
+  const handleScrollTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -35,6 +42,24 @@ const Layout = ({ title, description, children }) => {
         <NavBarTop />
         <Navbar />
         <div className="bg-gray-50">{children}</div>
+        {/* Floating action buttons */}
+        <div className="fixed right-4 md:right-6 bottom-24 flex flex-col gap-3 z-40">
+          <a
+            href="tel:+611300755096"
+            className="w-12 h-12 rounded-lg bg-red-600 text-white flex items-center justify-center shadow-lg hover:bg-red-700 transition"
+            aria-label="Call PowerQ"
+          >
+            <FiPhoneCall className="w-6 h-6" />
+          </a>
+          <button
+            onClick={handleScrollTop}
+            className="w-12 h-12 rounded-lg bg-red-600 text-white flex items-center justify-center shadow-lg hover:bg-red-700 transition"
+            aria-label="Back to top"
+            type="button"
+          >
+            <FiChevronUp className="w-6 h-6" />
+          </button>
+        </div>
         <MobileFooter />
         <div className="w-full">
           <div className="border-t border-gray-100 w-full">

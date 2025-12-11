@@ -70,22 +70,7 @@ const NavbarPromo = () => {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4 text-xl">
-          <Link
-            href="/auth/login"
-            aria-label="Login"
-            className="hover:text-red-500 transition"
-          >
-            <FiUser />
-          </Link>
-          <Link
-            href="/cart"
-            aria-label="Cart"
-            className="hover:text-red-500 transition"
-          >
-            <FiShoppingCart />
-          </Link>
-        </div>
+       
       </div>
     </div>
   );

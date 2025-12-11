@@ -40,6 +40,16 @@ import MainModal from "@components/modal/MainModal";
 import InputArea from "@components/form/InputArea";
 import LeadServices from "@services/LeadServices";
 
+const services = [
+  { label: "Electrical Testing & Tagging", href: "/service/electrical-testing-tagging" },
+  { label: "Fire Extinguishers", href: "/service/fire-extinguishers" },
+  { label: "RCD/Safety Switches", href: "/service/rcd-safety-switches" },
+  { label: "Three Phase Testing", href: "/service/three-phase-testing" },
+  { label: "Microwave Testing", href: "/service/microwave-testing" },
+  { label: "Emergency Exit Light Testing", href: "/service/emergency-exit-light-testing" },
+  { label: "Smoke Alarm Service", href: "/service/smoke-alarm-service" },
+];
+
 const Home = ({
   popularProducts,
   discountProducts,
@@ -596,23 +606,138 @@ const Home = ({
           </MainModal>
 
           <div className="min-h-screen">
-            <div className="bg-white">
-              <div className="mx-auto py-5 max-w-screen-2xl px-3 sm:px-10">
-                <div className="w-full">
-                  <div className="w-full">
-                    <MainCarousel />
-                  </div>
-                  {/* <div className="w-full hidden lg:flex">
-                    <OfferCard />
-                  </div> */}
-                </div>
-                {/* {storeCustomizationSetting?.home?.promotion_banner_status && (
-                  <div className="bg-[#FDE8E6] px-10 py-6 rounded-lg mt-6">
-                    <Banner />
-                  </div>
-                )} */}
+            {/* Hero Banner */}
+            <section className="relative overflow-hidden bg-[#0f172a]">
+              <div className="absolute inset-0">
+                <Image
+                  src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
+                  alt="PowerQ Test & Tag"
+                  fill
+                  className="object-cover opacity-60"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
               </div>
-            </div>
+
+              <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-12 py-12 lg:py-16">
+                <div className="grid lg:grid-cols-2 gap-10 items-center">
+                  {/* Left content */}
+                  <div className="text-white space-y-6 text-center lg:text-left">
+                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+                      Test and Tag in Melbourne
+                    </h1>
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                      <Link
+                        href="tel:+611300755096"
+                          className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-green-600 hover:bg-green-700 text-white font-semibold shadow-lg transition gap-2"
+                      >
+                          <span className="text-xl text-green-600" aria-hidden="true">📞</span>
+                        Call Us
+                      </Link>
+                        <button
+                          onClick={() => handleGetQuoteClick("")}
+                          className="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-white/70 text-white font-semibold hover:bg-white hover:text-[#0f172a] transition gap-2"
+                        >
+                          <span className="text-xl" aria-hidden="true">📅</span>
+                          Book Our Services
+                        </button>
+                    </div>
+                   
+                  </div>
+
+                  {/* Right quote form */}
+                  <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8 border border-gray-100">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Request a Free Quote</h3>
+                    <form onSubmit={handleSubmitQuote(onSubmitQuote)} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <input
+                            {...registerQuote("name", { required: "Name is required" })}
+                            type="text"
+                            placeholder="Name"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                          />
+                          {errorsQuote.name && <p className="text-red-500 text-xs mt-1">{errorsQuote.name.message}</p>}
+                        </div>
+                        <div>
+                          <input
+                            {...registerQuote("email", { required: "Email is required" })}
+                            type="email"
+                            placeholder="Email"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                          />
+                          {errorsQuote.email && <p className="text-red-500 text-xs mt-1">{errorsQuote.email.message}</p>}
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <input
+                            {...registerQuote("phone", { required: "Contact number is required" })}
+                            type="text"
+                            placeholder="Contact Number"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                          />
+                          {errorsQuote.phone && <p className="text-red-500 text-xs mt-1">{errorsQuote.phone.message}</p>}
+                        </div>
+                        <div>
+                          <select
+                            {...registerQuote("service", { required: "Select a service" })}
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                            defaultValue=""
+                          >
+                            <option value="" disabled>
+                              Select Service
+                            </option>
+                            {services.map((s) => (
+                              <option key={s.label} value={s.label}>
+                                {s.label}
+                              </option>
+                            ))}
+                          </select>
+                          {errorsQuote.service && <p className="text-red-500 text-xs mt-1">{errorsQuote.service.message}</p>}
+                        </div>
+                      </div>
+
+                      <input
+                        {...registerQuote("location", { required: "Location is required" })}
+                        type="text"
+                        placeholder="Your Location"
+                        className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                      />
+                      {errorsQuote.location && <p className="text-red-500 text-xs mt-1">{errorsQuote.location.message}</p>}
+
+                      <select
+                        {...registerQuote("serviceDate", { required: "When do you want service?" })}
+                        className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          When do you want service?
+                        </option>
+                        <option value="Immediately">Immediately</option>
+                        <option value="Within 1-2 Weeks">Within 1-2 Weeks</option>
+                        <option value="In a Month">In a Month</option>
+                      </select>
+                      {errorsQuote.serviceDate && <p className="text-red-500 text-xs mt-1">{errorsQuote.serviceDate.message}</p>}
+
+                      <textarea
+                        {...registerQuote("message")}
+                        placeholder="Your Message (Optional)"
+                        className="w-full border text-sm rounded-md p-3 min-h-[100px] border-gray-200 focus:outline-none focus:border-[#FF6B6B] resize-y"
+                      />
+
+                      <button
+                        type="submit"
+                        className="w-full bg-[#FF6B6B] text-white py-3 rounded-md hover:bg-[#ff7f7f] transition font-semibold"
+                      >
+                        Submit
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </section>
 
             {/* service benefits section */}
             <div className="bg-white py-12">
