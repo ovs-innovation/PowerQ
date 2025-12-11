@@ -55,6 +55,9 @@ const Home = ({
   const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
   const testimonialScrollRef = useRef(null);
   const autoScrollIntervalRef = useRef(null);
+  const [homeProducts, setHomeProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [productsError, setProductsError] = useState("");
 
   const {
     register,
@@ -93,6 +96,24 @@ const Home = ({
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
+
+  // Fetch products to show on home page
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setProductsLoading(true);
+        const data = await ProductServices.getShowingProducts();
+        setHomeProducts(data || []);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setProductsError(err?.message || "Failed to load products.");
+      } finally {
+        setProductsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const onSubmitEnquiry = async (data) => {
     try {
@@ -651,7 +672,7 @@ const Home = ({
             </div>
 
            {/* feature category's */}
-           {storeCustomizationSetting?.home?.featured_status && (
+           {(storeCustomizationSetting?.home?.featured_status ?? true) && (
               <div className="bg-gray-100 lg:py-16 py-10">
                 <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
                   <div className="mb-10 flex justify-center">
@@ -661,7 +682,7 @@ const Home = ({
                           count={1}
                           height={30}
                           loading={loading}
-                          data={storeCustomizationSetting?.home?.feature_title}
+                          data={storeCustomizationSetting?.home?.feature_title || "Our Top Services"}
                         />
                       </h2>
                       <p className="text-base font-sans text-gray-600 leading-6">
@@ -671,7 +692,8 @@ const Home = ({
                           error={error}
                           loading={loading}
                           data={
-                            storeCustomizationSetting?.home?.feature_description
+                            storeCustomizationSetting?.home?.feature_description ||
+                            "Explore our most requested safety and compliance services."
                           }
                         />
                       </p>
@@ -682,6 +704,42 @@ const Home = ({
                 </div>
               </div>
             )}
+
+      {/* Latest Products from Admin */}
+      <div className="bg-white py-16 lg:py-20">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+            Latest Innovative PowerQ Solutions
+            </h2>
+            <p className="text-gray-600 mt-2">
+            Advanced products designed to deliver safety, efficiency, and long-term reliability.
+            </p>
+          </div>
+
+          {productsLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <CMSkeleton key={i} count={1} height={260} loading />
+              ))}
+            </div>
+          ) : productsError ? (
+            <div className="text-center py-8">
+              <p className="text-red-600">{productsError}</p>
+            </div>
+          ) : homeProducts.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600">No products available yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+              {homeProducts.slice(0, 8).map((product) => (
+                <ProductCard key={product._id} product={product} attributes={attributes || []} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
 
             {/* Pricing Plans Section */}

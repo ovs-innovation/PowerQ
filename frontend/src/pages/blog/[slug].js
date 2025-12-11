@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Layout from "@layout/Layout";
 import BlogServices from "@services/BlogServices";
+import CommentServices from "@services/CommentServices";
 import CMSkeleton from "@components/preloader/CMSkeleton";
 import { FiUser, FiFolder, FiMessageCircle, FiSearch, FiHome } from "react-icons/fi";
 
@@ -15,6 +16,37 @@ const BlogDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [comments, setComments] = useState([]);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentForm, setCommentForm] = useState({
+    name: "",
+    email: "",
+    website: "",
+    comment: "",
+    saveInfo: false,
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: "", text: "" });
+
+  // Load saved info from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedName = localStorage.getItem("comment_name");
+      const savedEmail = localStorage.getItem("comment_email");
+      const savedWebsite = localStorage.getItem("comment_website");
+      const savedInfo = localStorage.getItem("comment_save_info") === "true";
+
+      if (savedInfo && (savedName || savedEmail)) {
+        setCommentForm((prev) => ({
+          ...prev,
+          name: savedName || "",
+          email: savedEmail || "",
+          website: savedWebsite || "",
+          saveInfo: true,
+        }));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -30,6 +62,19 @@ const BlogDetail = () => {
         // Get first 5 blogs, excluding current blog
         const filtered = recent.filter(b => b.slug !== slug).slice(0, 5);
         setRecentBlogs(filtered);
+
+        // Fetch comments for this blog
+        if (data._id) {
+          try {
+            setCommentLoading(true);
+            const commentsData = await CommentServices.getCommentsByBlogId(data._id);
+            setComments(commentsData || []);
+          } catch (err) {
+            console.error("Error fetching comments:", err);
+          } finally {
+            setCommentLoading(false);
+          }
+        }
       } catch (err) {
         console.error("Error fetching blog:", err);
         setError(err.message);
@@ -69,6 +114,93 @@ const BlogDetail = () => {
     if (searchQuery.trim()) {
       router.push(`/blog?search=${encodeURIComponent(searchQuery)}`);
     }
+  };
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!blog?._id) return;
+
+    // Clear previous messages
+    setSubmitMessage({ type: "", text: "" });
+
+    // Validate required fields
+    if (!commentForm.name.trim() || !commentForm.email.trim() || !commentForm.comment.trim()) {
+      setSubmitMessage({ type: "error", text: "Please fill in all required fields (Name, Email, and Comment)." });
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(commentForm.email)) {
+      setSubmitMessage({ type: "error", text: "Please enter a valid email address." });
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      setSubmitMessage({ type: "", text: "" });
+      
+      await CommentServices.addComment({
+        blogId: blog._id,
+        name: commentForm.name.trim(),
+        email: commentForm.email.trim(),
+        website: commentForm.website.trim() || "",
+        comment: commentForm.comment.trim(),
+      });
+
+      // Save to localStorage if saveInfo is checked
+      if (commentForm.saveInfo && typeof window !== "undefined") {
+        localStorage.setItem("comment_name", commentForm.name.trim());
+        localStorage.setItem("comment_email", commentForm.email.trim());
+        localStorage.setItem("comment_website", commentForm.website.trim() || "");
+        localStorage.setItem("comment_save_info", "true");
+      } else if (typeof window !== "undefined") {
+        localStorage.removeItem("comment_name");
+        localStorage.removeItem("comment_email");
+        localStorage.removeItem("comment_website");
+        localStorage.removeItem("comment_save_info");
+      }
+
+      // Reset form
+      setCommentForm({
+        name: commentForm.saveInfo ? commentForm.name : "",
+        email: commentForm.saveInfo ? commentForm.email : "",
+        website: commentForm.saveInfo ? commentForm.website : "",
+        comment: "",
+        saveInfo: commentForm.saveInfo,
+      });
+
+      // Refresh comments dynamically
+      const commentsData = await CommentServices.getCommentsByBlogId(blog._id);
+      setComments(commentsData || []);
+      
+      setSubmitMessage({ type: "success", text: "Comment submitted successfully! Your comment is now visible." });
+      
+      // Scroll to comments section
+      setTimeout(() => {
+        const commentsSection = document.getElementById("comments-section");
+        if (commentsSection) {
+          commentsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 500);
+    } catch (err) {
+      console.error("Error submitting comment:", err);
+      setSubmitMessage({ 
+        type: "error", 
+        text: err.response?.data?.message || "Failed to submit comment. Please try again." 
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setCommentForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   if (loading) {
@@ -222,7 +354,7 @@ const BlogDetail = () => {
                 )}
                 <div className="flex items-center gap-2 ml-auto">
                   <FiMessageCircle className="w-4 h-4" />
-                  <span>0</span>
+                  <span>{comments.length}</span>
                 </div>
               </div>
 
@@ -257,6 +389,179 @@ const BlogDetail = () => {
                   />
                 </div>
               )}
+
+              {/* Comments Section */}
+              <div id="comments-section" className="mt-12 border-t border-gray-200 pt-8">
+                <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                  Leave a Reply
+                </h2>
+                <p className="text-gray-600 text-sm mb-6">
+                  Your email address will not be published. Required fields are marked *
+                </p>
+
+                {/* Success/Error Messages */}
+                {submitMessage.text && (
+                  <div
+                    className={`mb-6 p-4 rounded-lg ${
+                      submitMessage.type === "success"
+                        ? "bg-green-50 border border-green-200 text-green-800"
+                        : "bg-red-50 border border-red-200 text-red-800"
+                    }`}
+                  >
+                    <p className="text-sm font-medium">{submitMessage.text}</p>
+                  </div>
+                )}
+
+                {/* Comment Form */}
+                <form onSubmit={handleCommentSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                        Enter Name <span className="text-red-600">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={commentForm.name}
+                        onChange={handleCommentChange}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                        placeholder="Your Name"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                        Enter Email <span className="text-red-600">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={commentForm.email}
+                        onChange={handleCommentChange}
+                        required
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
+                      Enter Website
+                    </label>
+                    <input
+                      type="url"
+                      id="website"
+                      name="website"
+                      value={commentForm.website}
+                      onChange={handleCommentChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                      placeholder="https://yourwebsite.com"
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="saveInfo"
+                      name="saveInfo"
+                      checked={commentForm.saveInfo}
+                      onChange={handleCommentChange}
+                      className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-600"
+                    />
+                    <label htmlFor="saveInfo" className="ml-2 text-sm text-gray-700">
+                      Save my name, email, and website in this browser for the next time I comment.
+                    </label>
+                  </div>
+
+                  <div>
+                    <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">
+                      Enter Comment <span className="text-red-600">*</span>
+                    </label>
+                    <textarea
+                      id="comment"
+                      name="comment"
+                      value={commentForm.comment}
+                      onChange={handleCommentChange}
+                      required
+                      rows={6}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent resize-vertical"
+                      placeholder="Your Comment"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl disabled:cursor-not-allowed disabled:transform-none"
+                  >
+                    {submitting ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Posting...
+                      </span>
+                    ) : (
+                      "Post Comment"
+                    )}
+                  </button>
+                </form>
+
+                {/* Existing Comments */}
+                <div className="mt-12">
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    Comments ({comments.length})
+                  </h3>
+                  {commentLoading ? (
+                    <div className="text-center py-8">
+                      <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                      <p className="mt-2 text-gray-500">Loading comments...</p>
+                    </div>
+                  ) : comments.length > 0 ? (
+                    <div className="space-y-6">
+                      {comments.map((comment) => (
+                        <div
+                          key={comment._id}
+                          className="bg-gray-50 rounded-lg p-6 border border-gray-200 hover:shadow-md transition-shadow duration-300"
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                              {comment.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex flex-wrap items-center gap-3 mb-2">
+                                <h4 className="font-semibold text-gray-900">{comment.name}</h4>
+                                {comment.website && (
+                                  <a
+                                    href={comment.website.startsWith("http") ? comment.website : `https://${comment.website}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 hover:text-blue-700 text-sm break-all"
+                                  >
+                                    {comment.website}
+                                  </a>
+                                )}
+                                <span className="text-gray-500 text-sm">
+                                  {formatDate(comment.createdAt)}
+                                </span>
+                              </div>
+                              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{comment.comment}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+                      <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* Sidebar */}
@@ -306,7 +611,20 @@ const BlogDetail = () => {
                 {/* Recent Comments */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Comments</h3>
-                  <p className="text-gray-500 text-sm">No comments to show.</p>
+                  {comments.length > 0 ? (
+                    <ul className="space-y-3">
+                      {comments.slice(0, 5).map((comment) => (
+                        <li key={comment._id} className="text-sm">
+                          <p className="text-gray-700 line-clamp-2">
+                            <span className="font-semibold text-gray-900">{comment.name}:</span>{" "}
+                            {comment.comment}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No comments to show.</p>
+                  )}
                 </div>
               </div>
             </div>

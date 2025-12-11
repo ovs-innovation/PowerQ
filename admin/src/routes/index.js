@@ -24,6 +24,7 @@ const StoreHome = lazy(() => import("@/pages/StoreHome"));
 const StoreSetting = lazy(() => import("@/pages/StoreSetting"));
 const Notifications = lazy(() => import("@/pages/Notifications"));
 const Blogs = lazy(() => import("@/pages/Blogs"));
+const Products = lazy(() => import("@/pages/Products"));
 /*
 //  * ⚠ These are internal routes!
 //  * They will be rendered inside the app, using the default `containers/Layout`.
@@ -118,6 +119,10 @@ const routes = [
     path: "/blogs",
     component: Blogs,
   },
+  {
+    path: "/products",
+    component: Products,
+  },
 ];
 
 const routeAccessList = [
@@ -147,6 +152,7 @@ const routeAccessList = [
   { label: "Notification", value: "notifications" },
   { label: "Coming Soon", value: "coming-soon" },
   { label: "Blogs", value: "blogs" },
+  { label: "Products", value: "products" },
 ];
 
 export { routeAccessList, routes };
