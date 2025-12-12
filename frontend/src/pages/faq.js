@@ -278,12 +278,13 @@ const FAQ = () => {
                   <div key={idx} className="border-b border-gray-200 bg-white">
                     <button
                       onClick={() => setOpenIndex(isOpen ? -1 : idx)}
-                      className="w-full flex items-center justify-between px-6 py-5 text-left focus:outline-none hover:bg-red-50 transition-colors group"
+                      className="no-green-button w-full flex items-center justify-between px-6 py-5 text-left focus:outline-none bg-white hover:bg-gray-50 transition-colors group"
+                      style={{ backgroundColor: 'white', color: '#111827' }}
                     >
-                      <span className="text-lg font-semibold text-gray-900 pr-4 group-hover:text-red-600 transition-colors">{item.question}</span>
+                      <span className="text-lg font-semibold text-gray-900 pr-4 group-hover:text-[#ED1C24] transition-colors" style={{ color: '#111827' }}>{item.question}</span>
                       <div className="flex-shrink-0">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                          isOpen ? 'bg-red-600 group-hover:bg-red-700' : 'bg-red-600 group-hover:bg-red-700'
+                          isOpen ? 'bg-[#ED1C24] group-hover:bg-[#c9151f]' : 'bg-[#ED1C24] group-hover:bg-[#c9151f]'
                         }`}>
                           <span className={`text-white text-xl font-light transition-transform ${
                             isOpen ? 'rotate-45' : ''
@@ -292,7 +293,7 @@ const FAQ = () => {
                       </div>
                     </button>
                     {isOpen && (
-                      <div className="px-6 pb-5 text-gray-700 leading-7 border-t border-gray-100">
+                      <div className="px-6 pb-5 text-gray-700 leading-7 border-t border-gray-100" style={{ color: '#374151' }}>
                         {item.answer}
                       </div>
                     )}

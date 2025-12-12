@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Layout from "@layout/Layout";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import LeadServices from "@services/LeadServices";
 import { FiClock, FiMapPin, FiPhoneCall, FiMail } from "react-icons/fi";
 
 const services = [
@@ -14,30 +17,29 @@ const services = [
 ];
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    location: "",
-    schedule: "",
-    message: "",
-  });
-  const [notRobotChecked, setNotRobotChecked] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!notRobotChecked) {
-      alert("Please confirm you're not a robot.");
-      return;
+  const onSubmit = async (data) => {
+    try {
+      const leadData = {
+        ...data,
+        product: {
+          title: "Quote Request",
+          type: "quote_request",
+        },
+      };
+      await LeadServices.addLead(leadData);
+      toast.success("Thank you! We will contact you shortly.");
+      reset();
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error?.response?.data?.message || "Failed to submit request.");
     }
-    console.log("Contact request:", formData);
-    alert("Thank you! We will contact you shortly.");
   };
 
   return (
@@ -92,7 +94,7 @@ const ContactUs = () => {
               </div>
             </div>
             <h3 className="text-xl font-bold text-gray-900">Contact Us</h3>
-            <p className="text-sm text-gray-600">Phone: 0433SAFETY / 0433723389</p>
+            <p className="text-sm text-gray-600">Phone: <a href="tel:0433723389" className="hover:text-[#ED1C24] transition">0433SAFETY / 0433723389</a></p>
           </div>
 
           <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
@@ -122,142 +124,90 @@ const ContactUs = () => {
           </div>
 
           <div className="bg-white rounded-xl shadow-lg border border-gray-300 p-6 lg:p-8">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Name"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
-                />
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none"
+                    {...register("name", { required: "Name is required" })}
+                  />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none"
+                    {...register("email", { required: "Email is required" })}
+                  />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Contact Number"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
-                />
-                <select
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
-                  required
-                >
-                  <option value="">Select Service</option>
-                  {services.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
+                <div>
+                  <input
+                    type="tel"
+                    placeholder="Contact Number"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none"
+                    {...register("phone", { required: "Contact number is required" })}
+                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                </div>
+                <div>
+                  <select
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none bg-white"
+                    defaultValue=""
+                    {...register("service", { required: "Select a service" })}
+                  >
+                    <option value="" disabled>
+                      Select Service
                     </option>
-                  ))}
-                </select>
+                    {services.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service.message}</p>}
+                </div>
               </div>
 
               <input
                 type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
                 placeholder="Your Location"
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                required
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none"
+                {...register("location", { required: "Location is required" })}
               />
+              {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
 
               <select
-                name="schedule"
-                value={formData.schedule}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
-                required
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none bg-white"
+                defaultValue=""
+                {...register("serviceDate", { required: "When do you want service?" })}
               >
-                <option value="">When do you want service to be done</option>
-                <option>As soon as possible</option>
-                <option>Within 1-2 weeks</option>
-                <option>Within a month</option>
-                <option>Flexible / Not sure</option>
+                <option value="" disabled>
+                  When do you want service to be done
+                </option>
+                <option value="As soon as possible">As soon as possible</option>
+                <option value="Within 1-2 weeks">Within 1-2 weeks</option>
+                <option value="Within a month">Within a month</option>
+                <option value="Flexible / Not sure">Flexible / Not sure</option>
               </select>
+              {errors.serviceDate && <p className="text-red-500 text-xs mt-1">{errors.serviceDate.message}</p>}
 
               <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
                 placeholder="Your Message (Optional)"
                 rows={4}
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-[#ED1C24] focus:outline-none"
+                {...register("message")}
               />
-
-              <div className="flex justify-start">
-                <button
-                  type="button"
-                  onClick={() => setNotRobotChecked((v) => !v)}
-                  role="checkbox"
-                  aria-checked={notRobotChecked}
-                  className={`inline-flex items-center gap-3 bg-white border rounded px-3 py-2.5 shadow-sm cursor-pointer hover:shadow transition-shadow ${
-                    notRobotChecked ? "border-blue-500 ring-2 ring-blue-100" : "border-gray-300"
-                  }`}
-                >
-                  <div
-                    className={`w-5 h-5 border-2 rounded-sm flex-shrink-0 flex items-center justify-center ${
-                      notRobotChecked ? "border-blue-500 bg-blue-500" : "border-gray-400 bg-white"
-                    }`}
-                  >
-                    {notRobotChecked && (
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M2 6.5 4.5 9 10 3.5"
-                          stroke="#fff"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </div>
-
-                  <span className="text-sm text-gray-900 font-normal whitespace-nowrap">I'm not a robot</span>
-
-                  <div className="flex items-center gap-1.5 ml-1">
-                    <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L16 6H13V10H11V6H8L12 2Z" fill="#4285F4" />
-                        <path d="M12 22L8 18H11V14H13V18H16L12 22Z" fill="#9E9E9E" />
-                      </svg>
-                    </div>
-
-                    <div className="flex flex-col items-start leading-tight">
-                      <span className="text-[10px] text-gray-900 font-medium">reCAPTCHA</span>
-                      <span className="text-[9px] text-gray-500">Privacy - Terms</span>
-                    </div>
-                  </div>
-                </button>
-              </div>
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-lg"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-lg w-full"
               >
                 Submit
               </button>

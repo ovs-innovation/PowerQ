@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Layout from "@layout/Layout";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import LeadServices from "@services/LeadServices";
 
 const services = [
   "Electrical Testing & Tagging",
@@ -13,27 +16,30 @@ const services = [
 ];
 
 const RequestAQuote = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    location: "",
-    schedule: "",
-    message: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In a real app, submit to API or email service.
-    // For now, just log.
-    console.log("Quote request:", formData);
-    alert("Thank you! We have received your request.");
+  const onSubmit = async (data) => {
+    try {
+      const leadData = {
+        ...data,
+        serviceDate: data.schedule, // Map schedule to serviceDate
+        product: {
+          title: "Quote Request",
+          type: "quote_request",
+        },
+      };
+      await LeadServices.addLead(leadData);
+      toast.success("Thank you! We will contact you shortly.");
+      reset();
+    } catch (error) {
+      console.log("error", error);
+      toast.error(error?.response?.data?.message || "Failed to submit quote request.");
+    }
   };
 
   return (
@@ -62,86 +68,88 @@ const RequestAQuote = () => {
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
               Request a Quote - Equipment Test and Tag in Melbourne
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <input
+                    {...register("name", { required: "Name is required" })}
+                    type="text"
+                    placeholder="Name"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                </div>
+                <div>
+                  <input
+                    {...register("email", { required: "Email is required" })}
+                    type="email"
+                    placeholder="Email"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <input
+                    {...register("phone", { required: "Contact number is required" })}
+                    type="tel"
+                    placeholder="Contact Number"
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  />
+                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
+                </div>
+                <div>
+                  <select
+                    {...register("service", { required: "Please select a service" })}
+                    className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
+                    defaultValue=""
+                  >
+                    <option value="" disabled>Select Service</option>
+                    {services.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service.message}</p>}
+                </div>
+              </div>
+
+              <div>
                 <input
+                  {...register("location", { required: "Location is required" })}
                   type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Name"
+                  placeholder="Your Location"
                   className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
                 />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
-                />
+                {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Contact Number"
-                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                  required
-                />
+              <div>
                 <select
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
+                  {...register("schedule", { required: "Please select when you want service" })}
                   className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
-                  required
+                  defaultValue=""
                 >
-                  <option value="">Select Service</option>
-                  {services.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
+                  <option value="" disabled>When do you want service to be done</option>
+                  <option value="As soon as possible">As soon as possible</option>
+                  <option value="Within 1-2 weeks">Within 1-2 weeks</option>
+                  <option value="Within a month">Within a month</option>
+                  <option value="Flexible / Not sure">Flexible / Not sure</option>
                 </select>
+                {errors.schedule && <p className="text-red-500 text-xs mt-1">{errors.schedule.message}</p>}
               </div>
 
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Your Location"
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-                required
-              />
-
-              <select
-                name="schedule"
-                value={formData.schedule}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none bg-white"
-                required
-              >
-                <option value="">When do you want service to be done</option>
-                <option>As soon as possible</option>
-                <option>Within 1-2 weeks</option>
-                <option>Within a month</option>
-                <option>Flexible / Not sure</option>
-              </select>
-
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Your Message (Optional)"
-                rows={4}
-                className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
-              />
+              <div>
+                <textarea
+                  {...register("message")}
+                  placeholder="Your Message (Optional)"
+                  rows={4}
+                  className="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:ring-2 focus:ring-red-500 focus:outline-none"
+                />
+              </div>
 
               <div className="flex items-center justify-start">
                 <button

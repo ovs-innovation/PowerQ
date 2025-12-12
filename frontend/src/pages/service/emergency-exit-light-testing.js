@@ -48,13 +48,13 @@ const EmergencyExitLightTesting = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/green-emergency-exit-sign-ceiling_53876-123089.jpg.bv.webp"
                   alt="Exit Door"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -65,15 +65,15 @@ const EmergencyExitLightTesting = () => {
       {/* Exit Light Testing Section - Dark Background */}
       <div className=" py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/emergency-exit-sign-with-siren-light-direction-emergency-exit_35913-3108-1024x652.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="Emergency Exit Sign"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -134,13 +134,13 @@ const EmergencyExitLightTesting = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Emergency-Exit-Light-Testing.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="Emergency Exit Light with Control Panel"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
                 {/* Overlay insets showing control panel details */}
                 <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">

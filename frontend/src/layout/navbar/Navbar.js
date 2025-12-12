@@ -56,7 +56,7 @@ const Navbar = () => {
                 onMouseLeave={() => setOpenService(false)}
               >
                 <button
-                  className="flex items-center gap-1 hover:text-red-500 transition"
+                  className="flex items-center gap-1 hover:text-red-500 transition no-green-button"
                   onClick={() => setOpenService((prev) => !prev)}
                 >
                   Service <span className="text-xs">▼</span>

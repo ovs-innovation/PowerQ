@@ -324,7 +324,7 @@ const Home = ({
             <div className="inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl">
               <div className="flex flex-col lg:flex-row">
                 {/* Left Side - Images */}
-                <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#FF6B6B] to-[#FF8E8E] p-8 items-center justify-center">
+                <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#ED1C24] to-[#ED1C24] p-8 items-center justify-center">
                   <div className="relative w-full h-full">
                     {featuredImage && (
                       <div className="relative w-full h-full min-h-[500px] rounded-lg overflow-hidden">
@@ -431,7 +431,7 @@ const Home = ({
                     <textarea
                       {...register("message", { required: "Message is required!" })}
                       placeholder="Tell us about your requirements or ask any questions"
-                      className="w-full border text-sm rounded-md p-2 min-h-[80px] border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                      className="w-full border text-sm rounded-md p-2 min-h-[80px] border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                     />
                     {errors.message && (
                       <span className="text-red-500 text-xs">
@@ -445,7 +445,7 @@ const Home = ({
                     />
                     <button
                       type="submit"
-                      className="mt-4 w-full bg-[#FF6B6B] text-white py-3 rounded-md hover:bg-[#FF8E8E] transition font-semibold"
+                      className="mt-4 w-full bg-[#ED1C24] text-white py-3 rounded-md hover:bg-[#ED1C24] transition font-semibold"
                     >
                       Submit Enquiry
                     </button>
@@ -528,7 +528,7 @@ const Home = ({
                       </label>
                       <select
                         {...registerQuote("service", { required: "Service is required!" })}
-                        className="w-full border text-sm rounded-md p-2 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                        className="w-full border text-sm rounded-md p-2 border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                         defaultValue={selectedService}
                         onChange={(e) => {
                           setSelectedService(e.target.value);
@@ -591,7 +591,7 @@ const Home = ({
                     <textarea
                       {...registerQuote("message")}
                       placeholder="Your Message(Optional)"
-                      className="w-full border text-sm rounded-md p-2 min-h-[100px] border-gray-200 focus:outline-none focus:border-[#FF6B6B] resize-y"
+                        className="w-full border text-sm rounded-md p-2 min-h-[100px] border-gray-200 focus:outline-none focus:border-[#ED1C24] resize-y"
                     />
                   </div>
                   <button
@@ -655,7 +655,7 @@ const Home = ({
                             {...registerQuote("name", { required: "Name is required" })}
                             type="text"
                             placeholder="Name"
-                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                           />
                           {errorsQuote.name && <p className="text-red-500 text-xs mt-1">{errorsQuote.name.message}</p>}
                         </div>
@@ -664,7 +664,7 @@ const Home = ({
                             {...registerQuote("email", { required: "Email is required" })}
                             type="email"
                             placeholder="Email"
-                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                           />
                           {errorsQuote.email && <p className="text-red-500 text-xs mt-1">{errorsQuote.email.message}</p>}
                         </div>
@@ -676,14 +676,14 @@ const Home = ({
                             {...registerQuote("phone", { required: "Contact number is required" })}
                             type="text"
                             placeholder="Contact Number"
-                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                           />
                           {errorsQuote.phone && <p className="text-red-500 text-xs mt-1">{errorsQuote.phone.message}</p>}
                         </div>
                         <div>
                           <select
                             {...registerQuote("service", { required: "Select a service" })}
-                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#FF6B6B]"
+                            className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-[#ED1C24]"
                             defaultValue=""
                           >
                             <option value="" disabled>
@@ -747,9 +747,9 @@ const Home = ({
                   {/* Electrical Safety Services*/}
                   <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
                     <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaHardHat className="w-12 h-12 text-[#FF6B6B] drop-shadow-lg" />
+                      <FaHardHat className="w-12 h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-[#FF6B6B] transition-colors duration-300">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
                       Electrical Safety Services
                     </h3>
                   </div>
@@ -757,9 +757,9 @@ const Home = ({
                   {/* Regulatory Compliance*/}
                   <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
                     <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaCloud className="w-12 h-12 text-[#FF6B6B] drop-shadow-lg" />
+                      <FaCloud className="w-12 h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-[#FF6B6B] transition-colors duration-300">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
                       Regulatory Compliance
                     </h3>
                   </div>
@@ -767,9 +767,9 @@ const Home = ({
                   {/* Risk Mitigation*/}
                   <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
                     <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaShieldAlt className="w-12 h-12 text-[#FF6B6B] drop-shadow-lg" />
+                      <FaShieldAlt className="w-12 h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-[#FF6B6B] transition-colors duration-300">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
                       Risk Mitigation
                     </h3>
                   </div>
@@ -777,18 +777,18 @@ const Home = ({
                   {/* Customer Assurance*/}
                   <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4 ">
                     <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaHeadset className="w-12 h-12 text-[#FF6B6B] drop-shadow-lg" />
+                      <FaHeadset className="w-12 h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-[#FF6B6B] transition-colors duration-300">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
                       Customer Assurance
                     </h3>
                   </div>
                   {/*Expert Team */}
                   <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
                     <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaUsers className="w-12 h-12 text-[#FF6B6B] drop-shadow-lg" />
+                      <FaUsers className="w-12 h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-[#FF6B6B] transition-colors duration-300">
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
                       Expert Team
                     </h3>
                   </div>
@@ -885,7 +885,7 @@ const Home = ({
               
               <div className="relative z-10 mx-auto max-w-screen-2xl px-3 sm:px-10">
                 <div className="text-center mb-12">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-[#FF6B6B] mb-3 drop-shadow-lg">
+                  <h2 className="text-3xl lg:text-4xl font-bold text-red-600 mb-3 drop-shadow-lg">
                     Pricing Plans
                   </h2>
                   <p className="text-xl lg:text-2xl font-semibold text-white">
@@ -897,8 +897,8 @@ const Home = ({
                   <div className="bg-white rounded-lg overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:-translate-y-2">
                     <div className="bg-black/80 p-6">
                       <h3 className="text-xl font-bold text-white mb-3">Small Business</h3>
-                      <p className="text-[#FF6B6B] font-semibold mb-1">1-500 tags</p>
-                      <p className="text-[#FF6B6B] text-sm">Minimum fee $120 (GST excl.)</p>
+                      <p className="text-red-600 font-semibold mb-1">1-500 tags</p>
+                      <p className="text-red-600 text-sm">Minimum fee $120 (GST excl.)</p>
                     </div>
                     <div className="bg-white p-6">
                       <p className="text-4xl font-bold text-gray-900 mb-6">$4.00<span className="text-xl text-gray-600">/ tag</span></p>
@@ -925,8 +925,8 @@ const Home = ({
                   <div className="bg-white rounded-lg overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:-translate-y-2">
                     <div className="bg-black/80 p-6">
                       <h3 className="text-xl font-bold text-white mb-3">Medium Business</h3>
-                      <p className="text-[#FF6B6B] font-semibold mb-1">500-1000 tags</p>
-                      <p className="text-[#FF6B6B] text-sm">Minimum fee $120 (GST excl.)</p>
+                      <p className="text-red-600 font-semibold mb-1">500-1000 tags</p>
+                      <p className="text-red-600 text-sm">Minimum fee $120 (GST excl.)</p>
                     </div>
                     <div className="bg-white p-6">
                       <p className="text-4xl font-bold text-gray-900 mb-6">$3.50<span className="text-xl text-gray-600">/ tag</span></p>
@@ -953,8 +953,8 @@ const Home = ({
                   <div className="bg-white rounded-lg overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:-translate-y-2">
                     <div className="bg-black/80 p-6">
                       <h3 className="text-xl font-bold text-white mb-3">Large Business</h3>
-                      <p className="text-[#FF6B6B] font-semibold mb-1">1000-2000 tags</p>
-                      <p className="text-[#FF6B6B] text-sm">Minimum fee $120 (GST excl.)</p>
+                      <p className="text-red-600 font-semibold mb-1">1000-2000 tags</p>
+                      <p className="text-red-600 text-sm">Minimum fee $120 (GST excl.)</p>
                     </div>
                     <div className="bg-white p-6">
                       <p className="text-4xl font-bold text-gray-900 mb-6">$2.80<span className="text-xl text-gray-600">/ tag</span></p>
@@ -981,8 +981,8 @@ const Home = ({
                   <div className="bg-white rounded-lg overflow-hidden shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:-translate-y-2">
                     <div className="bg-black/80 p-6">
                       <h3 className="text-xl font-bold text-white mb-3">Large Offices / Schools</h3>
-                      <p className="text-[#FF6B6B] font-semibold mb-1">Over 2000 tags</p>
-                      <p className="text-[#FF6B6B] text-sm">Minimum fee $120 (GST excl.)</p>
+                      <p className="text-red-600 font-semibold mb-1">Over 2000 tags</p>
+                      <p className="text-red-600 text-sm">Minimum fee $120 (GST excl.)</p>
                     </div>
                     <div className="bg-white p-6">
                       <p className="text-4xl font-bold text-gray-900 mb-6">$2.40<span className="text-xl text-gray-600">/ tag</span></p>
@@ -1022,15 +1022,15 @@ const Home = ({
                   <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-2xl hover:border-[#FF6B6B]/30 transition-all duration-300 transform hover:-translate-y-1 group">
                     <div className="space-y-4">
                       <div className="flex items-start">
-                        <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                        <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                         <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Fire extinguisher Inspection Site fee $60 excl gst</span>
                       </div>
                       <div className="flex items-start">
-                        <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                        <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                         <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Fire extinguisher inspection - $6.50 excl gst</span>
                       </div>
                       <div className="flex items-start">
-                        <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                        <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                         <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Fire hose reel inspection - $12 excl gst</span>
                       </div>
                     </div>
@@ -1039,7 +1039,7 @@ const Home = ({
                   {/* Card 2 */}
                   <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-2xl hover:border-[#FF6B6B]/30 transition-all duration-300 transform hover:-translate-y-1 group">
                     <div className="flex items-start">
-                      <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                      <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                       <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Fire extinguisher installation - $15 (Minimum site fee applies)</span>
                     </div>
                   </div>
@@ -1047,7 +1047,7 @@ const Home = ({
                   {/* Card 3 */}
                   <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-2xl hover:border-[#FF6B6B]/30 transition-all duration-300 transform hover:-translate-y-1 group">
                     <div className="flex items-start">
-                      <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                      <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                       <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Smoke alarm inspection - $90 (upto 3 smoke inspection)</span>
                     </div>
                   </div>
@@ -1055,7 +1055,7 @@ const Home = ({
                   {/* Card 4 */}
                   <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-2xl hover:border-[#FF6B6B]/30 transition-all duration-300 transform hover:-translate-y-1 group">
                     <div className="flex items-start mb-4">
-                      <FaCheckCircle className="text-[#FF6B6B] mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
+                      <FaCheckCircle className="text-red-600 mr-3 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform duration-300" />
                       <span className="text-gray-700 group-hover:text-gray-900 transition-colors duration-300">Emergency exit light inspection - $110 (inspect upto 3 exit lights)</span>
                     </div>
                     <div className="pt-4 border-t border-gray-200">
@@ -1110,7 +1110,7 @@ const Home = ({
             {/* Our Expertise Section */}
             <div className="bg-white py-20">
               <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
-                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 mb-12 text-center">
+                <h2 className="text-3xl lg:text-3xl xl:text-3xl font-bold text-gray-900 mb-12 text-center">
                   Our Expertise
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
@@ -1489,13 +1489,13 @@ const Home = ({
                         className="w-full h-full object-cover"
                       />
                       {/* Overlay Banner */}
-                      <div className="absolute top-4 left-4 bg-[#FF6B6B] px-4 py-2 rounded">
+                      <div className="absolute top-4 left-4 bg-red-600 px-4 py-2 rounded">
                         <span className="text-white font-bold text-sm">Power Cord Testing</span>
                       </div>
                       {/* Logo and Contact Info Overlay */}
                       <div className="absolute bottom-4 left-4 bg-white/95 px-4 py-3 rounded-lg shadow-md">
                         <div className="text-2xl font-bold text-gray-900 mb-1">
-                          Power<span className="text-[#FF6B6B]">Q</span>
+                          Power<span className="text-red-600">Q</span>
                         </div>
                         <div className="text-xs text-gray-600 mb-2">Test & Tag Service</div>
                         <div className="text-sm font-semibold text-gray-900">04 3372 3389</div>
@@ -1511,7 +1511,7 @@ const Home = ({
                     </p>
                     <p className="text-gray-700 leading-relaxed">
                       We believe that electrical safety is paramount and a priority for any workplace. Testing and tagging are essential to ensure all equipment at your workplace is safe to use. If you employ people who use electrical appliances frequently, having regular testing/tagging of appliances is critical to protect against any potential injury or death from electrocution. We have the expertise and experience needed to thoroughly test and tag your equipment so that it complies with{" "}
-                      <span className="text-blue-600 font-semibold">OHS standards</span>. With PowerQ you can rest assured that your equipment is safe and giving you peace of mind with our competitive rates we make sure you get best value for money.
+                      <span className="text-red-600 font-semibold">OHS standards</span>. With PowerQ you can rest assured that your equipment is safe and giving you peace of mind with our competitive rates we make sure you get best value for money.
                     </p>
                     <button
                       onClick={() => handleGetQuoteClick("")}
@@ -1525,7 +1525,7 @@ const Home = ({
             </div>
 
             {/* We Offer Our Services All Over Melbourne Banner */}
-            <div className="relative bg-gradient-to-t from-red-400 via-red-300 to-red-400 py-20 lg:py-24 overflow-hidden">
+            <div className="relative bg-black py-20 lg:py-24 overflow-hidden">
               {/* Decorative background elements */}
               <div className="absolute inset-0">
                 <div className="absolute top-10 left-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
@@ -1551,11 +1551,11 @@ const Home = ({
                   
                   {/* Green Button with enhanced styling */}
                   <button
-                    onClick={() => handleGetQuoteClick("")}
-                    className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-10 rounded-xl text-lg uppercase transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105 border-2 border-white/20"
-                  >
-                    REQUEST A QUOTE
-                  </button>
+                      onClick={() => handleGetQuoteClick("")}
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg uppercase transition-colors duration-300"
+                    >
+                      REQUEST A QUOTE
+                    </button>
                 </div>
               </div>
             </div>
@@ -1573,7 +1573,7 @@ const Home = ({
                     className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-20 bg-gray-200 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hidden lg:flex items-center justify-center"
                     aria-label="Previous testimonials"
                   >
-                    <FaChevronLeft className="text-gray-600 text-xl" />
+                    <FaChevronLeft className="text-white text-xl" />
                   </button>
 
                   {/* Scrollable Container */}
@@ -1642,7 +1642,7 @@ const Home = ({
                     className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-20 bg-gray-200 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hidden lg:flex items-center justify-center"
                     aria-label="Next testimonials"
                   >
-                    <FaChevronRight className="text-gray-600 text-xl" />
+                    <FaChevronRight className="text-white text-xl" />
                     </button>
                 </div>
               </div>

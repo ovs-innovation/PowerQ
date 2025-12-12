@@ -342,14 +342,14 @@ const SmokeAlarmService = () => {
             <Disclosure defaultOpen>
               {({ open }) => (
                 <div className="bg-white border border-gray-200 rounded-lg shadow-md">
-                  <Disclosure.Button className="flex w-full justify-between items-center p-6 text-left">
+                  <Disclosure.Button className="no-green-button flex w-full justify-between items-center p-6 text-left bg-white hover:bg-gray-50 transition-colors">
                     <span className="text-lg font-semibold text-gray-900">
                       Why should I test my smoke alarm?
                     </span>
                     {open ? (
-                      <FaChevronUp className="text-green-600 text-xl" />
+                      <FaChevronUp className="text-gray-600 text-xl" />
                     ) : (
-                      <FaChevronDown className="text-green-600 text-xl" />
+                      <FaChevronDown className="text-gray-600 text-xl" />
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
@@ -362,14 +362,14 @@ const SmokeAlarmService = () => {
             <Disclosure>
               {({ open }) => (
                 <div className="bg-white border border-gray-200 rounded-lg shadow-md">
-                  <Disclosure.Button className="flex w-full justify-between items-center p-6 text-left">
+                  <Disclosure.Button className="no-green-button flex w-full justify-between items-center p-6 text-left bg-white hover:bg-gray-50 transition-colors">
                     <span className="text-lg font-semibold text-gray-900">
                       Why does my smoke alarm beep once every 60 seconds or intermittently?
                     </span>
                     {open ? (
-                      <FaChevronUp className="text-green-600 text-xl" />
+                      <FaChevronUp className="text-gray-600 text-xl" />
                     ) : (
-                      <FaChevronDown className="text-green-600 text-xl" />
+                      <FaChevronDown className="text-gray-600 text-xl" />
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
@@ -383,14 +383,14 @@ const SmokeAlarmService = () => {
             <Disclosure>
               {({ open }) => (
                 <div className="bg-white border border-gray-200 rounded-lg shadow-md">
-                  <Disclosure.Button className="flex w-full justify-between items-center p-6 text-left">
+                  <Disclosure.Button className="no-green-button flex w-full justify-between items-center p-6 text-left bg-white hover:bg-gray-50 transition-colors">
                     <span className="text-lg font-semibold text-gray-900">
                       Why do 240-volt smoke alarms have a battery?
                     </span>
                     {open ? (
-                      <FaChevronUp className="text-green-600 text-xl" />
+                      <FaChevronUp className="text-gray-600 text-xl" />
                     ) : (
-                      <FaChevronDown className="text-green-600 text-xl" />
+                      <FaChevronDown className="text-gray-600 text-xl" />
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">
@@ -403,14 +403,14 @@ const SmokeAlarmService = () => {
             <Disclosure>
               {({ open }) => (
                 <div className="bg-white border border-gray-200 rounded-lg shadow-md">
-                  <Disclosure.Button className="flex w-full justify-between items-center p-6 text-left">
+                  <Disclosure.Button className="no-green-button flex w-full justify-between items-center p-6 text-left bg-white hover:bg-gray-50 transition-colors">
                     <span className="text-lg font-semibold text-gray-900">
                       What can I do if my smoke alarm operates every time I make toast or have a shower?
                     </span>
                     {open ? (
-                      <FaChevronUp className="text-green-600 text-xl" />
+                      <FaChevronUp className="text-gray-600 text-xl" />
                     ) : (
-                      <FaChevronDown className="text-green-600 text-xl" />
+                      <FaChevronDown className="text-gray-600 text-xl" />
                     )}
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-6 pb-6 text-gray-700">

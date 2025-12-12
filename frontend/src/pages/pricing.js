@@ -57,8 +57,8 @@ const Pricing = () => {
 
       {/* Intro */}
       <div className="bg-white">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 py-14 lg:py-20 grid lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-6">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 py-14 lg:py-20 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start lg:items-stretch">
+          <div className="space-y-6 lg:space-y-7 flex flex-col justify-center h-full">
             <h2 className="text-3xl lg:text-4xl font-bold leading-tight">
               Save Cost on Test &amp; Tag in Melbourne with PowerQ
             </h2>
@@ -79,7 +79,7 @@ const Pricing = () => {
               </a>
             </div>
           </div>
-          <div className="relative w-full h-[380px] lg:h-[460px] rounded-lg overflow-hidden shadow-lg">
+          <div className="relative w-full h-full min-h-[420px] lg:min-h-[520px] xl:min-h-[560px] rounded-lg overflow-hidden shadow-lg">
             <Image
               src="https://www.powerq.com.au/wp-content/uploads/2025/02/crop-mounter-measuring-voltage_23-2147743122-768x512.avif"
               alt="Testing panel"
@@ -105,7 +105,7 @@ const Pricing = () => {
 
         <div className="relative z-10 mx-auto max-w-screen-2xl px-4 sm:px-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-[#FF6B6B] mb-3 drop-shadow-lg">
+            <h2 className="text-3xl lg:text-4xl font-bold text-red-600 mb-3 drop-shadow-lg">
               Pricing Plans
             </h2>
             <p className="text-xl lg:text-2xl font-semibold text-white">
@@ -121,8 +121,8 @@ const Pricing = () => {
               >
                 <div className="bg-black/80 p-6">
                   <h3 className="text-xl font-bold text-white mb-3">{plan.title}</h3>
-                  <p className="text-[#FF6B6B] font-semibold mb-1">{plan.subtitle}</p>
-                  <p className="text-[#FF6B6B] text-sm">{plan.note}</p>
+                  <p className="text-red-600 font-semibold mb-1">{plan.subtitle}</p>
+                  <p className="text-red-600 text-sm">{plan.note}</p>
                 </div>
                 <div className="bg-white p-6">
                   <p className="text-4xl font-bold text-gray-900 mb-6">
@@ -139,7 +139,7 @@ const Pricing = () => {
                   </ul>
                   <a
                     href="/request-a-quote"
-                    className="w-full inline-flex items-center justify-center bg-[#FF6B6B] text-white py-3 px-4 rounded-lg hover:bg-[#FF8E8E] transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                    className="w-full inline-flex items-center justify-center bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     Get a Quote
                   </a>

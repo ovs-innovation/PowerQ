@@ -1534,3 +1534,171 @@ p:not(:last-of-type) {
   opacity: 1;
   color: var(--PhoneInputCountrySelectArrow-color--focus);
 } */
+
+/* Global Button Styles - Make ALL buttons green */
+button:not(.no-green-button),
+[type="button"]:not(.no-green-button),
+[type="submit"]:not(.no-green-button),
+[role="button"]:not(.no-green-button),
+.btn:not(.no-green-button),
+a[role="button"]:not(.no-green-button) {
+  background-color: #16a34a !important; /* green-600 */
+  color: white !important;
+  border-color: #16a34a !important;
+}
+
+/* Exclude navbar service button from green */
+.no-green-button {
+  background-color: transparent !important;
+  color: inherit !important;
+  border-color: transparent !important;
+}
+
+/* FAQ buttons - ensure white background and gray text */
+.no-green-button.bg-white {
+  background-color: white !important;
+  color: #111827 !important; /* gray-900 */
+}
+
+.no-green-button.bg-white:hover {
+  background-color: #f9fafb !important; /* gray-50 */
+  color: #111827 !important;
+}
+
+.no-green-button.bg-white span,
+.no-green-button.bg-white:hover span {
+  color: #111827 !important;
+}
+
+.no-green-button.bg-white.group:hover span {
+  color: #ED1C24 !important;
+}
+
+button:not(.no-green-button):hover,
+[type="button"]:not(.no-green-button):hover,
+[type="submit"]:not(.no-green-button):hover,
+[role="button"]:not(.no-green-button):hover,
+.btn:not(.no-green-button):hover,
+a[role="button"]:not(.no-green-button):hover {
+  background-color: #15803d !important; /* green-700 */
+  border-color: #15803d !important;
+}
+
+.no-green-button:hover {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+button:not(.no-green-button):disabled,
+[type="button"]:not(.no-green-button):disabled,
+[type="submit"]:not(.no-green-button):disabled,
+[role="button"]:not(.no-green-button):disabled,
+.btn:not(.no-green-button):disabled,
+a[role="button"]:not(.no-green-button):disabled {
+  background-color: #86efac !important; /* green-300 */
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Override ALL button background classes to green */
+button.bg-red-600,
+button.bg-red-500,
+button.bg-red-700,
+button.bg-blue-600,
+button.bg-blue-700,
+button.bg-gray-900,
+button.bg-gray-800,
+button.bg-black,
+button.bg-white,
+[type="button"].bg-red-600,
+[type="button"].bg-red-500,
+[type="button"].bg-blue-600,
+[type="button"].bg-gray-900,
+[type="submit"].bg-red-600,
+[type="submit"].bg-red-500,
+[type="submit"].bg-red-700,
+[type="submit"].bg-blue-600,
+[type="submit"].bg-blue-700,
+[type="submit"].bg-gray-900,
+[type="submit"].bg-gray-800,
+[type="submit"].bg-black {
+  background-color: #16a34a !important;
+  color: white !important;
+  border-color: #16a34a !important;
+}
+
+button.bg-red-700:hover,
+button.bg-red-600:hover,
+button.bg-red-500:hover,
+button.bg-blue-700:hover,
+button.bg-blue-600:hover,
+button.bg-gray-800:hover,
+button.bg-gray-900:hover,
+[type="button"].bg-red-600:hover,
+[type="button"].bg-red-500:hover,
+[type="button"].bg-blue-600:hover,
+[type="button"].bg-gray-900:hover,
+[type="submit"].bg-red-700:hover,
+[type="submit"].bg-red-600:hover,
+[type="submit"].bg-red-500:hover,
+[type="submit"].bg-blue-700:hover,
+[type="submit"].bg-blue-600:hover,
+[type="submit"].bg-gray-800:hover,
+[type="submit"].bg-gray-900:hover {
+  background-color: #15803d !important;
+  border-color: #15803d !important;
+}
+
+/* Override all Tailwind red colors with #ED1C24 */
+.text-red-50, .text-red-100, .text-red-200, .text-red-300, .text-red-400,
+.text-red-500, .text-red-600, .text-red-700, .text-red-800, .text-red-900 {
+  color: #ED1C24 !important;
+}
+
+.bg-red-50, .bg-red-100, .bg-red-200, .bg-red-300, .bg-red-400,
+.bg-red-500, .bg-red-600, .bg-red-700, .bg-red-800, .bg-red-900 {
+  background-color: #ED1C24 !important;
+}
+
+.border-red-50, .border-red-100, .border-red-200, .border-red-300, .border-red-400,
+.border-red-500, .border-red-600, .border-red-700, .border-red-800, .border-red-900 {
+  border-color: #ED1C24 !important;
+}
+
+.hover\:text-red-50:hover, .hover\:text-red-100:hover, .hover\:text-red-200:hover,
+.hover\:text-red-300:hover, .hover\:text-red-400:hover, .hover\:text-red-500:hover,
+.hover\:text-red-600:hover, .hover\:text-red-700:hover, .hover\:text-red-800:hover,
+.hover\:text-red-900:hover {
+  color: #ED1C24 !important;
+}
+
+.hover\:bg-red-50:hover, .hover\:bg-red-100:hover, .hover\:bg-red-200:hover,
+.hover\:bg-red-300:hover, .hover\:bg-red-400:hover, .hover\:bg-red-500:hover,
+.hover\:bg-red-600:hover, .hover\:bg-red-700:hover, .hover\:bg-red-800:hover,
+.hover\:bg-red-900:hover {
+  background-color: #ED1C24 !important;
+}
+
+.focus\:ring-red-50:focus, .focus\:ring-red-100:focus, .focus\:ring-red-200:focus,
+.focus\:ring-red-300:focus, .focus\:ring-red-400:focus, .focus\:ring-red-500:focus,
+.focus\:ring-red-600:focus, .focus\:ring-red-700:focus, .focus\:ring-red-800:focus,
+.focus\:ring-red-900:focus {
+  --tw-ring-color: #ED1C24 !important;
+}
+
+.focus\:border-red-50:focus, .focus\:border-red-100:focus, .focus\:border-red-200:focus,
+.focus\:border-red-300:focus, .focus\:border-red-400:focus, .focus\:border-red-500:focus,
+.focus\:border-red-600:focus, .focus\:border-red-700:focus, .focus\:border-red-800:focus,
+.focus\:border-red-900:focus {
+  border-color: #ED1C24 !important;
+}
+
+/* Override hex red colors */
+[style*="#FF6B6B"], [style*="#EF4036"], [style*="#C53030"], [style*="#FF8E8E"] {
+  color: #ED1C24 !important;
+}
+
+[style*="background-color: #FF6B6B"], [style*="background-color: #EF4036"],
+[style*="background-color: #C53030"], [style*="background-color: #FF8E8E"] {
+  background-color: #ED1C24 !important;
+}

@@ -31,7 +31,7 @@ const FeatureCategory = () => {
   // Color variations for icon backgrounds
   const iconBgColors = [
     "bg-blue-50",
-    "bg-red-50",
+    "bg-blue-50", // Changed from bg-red-50 for Exit & Emergency Light Testing
     "bg-green-50",
     "bg-yellow-50",
     "bg-purple-50",
@@ -44,11 +44,12 @@ const FeatureCategory = () => {
         {services.map((service, i) => {
             const bgColorIndex = i % iconBgColors.length;
             const iconBgColor = iconBgColors[bgColorIndex];
+            const isExitEmergency = service.name.includes("Exit") || service.name.includes("Emergency");
             
             return (
               <div
                 key={service.slug}
-                className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 hover:border-[#EF4036]/30 group"
+                className={`bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 ${isExitEmergency ? 'hover:border-gray-300' : 'hover:border-[#EF4036]/30'} group`}
               >
                 <div className={`w-36 h-36 lg:w-40 lg:h-40 mb-4 flex items-center justify-center ${iconBgColor} rounded-full p-4 transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg`}>
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -59,7 +60,7 @@ const FeatureCategory = () => {
                     />
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 min-h-[56px] flex items-center justify-center group-hover:text-[#EF4036] transition-colors duration-300">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 min-h-[56px] flex items-center justify-center group-hover:text-red-600 transition-colors duration-300">
                   {service.name}
                 </h3>
                 <button

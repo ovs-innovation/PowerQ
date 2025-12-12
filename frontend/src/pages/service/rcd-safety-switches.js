@@ -34,12 +34,12 @@ const RCDSafetySwitches = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/man-electrical-technician-working-switchboard-with-fuses-installation-connection-electrical-equipment-close-up_169016-5076-1024x655.jpg.bv.webp?bv_host=www.powerq.com.au"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -67,14 +67,14 @@ const RCDSafetySwitches = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-red-500 rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
-                <h2 className="text-3xl lg:text-3xl font-bold text-white mb-6">
+              <div className="bg-red-500 rounded-xl p-4 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 h-full min-h-[320px] md:min-h-[380px] lg:min-h-[440px] flex flex-col justify-start">
+                <h2 className="text-3xl lg:text-3xl font-bold text-white mb-3">
                   Safety Switch Testing Melbourne
                 </h2>
                 <p className="text-lg text-gray-200 leading-8 ">
                   Are you looking for a reliable safety switch testing service in Melbourne? Look no further! Residual Current Device (RCD) testing is an essential part of electrical safety maintenance in your property, and we are here to provide it. RCDs are highly sensitive devices that disconnect a circuit or power source as soon as they detect an imbalance in electric current, providing necessary protection and preventing injuries or fatalities. At our service centre, our professionals will take care of all your safety switch testing needs with confidence and accuracy.
                 </p>
-                <div className="bg-red-100 rounded-lg p-4 mt-6">
+                <div className="bg-red-100 rounded-lg p-4 mt-2">
                   <p className="text-gray-900 font-medium">
                     We recommend regular RCD tests to ensure the safety of life at work and home that could be endangered in case of an unfortunate contact with a faulty wiring.
                   </p>
@@ -82,13 +82,13 @@ const RCDSafetySwitches = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
                   alt="RCD Testing"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -99,14 +99,14 @@ const RCDSafetySwitches = () => {
       {/* RCD Testing Details Section */}
       <div className="bg-white py-12 lg:py-16">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative pb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[340px] md:min-h-[400px] lg:min-h-[500px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/2025/03/woman-turning-off-light-switch-1024x816.jpg"
                   width={900}
                   height={700}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                   priority
                 />
               </div>

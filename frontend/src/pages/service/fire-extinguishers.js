@@ -34,13 +34,13 @@ const FireExtinguishers = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
                   alt="Fire Extinguishers"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
                 {/* Stats Box */}
                 <div className="absolute bottom-4 left-4 bg-white rounded-lg p-4 shadow-lg">
@@ -99,26 +99,26 @@ const FireExtinguishers = () => {
                   Keep your fire equipment serviced and maintained
                 </h3>
                 <p className="text-lg text-gray-700 leading-8 ">
-                  Are you looking for reliable fire extinguisher testing services in Melbourne? PowerQ Test & Tag Melbourne provides comprehensive servicing and maintenance of fire protection systems to ensure that your fire extinguishers work when required. We have experience in inspection, assessment and testing of manufacturer's equipment. After completion we provide a report along with compliance certificates for the tests conducted. <Link href="/contact-us" className="text-blue-600 underline hover:text-blue-800">Contact us</Link> today to get your fire extinguishers tested!
+                  Are you looking for reliable fire extinguisher testing services in Melbourne? PowerQ Test & Tag Melbourne provides comprehensive servicing and maintenance of fire protection systems to ensure that your fire extinguishers work when required. We have experience in inspection, assessment and testing of manufacturer's equipment. After completion we provide a report along with compliance certificates for the tests conducted. <Link href="/contact-us" className="text-red-600 underline hover:text-red-800">Contact us</Link> today to get your fire extinguishers tested!
                 </p>
                 <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4">
                   It is extremely important to service and maintain your fire equipment
                 </h3>
                 <Link href="/request-a-quote">
                   <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase">
-                    Buy Fire Extinguisher Products
+                  Request A Quote
                   </button>
                 </Link>
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
                   alt="Fire Extinguisher Inspection"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
