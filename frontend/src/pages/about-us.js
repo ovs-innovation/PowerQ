@@ -106,7 +106,7 @@ const AboutUs = () => {
 
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 group ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500">
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-gray-800 transition-colors duration-300">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -141,7 +141,7 @@ const AboutUs = () => {
             Who We Are
           </h2>
           <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '400ms' }}>
-            <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl border-l-4 border-red-600 transition-all duration-500 cursor-pointer">
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl border-l-4 border-red-600 transition-all duration-500 cursor-pointer">
               <p className="text-lg text-gray-700 leading-8 mb-2">
                 PowerQ Test & Tag Melbourne is your trusted partner for professional electrical test and tag services. Our team of highly trained experts is dedicated to ensuring the safety of businesses and homes across Melbourne. At PowerQ, we prioritize safety and compliance, following strict regulations and industry standards to keep your appliances and equipment properly tested and tagged. Our efficient processes minimize downtime and disruption, allowing your business to operate smoothly. With a commitment to exceptional customer service, detailed reporting, and best practices, we provide end-to-end solutions for all your test and tag needs. Whether for a workplace, commercial facility, or residential setting, PowerQ Test & Tag Melbourne delivers reliable, hassle-free compliance services to keep your environment safe.
               </p>
@@ -166,7 +166,7 @@ const AboutUs = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-500 hover:border-gray-200">
+              <div className="relative bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-500 hover:border-gray-200">
                 {/* Decorative left border */}
                 <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 to-red-400 rounded-l-xl"></div>
                 
@@ -216,7 +216,7 @@ const AboutUs = () => {
             </div>
             
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 cursor-pointer">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 cursor-pointer">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/2025/03/Emergency-Test-and-Tag-Tarneit.jpeg"
                   alt="PowerQ Test & Tag Promotional"

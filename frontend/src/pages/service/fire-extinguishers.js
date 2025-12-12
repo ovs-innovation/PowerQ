@@ -34,7 +34,7 @@ const FireExtinguishers = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
                   alt="Fire Extinguishers"
@@ -63,7 +63,7 @@ const FireExtinguishers = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-2 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl p-2 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -91,7 +91,7 @@ const FireExtinguishers = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Fire Extinguisher Testing Melbourne
                 </h2>
@@ -112,7 +112,7 @@ const FireExtinguishers = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Fire-Safety-Training-for-Oil-Gas-960x640-1.jpg.bv.webp"
                   alt="Fire Extinguisher Inspection"

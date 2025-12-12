@@ -34,7 +34,7 @@ const MicrowaveTesting = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden  transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/Microwave-Testing.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="Microwave Inspection"
@@ -45,7 +45,7 @@ const MicrowaveTesting = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl  transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -78,7 +78,7 @@ const MicrowaveTesting = () => {
           
           <div className="grid lg:grid-cols-2 gap-12 items-stretch">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl transition-all duration-500">
               <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-3">
             Microwave Safety Testing Melbourne
           </h2>
@@ -91,7 +91,7 @@ const MicrowaveTesting = () => {
               </div>
             </div>
         <div className={`flex flex-col gap-6 h-full transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative flex-1 rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative flex-1 rounded-xl overflow-hidden transition-all duration-500">
                 <Image
                   src="https://th.bing.com/th/id/OIP.R34zu74RmxsXrIekGR-N5AHaE7?w=255&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1"
                   alt="Microwave Testing Inspection"
@@ -100,7 +100,7 @@ const MicrowaveTesting = () => {
                   className="w-full h-full object-cover rounded-xl"
                 />
               </div>
-              <div className="relative flex-1 rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative flex-1 rounded-xl overflow-hidden transition-all duration-500">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/2024/06/Microwave-Testing-near-me-Wyndham-Melbourne-e1741440221938.jpg"
                   alt="Microwave Repair"
@@ -128,7 +128,7 @@ const MicrowaveTesting = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/2025/03/close-up-device-with-kitchen-control_23-2148994129.avif"
                   alt="Kitchen Control"
@@ -139,7 +139,7 @@ const MicrowaveTesting = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl  transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Microwave Appliance Testing includes:
                 </h2>

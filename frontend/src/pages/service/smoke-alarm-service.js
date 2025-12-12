@@ -44,13 +44,13 @@ const SmokeAlarmService = () => {
               </p>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/WEB-DEVELOPMENT-4-1024x512.png.bv.webp?bv_host=www.powerq.com.au"
                   alt="Smoke Alarm"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
@@ -63,18 +63,18 @@ const SmokeAlarmService = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden  transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="First Alert Smoke Alarm"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-gray-200">
+              <div className="bg-white rounded-xl transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Inspect and Test Stand Alone Smoke Alarms
                 </h2>
@@ -177,7 +177,7 @@ const SmokeAlarmService = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-gray-100 rounded-xl p-8 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-gray-100 rounded-xl transition-all duration-500">
                 <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
                   Smoke alarm facts
                 </h2>
@@ -233,13 +233,13 @@ const SmokeAlarmService = () => {
               </div>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-500">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/03/Need-to-be-replaced-after-10-years.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="House Fire"
                   width={800}
                   height={600}
-                  className="w-full object-cover rounded-xl"
+                  className="w-full h-full object-cover rounded-xl"
                 />
                 {/* Red Info Box Overlay */}
                 <div className="absolute top-6 right-6 bg-red-600 rounded-xl p-5 shadow-xl max-w-[360px]">

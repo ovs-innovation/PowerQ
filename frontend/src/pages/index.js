@@ -376,7 +376,7 @@ const Home = ({
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="lg:w-1/2 p-8 lg:p-10">
+                <div className="lg:w-1/2">
                   <div className="mb-6">
                     <h3 className="text-2xl font-bold leading-6 text-gray-900 mb-2">
                       Get in Touch with Us
