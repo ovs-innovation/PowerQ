@@ -6,7 +6,6 @@ import { FiPhoneCall, FiChevronUp } from "react-icons/fi";
 
 import Navbar from "@layout/navbar/Navbar";
 import Footer from "@layout/footer/Footer";
-import NavBarTop from "./navbar/NavBarTop";
 import MobileFooter from "@layout/footer/MobileFooter";
 import FeatureCard from "@components/feature-card/FeatureCard";
 
@@ -39,7 +38,6 @@ const Layout = ({ title, description, children }) => {
           )}
         <link rel="icon" href="/favicon.png" />
         </Head>
-        <NavBarTop />
         <Navbar />
         <div className="bg-gray-50">{children}</div>
         {/* Floating action buttons */}

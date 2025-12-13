@@ -15,7 +15,7 @@ const SmokeAlarmService = () => {
   return (
     <Layout title="Smoke Alarm Service" description="Professional smoke alarm testing and servicing in Melbourne">
       {/* Hero Section */}
-      <div className="relative bg-[#111] text-white min-h-[380px] sm:min-h-[380px] lg:min-h-[420px]">
+      <div className="relative bg-[#111] text-white min-h-[280px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
         <Image
           src="https://tse1.mm.bing.net/th/id/OIP.xKtOsKOJ7RHAc2zssfcVIwHaEK?cb=ucfimg2&ucfimg=1&w=1366&h=768&rs=1&pid=ImgDetMain&o=7&rm=3"
           alt="Smoke Alarm Service"
@@ -23,28 +23,28 @@ const SmokeAlarmService = () => {
           className="object-cover opacity-40"
           priority
         />
-        <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-10 py-24 lg:py-32 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+        <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-10 py-12 sm:py-16 md:py-24 lg:py-32 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
             Smoke Alarm Service In Melbourne
           </h1>
-          <div className="w-52 h-0.5 bg-white mx-auto" />
+          <div className="w-32 sm:w-40 md:w-52 h-0.5 bg-white mx-auto" />
         </div>
       </div>
 
       {/* We Believe Section - Dark Background */}
-      <div className="bg-red-400 text-white py-12 lg:py-16">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="bg-red-400 text-white py-8 sm:py-10 md:py-12 lg:py-16">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-10">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <h2 className="text-3xl lg:text-3xl font-bold mb-6">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-6 leading-tight">
                 We at PowerQ Test & Tag Melbourne believe in making relations
               </h2>
-              <p className="text-lg text-gray-200 leading-8 mb-6">
+              <p className="text-base sm:text-lg text-gray-200 leading-7 sm:leading-8 mb-4 sm:mb-6">
                 Based in Melbourne, PowerQ Test & Tag Melbourne offers <span className="text-blue-400 underline">electrical testing</span> and <span className="text-blue-400 underline">tagging</span> services in Melbourne with full compliance to test and tag regulations that apply for Victoria. We are an experienced team of smart and skilled professionals, with full public liability cover and competence in test and tag services. We assure you complete peace of mind when you engage us as we follow all test and tag regulations that apply to your industry. We pride ourselves on delivering prompt, reliable, and affordable services tailored to meet your specific needs. Trust PowerQ Test & Tag Melbourne to ensure the safety and compliance of your electrical equipment.
               </p>
             </div>
             <div className={`relative transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[240px] sm:min-h-[280px] md:min-h-[320px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/WEB-DEVELOPMENT-4-1024x512.png.bv.webp?bv_host=www.powerq.com.au"
                   alt="Smoke Alarm"
@@ -59,11 +59,11 @@ const SmokeAlarmService = () => {
       </div>
 
       {/* Inspect and Test Section */}
-      <div className="bg-gray-100 py-12 lg:py-16">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="bg-gray-100 py-8 sm:py-10 md:py-12 lg:py-16">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-10">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
             <div className={`relative order-2 lg:order-1 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative rounded-xl overflow-hidden  transition-all duration-500 lg:h-full min-h-[320px] md:min-h-[380px] lg:min-h-[460px]">
+              <div className="relative rounded-xl overflow-hidden transition-all duration-500 lg:h-full min-h-[240px] sm:min-h-[280px] md:min-h-[320px] lg:min-h-[460px]">
                 <Image
                   src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/fire-gda479faea_640.jpg.bv.webp?bv_host=www.powerq.com.au"
                   alt="First Alert Smoke Alarm"
@@ -75,34 +75,34 @@ const SmokeAlarmService = () => {
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="bg-white rounded-xl transition-all duration-500">
-                <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
                   Inspect and Test Stand Alone Smoke Alarms
                 </h2>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
                   Why should I have a smoke alarm?
                 </h3>
-                <ul className="space-y-4 mb-6">
-                  <li className="flex items-start gap-3">
-                    <FaCheckCircle className="text-green-600 text-2xl mt-1 flex-shrink-0" />
-                    <span className="text-lg text-gray-700">
+                <ul className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <FaCheckCircle className="text-green-600 text-xl sm:text-2xl mt-0.5 sm:mt-1 flex-shrink-0" />
+                    <span className="text-base sm:text-lg text-gray-700">
                       When you're asleep you lose your sense of smell. A working smoke alarm will alert you if there is smoke from a fire.
                     </span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <FaCheckCircle className="text-green-600 text-2xl mt-1 flex-shrink-0" />
-                    <span className="text-lg text-gray-700">
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <FaCheckCircle className="text-green-600 text-xl sm:text-2xl mt-0.5 sm:mt-1 flex-shrink-0" />
+                    <span className="text-base sm:text-lg text-gray-700">
                       A small fire can grow to involve an entire room in two to three minutes.
                     </span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <FaCheckCircle className="text-green-600 text-2xl mt-1 flex-shrink-0" />
-                    <span className="text-lg text-gray-700">
+                  <li className="flex items-start gap-2 sm:gap-3">
+                    <FaCheckCircle className="text-green-600 text-xl sm:text-2xl mt-0.5 sm:mt-1 flex-shrink-0" />
+                    <span className="text-base sm:text-lg text-gray-700">
                       A working smoke alarm provides early warning and time to escape safely.
                     </span>
                   </li>
                 </ul>
                 <Link href="/contact-us">
-                  <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase">
+                  <button className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl uppercase text-sm sm:text-base w-full sm:w-auto">
                     CONTACT US
                   </button>
                 </Link>
@@ -113,16 +113,16 @@ const SmokeAlarmService = () => {
       </div>
 
       {/* Smoke Alarms Are Compulsory Section */}
-      <div className="bg-white py-12 lg:py-16">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6 text-center">
+      <div className="bg-white py-8 sm:py-10 md:py-12 lg:py-16">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 md:px-10">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 text-center leading-tight">
             Smoke Alarms Are Compulsory In Every Home
           </h2>
-          <p className="text-lg text-gray-700 text-center mb-8">
+          <p className="text-base sm:text-lg text-gray-700 text-center mb-6 sm:mb-8">
             By law, all residential properties must have working smoke alarms complying with Australian Standards AS 3786.
           </p>
           
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="bg-green-50 rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border-2 border-green-200">
               <div className="flex items-center justify-center mb-4">
                 <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">

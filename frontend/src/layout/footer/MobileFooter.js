@@ -39,70 +39,7 @@ const MobileFooter = () => {
       <div className="flex flex-col h-full justify-between align-middle bg-white rounded cursor-pointer overflow-y-scroll flex-grow scrollbar-hide w-full">
         <CategoryDrawer className="w-6 h-6 drop-shadow-xl" /> 
       </div>
-      <footer className="lg:hidden fixed z-30 top-0 bg-white flex items-center justify-between w-full h-20 sm:h-24 px-3 sm:px-10">
-        <button
-          aria-label="Bar"
-          onClick={toggleCategoryDrawer}
-          className="flex items-center justify-center flex-shrink-0 h-auto relative focus:outline-none"
-        >
-          <span className="text-xl text-[#EF4036]">
-            <FiAlignLeft className="w-6 h-6 drop-shadow-xl" />
-          </span>
-        </button>
-        <Link
-          href="/"
-          className="flex items-center justify-center"
-          rel="noreferrer"
-          aria-label="Home"
-        >
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24">
-            <Image
-              src="/logo/full-logo.png"
-              alt="PowerQ"
-              fill
-              style={{ objectFit: "contain" }}
-              sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 96px"
-              quality={95}
-              priority
-            />
-          </div>
-        </Link>
-        <button
-          aria-label="Search"
-          onClick={() => setShowSearch((prev) => !prev)}
-          className="h-9 w-9 flex items-center justify-center text-[#EF4036] text-lg"
-        >
-          <IoSearchOutline className="w-6 h-6 drop-shadow-xl" />
-        </button>
-        {/* <button
-          aria-label="User"
-          type="button"
-          className="text-xl text-[#EF4036] indicator justify-center"
-        >
-          {userInfo?.image ? (
-            <Link href="/user/dashboard" className="relative top-1 w-6 h-6">
-              <Image
-                width={29}
-                height={29}
-                src={userInfo.image}
-                alt="user"
-                className="rounded-full"
-              />
-            </Link>
-          ) : userInfo?.name ? (
-            <Link
-              href="/user/dashboard"
-              className="leading-none font-bold font-serif block"
-            >
-              {userInfo?.name[0]}
-            </Link>
-          ) : (
-            <Link href="/auth/login">
-              <FiUser className="w-6 h-6 drop-shadow-xl" />
-            </Link>
-          )}
-        </button> */}
-      </footer>
+      
       {showSearch && (
         <div className="fixed z-30 top-16 left-0 w-full bg-white px-3 py-2 shadow">
           <form

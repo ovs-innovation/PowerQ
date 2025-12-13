@@ -726,55 +726,55 @@ const Home = ({
             </section>
 
             {/* service benefits section */}
-            <div className="bg-white py-12">
-              <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
-                {/* Align all five benefits in a single row */}
-                <div className="grid grid-cols-5 gap-6">
+            <div className="bg-white py-8 sm:py-10 md:py-12">
+              <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 md:px-10">
+                {/* Responsive grid: 1 col mobile, 2 col small, 3 col medium, 5 col large */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5 md:gap-6">
                   {/* Electrical Safety Services*/}
-                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
-                    <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaHardHat className="w-12 h-12 text-red-600 drop-shadow-lg" />
+                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-3 sm:p-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
+                      <FaHardHat className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300 leading-tight">
                       Electrical Safety Services
                     </h3>
                   </div>
 
                   {/* Regulatory Compliance*/}
-                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
-                    <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaCloud className="w-12 h-12 text-red-600 drop-shadow-lg" />
+                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-3 sm:p-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
+                      <FaCloud className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300 leading-tight">
                       Regulatory Compliance
                     </h3>
                   </div>
 
                   {/* Risk Mitigation*/}
-                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
-                    <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaShieldAlt className="w-12 h-12 text-red-600 drop-shadow-lg" />
+                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-3 sm:p-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
+                      <FaShieldAlt className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300 leading-tight">
                       Risk Mitigation
                     </h3>
                   </div>
 
                   {/* Customer Assurance*/}
-                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4 ">
-                    <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaHeadset className="w-12 h-12 text-red-600 drop-shadow-lg" />
+                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-3 sm:p-4">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
+                      <FaHeadset className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300 leading-tight">
                       Customer Assurance
                     </h3>
                   </div>
                   {/*Expert Team */}
-                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-4">
-                    <div className="w-16 h-16 mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
-                      <FaUsers className="w-12 h-12 text-red-600 drop-shadow-lg" />
+                  <div className="flex flex-col items-center text-center group cursor-pointer transform transition-all duration-300 hover:scale-105 border-2 border-gray-200 shadow-lg rounded-lg p-3 sm:p-4 sm:col-span-2 md:col-span-1">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mb-3 sm:mb-4 flex items-center justify-center transform transition-all duration-300 group-hover:scale-110">
+                      <FaUsers className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-red-600 drop-shadow-lg" />
                     </div>
-                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 uppercase tracking-wide group-hover:text-red-600 transition-colors duration-300 leading-tight">
                       Expert Team
                     </h3>
                   </div>
@@ -815,43 +815,6 @@ const Home = ({
                 </div>
               </div>
             )}
-
-      {/* Latest Products from Admin */}
-      <div className="bg-white py-16 lg:py-20">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
-            Latest Innovative PowerQ Solutions
-            </h2>
-            <p className="text-gray-600 mt-2">
-            Advanced products designed to deliver safety, efficiency, and long-term reliability.
-            </p>
-          </div>
-
-          {productsLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <CMSkeleton key={i} count={1} height={260} loading />
-              ))}
-            </div>
-          ) : productsError ? (
-            <div className="text-center py-8">
-              <p className="text-red-600">{productsError}</p>
-            </div>
-          ) : homeProducts.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-600">No products available yet.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-              {homeProducts.slice(0, 8).map((product) => (
-                <ProductCard key={product._id} product={product} attributes={attributes || []} />
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
 
             {/* Pricing Plans Section */}
             <div 
@@ -993,6 +956,44 @@ const Home = ({
                 </div>
               </div>
             </div>
+            
+      {/* Latest Products from Admin */}
+      <div className="bg-white py-16 lg:py-20">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+            Latest Innovative PowerQ Solutions
+            </h2>
+            <p className="text-gray-600 mt-2">
+            Advanced products designed to deliver safety, efficiency, and long-term reliability.
+            </p>
+          </div>
+
+          {productsLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <CMSkeleton key={i} count={1} height={260} loading />
+              ))}
+            </div>
+          ) : productsError ? (
+            <div className="text-center py-8">
+              <p className="text-red-600">{productsError}</p>
+            </div>
+          ) : homeProducts.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-600">No products available yet.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+              {homeProducts.slice(0, 8).map((product) => (
+                <ProductCard key={product._id} product={product} attributes={attributes || []} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+
 
             {/* Fire Extinguisher Inspection Services Section */}
             <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-16">

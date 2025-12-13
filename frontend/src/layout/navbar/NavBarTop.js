@@ -50,43 +50,45 @@ const NavBarTop = () => {
 
   return (
     <>
-      <div className="hidden lg:block bg-gray-100">
-        <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
-          <div className="text-gray-700 py-2 font-sans text-xs font-medium border-b flex justify-between items-center">
-            <span className="flex items-center">
-              <FiPhoneCall className="mr-2" />
-              {showingTranslateValue(
-                storeCustomizationSetting?.navbar?.help_text
-              )}
+      <div className="bg-gray-100">
+        <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 md:px-6 lg:px-10">
+          <div className="text-gray-700 py-2 sm:py-2.5 font-sans text-xs font-medium border-b flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0">
+            <span className="flex items-center text-xs sm:text-xs">
+              <FiPhoneCall className="mr-1 sm:mr-2 w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">
+                {showingTranslateValue(
+                  storeCustomizationSetting?.navbar?.help_text
+                )}
+              </span>
               <a
                 href={`tel:${
                   storeCustomizationSetting?.navbar?.phone || "+099949343"
                 }`}
-                className="font-bold text-[#EF4036] ml-1"
+                className="font-bold text-[#EF4036] ml-0 sm:ml-1 text-xs sm:text-xs"
               >
                 {storeCustomizationSetting?.navbar?.phone || "+099949343"}
               </a>
             </span>
 
-            <div className="lg:text-right flex items-center navBar">
+            <div className="text-center sm:text-right flex items-center justify-center sm:justify-end navBar gap-2 sm:gap-0">
               {storeCustomizationSetting?.navbar?.about_menu_status && (
                 <div>
                   <Link
                     href="/about-us"
-                    className="font-medium hover:text-[#EF4036]"
+                    className="font-medium hover:text-[#EF4036] text-xs sm:text-xs"
                   >
                     {showingTranslateValue(
                       storeCustomizationSetting?.navbar?.about_us
                     )}
                   </Link>
-                  <span className="mx-2">|</span>
+                  <span className="mx-1 sm:mx-2 hidden sm:inline">|</span>
                 </div>
               )}
               {storeCustomizationSetting?.navbar?.contact_menu_status && (
                 <div>
                   <Link
                     href="/contact-us"
-                    className="font-medium hover:text-[#EF4036]"
+                    className="font-medium hover:text-[#EF4036] text-xs sm:text-xs"
                   >
                     {showingTranslateValue(
                       storeCustomizationSetting?.navbar?.contact_us
