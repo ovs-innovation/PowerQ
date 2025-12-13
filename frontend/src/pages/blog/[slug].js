@@ -232,54 +232,129 @@ const BlogDetail = () => {
   return (
     <Layout title={getText(blog.title)} description={getText(blog.description)}>
       <style jsx global>{`
-        .blog-content h2 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #111827;
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-        .blog-content h2:before {
-          content: "⚡";
-          font-size: 1.25rem;
-          color: #6b7280;
-        }
-        .blog-content h2:nth-of-type(2n):before {
-          color: #f97316;
-        }
-        .blog-content h3 {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: #111827;
-          margin-top: 1.5rem;
-          margin-bottom: 0.75rem;
+        /* Match editor styling exactly */
+        .blog-content {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          font-size: 16px;
+          line-height: 1.5;
+          color: #000000;
         }
         .blog-content p {
-          margin-bottom: 1rem;
-          line-height: 1.75;
+          margin: 0 0 1em 0;
+          padding: 0;
+          line-height: 1.5;
+          font-size: 16px;
         }
-        .blog-content a {
-          color: #2563eb;
-          text-decoration: underline;
+        .blog-content h1 {
+          font-size: 2em;
+          font-weight: bold;
+          margin: 0.67em 0;
+          line-height: 1.2;
         }
-        .blog-content a:hover {
-          color: #1d4ed8;
+        .blog-content h2 {
+          font-size: 1.5em;
+          font-weight: bold;
+          margin: 0.75em 0;
+          line-height: 1.2;
+        }
+        .blog-content h3 {
+          font-size: 1.17em;
+          font-weight: bold;
+          margin: 1em 0;
+          line-height: 1.2;
+        }
+        .blog-content h4 {
+          font-size: 1em;
+          font-weight: bold;
+          margin: 1.33em 0;
+          line-height: 1.2;
+        }
+        .blog-content h5 {
+          font-size: 0.83em;
+          font-weight: bold;
+          margin: 1.67em 0;
+          line-height: 1.2;
+        }
+        .blog-content h6 {
+          font-size: 0.67em;
+          font-weight: bold;
+          margin: 2.33em 0;
+          line-height: 1.2;
         }
         .blog-content ul,
         .blog-content ol {
-          margin-left: 1.5rem;
-          margin-bottom: 1rem;
+          margin: 0 0 1em 0;
+          padding-left: 40px;
         }
         .blog-content li {
-          margin-bottom: 0.5rem;
-          line-height: 1.75;
+          margin: 0.5em 0;
+          line-height: 1.5;
         }
-        .blog-content strong {
-          font-weight: 700;
-          color: #111827;
+        .blog-content blockquote {
+          margin: 0 0 1em 0;
+          padding-left: 20px;
+          border-left: 4px solid #ddd;
+          font-style: italic;
+        }
+        .blog-content code {
+          background-color: #f5f5f5;
+          padding: 2px 4px;
+          border-radius: 3px;
+          font-family: "Courier New", Courier, monospace;
+          font-size: 0.9em;
+        }
+        .blog-content pre {
+          background-color: #f5f5f5;
+          padding: 10px;
+          border-radius: 3px;
+          overflow-x: auto;
+          margin: 0 0 1em 0;
+        }
+        .blog-content pre code {
+          background: none;
+          padding: 0;
+        }
+        .blog-content a {
+          color: #1890ff;
+          text-decoration: underline;
+        }
+        .blog-content a:hover {
+          color: #40a9ff;
+        }
+        .blog-content strong,
+        .blog-content b {
+          font-weight: bold;
+        }
+        .blog-content em,
+        .blog-content i {
+          font-style: italic;
+        }
+        .blog-content u {
+          text-decoration: underline;
+        }
+        .blog-content s,
+        .blog-content strike {
+          text-decoration: line-through;
+        }
+        .blog-content img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          margin: 1em auto;
+        }
+        .blog-content table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 1em 0;
+        }
+        .blog-content table td,
+        .blog-content table th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        .blog-content table th {
+          background-color: #f2f2f2;
+          font-weight: bold;
         }
       `}</style>
       {/* Breadcrumb */}
@@ -378,9 +453,16 @@ const BlogDetail = () => {
               )}
 
               {blog.content && (
-                <div className="prose prose-lg max-w-none mb-8">
+                <div className="mb-8">
                   <div
-                    className="text-gray-700 leading-8 blog-content"
+                    className="blog-content"
+                    style={{
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                      fontSize: '16px',
+                      lineHeight: '1.5',
+                      color: '#000000',
+                      padding: '0 15px'
+                    }}
                     dangerouslySetInnerHTML={{
                       __html: typeof blog.content === "string" 
                         ? blog.content 
