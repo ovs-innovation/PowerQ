@@ -308,6 +308,34 @@ const BlogDrawer = ({ id }) => {
             <div className="col-span-6 md:col-span-12">
               <LabelArea label="Content" />
               <div className="mb-4">
+                <style dangerouslySetInnerHTML={{
+                  __html: `
+                    .demo-wrapper .rdw-editor-toolbar {
+                      position: sticky !important;
+                      top: 0 !important;
+                      z-index: 10 !important;
+                      background: white !important;
+                      border: none !important;
+                      border-bottom: 1px solid #F1F1F1 !important;
+                      padding: 8px 5px !important;
+                      margin-bottom: 0 !important;
+                      margin-top: 0 !important;
+                    }
+                    .demo-wrapper .rdw-editor-wrapper {
+                      border: 1px solid #F1F1F1 !important;
+                      border-top: none !important;
+                    }
+                    .demo-wrapper .rdw-editor-toolbar::before,
+                    .demo-wrapper .rdw-editor-toolbar::after {
+                      display: none !important;
+                    }
+                    .dark .demo-wrapper .rdw-editor-toolbar {
+                      background: #1f2937 !important;
+                      border-bottom: 1px solid #374151 !important;
+                      border-top: none !important;
+                    }
+                  `
+                }} />
                 <Editor
                   editorState={editorState}
                   onEditorStateChange={handleEditorChange}
