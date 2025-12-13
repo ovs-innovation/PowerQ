@@ -34,7 +34,7 @@ const ThreePhaseTesting = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Three Phase Testing Melbourne
                 </h2>
@@ -96,7 +96,7 @@ const ThreePhaseTesting = () => {
               </div>
             </div>
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-4">
                   Three Phase Testing Melbourne
                 </h2>

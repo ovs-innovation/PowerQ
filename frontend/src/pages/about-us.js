@@ -106,7 +106,7 @@ const AboutUs = () => {
 
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 group ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white rounded-xl p-8  transition-all duration-500">
                 <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6 group-hover:text-gray-800 transition-colors duration-300">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -141,7 +141,7 @@ const AboutUs = () => {
             Who We Are
           </h2>
           <div className={`max-w-4xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '400ms' }}>
-            <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl border-l-4 border-red-600 transition-all duration-500 cursor-pointer">
+            <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl border-l-4 border-red-600 transition-all duration-500 cursor-pointer px-6 lg:px-10 pb-8 lg:pb-12 pt-6 lg:pt-8">
               <p className="text-lg text-gray-700 leading-8 mb-2">
                 PowerQ Test & Tag Melbourne is your trusted partner for professional electrical test and tag services. Our team of highly trained experts is dedicated to ensuring the safety of businesses and homes across Melbourne. At PowerQ, we prioritize safety and compliance, following strict regulations and industry standards to keep your appliances and equipment properly tested and tagged. Our efficient processes minimize downtime and disruption, allowing your business to operate smoothly. With a commitment to exceptional customer service, detailed reporting, and best practices, we provide end-to-end solutions for all your test and tag needs. Whether for a workplace, commercial facility, or residential setting, PowerQ Test & Tag Melbourne delivers reliable, hassle-free compliance services to keep your environment safe.
               </p>
@@ -160,15 +160,15 @@ const AboutUs = () => {
       {/* About Us Section */}
       <div className="bg-gradient-to-br from-gray-50 via-white to-gray-50 py-10 lg:py-14 relative overflow-hidden">
         {/* Decorative background elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-100 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 blur-3xl opacity-20"></div>
+        
         
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="relative bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-100 transition-all duration-500 hover:border-gray-200">
-                {/* Decorative left border */}
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-red-600 to-red-400 rounded-l-xl"></div>
+              <div className="relative bg-white  transition-all duration-500 ">
+             
+               
                 
                 <div className="pl-6">
                   {/* Label */}

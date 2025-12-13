@@ -63,7 +63,7 @@ const FireExtinguishers = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl p-2 lg:p-10 shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white  p-2 lg:p-10  transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -91,7 +91,7 @@ const FireExtinguishers = () => {
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-6">
                   Fire Extinguisher Testing Melbourne
                 </h2>

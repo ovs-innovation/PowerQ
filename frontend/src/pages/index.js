@@ -321,123 +321,109 @@ const Home = ({
             modalOpen={welcomeModalOpen}
             setModalOpen={setWelcomeModalOpen}
           >
-            <div className="inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-2xl rounded-2xl">
+            <div className="inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-2xl">
               <div className="flex flex-col lg:flex-row">
-                {/* Left Side - Images */}
-                <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-[#ED1C24] to-[#ED1C24] p-8 items-center justify-center">
-                  <div className="relative w-full h-full">
-                    {featuredImage && (
-                      <div className="relative w-full h-full min-h-[500px] rounded-lg overflow-hidden">
-                        <Image
-                          src={featuredImage}
-                          alt="PowerQ Products"
-                          width={600}
-                          height={600}
-                          className="rounded-lg object-cover w-full h-full"
-                          style={{ objectFit: 'cover' }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-0"></div>
-                        <div className="absolute bottom-8 left-8 right-8 text-white z-10">
-                          <h2 className="text-2xl font-bold mb-2">
-                            Welcome to PowerQ
-                          </h2>
-                          <p className="text-sm opacity-90">
-                            Discover premium quality power solutions and get in touch with our experts
-                          </p>
-                        </div>
+                {/* Left Side - Red Background with Content */}
+                <div className="hidden lg:flex lg:w-1/2 relative bg-[#ED1C24] p-8 lg:p-12 items-center justify-center min-h-[600px]">
+                  <div className="flex flex-col items-center justify-center text-white text-center">
+                    <div className="text-7xl mb-6">⚡</div>
+                    <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+                      Welcome to PowerQ
+                    </h2>
+                    <p className="text-base lg:text-lg opacity-90 mb-8 max-w-md">
+                      Your trusted partner for premium power solutions, stabilizers, and transformers
+                    </p>
+                    <div className="flex gap-6 lg:gap-8 text-sm lg:text-base">
+                      <div className="text-center">
+                        <div className="text-4xl mb-2">🔌</div>
+                        <p>Power Solutions</p>
                       </div>
-                    )}
-                    {!featuredImage && (
-                      <div className="flex flex-col items-center justify-center h-full min-h-[500px] text-white">
-                        <div className="text-6xl mb-4">⚡</div>
-                        <h2 className="text-2xl font-bold mb-2">
-                          Welcome to PowerQ
-                        </h2>
-                        <p className="text-center opacity-90 px-4">
-                          Your trusted partner for premium power solutions, stabilizers, and transformers
-                        </p>
-                        <div className="mt-6 flex gap-4 text-sm">
-                          <div className="text-center">
-                            <div className="text-2xl mb-1">🔌</div>
-                            <p>Power Solutions</p>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl mb-1">⚙️</div>
-                            <p>Stabilizers</p>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl mb-1">🔋</div>
-                            <p>Transformers</p>
-                          </div>
-                        </div>
+                      <div className="text-center">
+                        <div className="text-4xl mb-2">⚙️</div>
+                        <p>Stabilizers</p>
                       </div>
-                    )}
+                      <div className="text-center">
+                        <div className="text-4xl mb-2">🔋</div>
+                        <p>Transformers</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Right Side - Form */}
-                <div className="lg:w-1/2">
+                <div className="lg:w-1/2 p-6 lg:p-8">
                   <div className="mb-6">
-                    <h3 className="text-2xl font-bold leading-6 text-gray-900 mb-2">
+                    <h3 className="text-2xl lg:text-3xl font-bold leading-6 text-gray-900 mb-2">
                       Get in Touch with Us
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-600">
                       Fill out the form below and we'll get back to you soon with the best solutions for your needs
                     </p>
                   </div>
-                  <form onSubmit={handleSubmit(onSubmitEnquiry)}>
-                    <InputArea
-                      label="Name"
-                      name="name"
-                      type="text"
-                      register={register}
-                      required={true}
-                      placeholder="Your Name"
-                    />
-                    {errors.name && (
-                      <span className="text-red-500 text-xs">
-                        {errors.name.message}
-                      </span>
-                    )}
-                    <InputArea
-                      label="Email"
-                      name="email"
-                      type="email"
-                      register={register}
-                      required={true}
-                      placeholder="Your Email"
-                    />
-                    {errors.email && (
-                      <span className="text-red-500 text-xs">
-                        {errors.email.message}
-                      </span>
-                    )}
-                    <InputArea
-                      label="Phone"
-                      name="phone"
-                      type="text"
-                      register={register}
-                      required={true}
-                      placeholder="Your Phone Number"
-                    />
-                    {errors.phone && (
-                      <span className="text-red-500 text-xs">
-                        {errors.phone.message}
-                      </span>
-                    )}
-                    <label className="block text-gray-500 font-medium text-sm leading-none mb-2 mt-2">
-                      Message
-                    </label>
-                    <textarea
-                      {...register("message", { required: "Message is required!" })}
-                      placeholder="Tell us about your requirements or ask any questions"
-                      className="w-full border text-sm rounded-md p-2 min-h-[80px] border-gray-200 focus:outline-none focus:border-[#ED1C24]"
-                    />
-                    {errors.message && (
-                      <span className="text-red-500 text-xs">
-                        {errors.message.message}
-                      </span>
-                    )}
+                  <form onSubmit={handleSubmit(onSubmitEnquiry)} className="space-y-4">
+                    <div>
+                      <label className="block text-gray-700 font-medium text-sm leading-none mb-2">
+                        Name
+                      </label>
+                      <input
+                        {...register("name", { required: "Name is required!" })}
+                        type="text"
+                        placeholder="Your Name"
+                        className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-green-500"
+                      />
+                      {errors.name && (
+                        <span className="text-red-500 text-xs mt-1 block">
+                          {errors.name.message}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium text-sm leading-none mb-2">
+                        Email
+                      </label>
+                      <input
+                        {...register("email", { required: "Email is required!" })}
+                        type="email"
+                        placeholder="Your Email"
+                        className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-green-500"
+                      />
+                      {errors.email && (
+                        <span className="text-red-500 text-xs mt-1 block">
+                          {errors.email.message}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium text-sm leading-none mb-2">
+                        Phone
+                      </label>
+                      <input
+                        {...register("phone", { required: "Phone is required!" })}
+                        type="text"
+                        placeholder="Your Phone Number"
+                        className="w-full border text-sm rounded-md p-3 border-gray-200 focus:outline-none focus:border-green-500"
+                      />
+                      {errors.phone && (
+                        <span className="text-red-500 text-xs mt-1 block">
+                          {errors.phone.message}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <label className="block text-gray-700 font-medium text-sm leading-none mb-2">
+                        Message
+                      </label>
+                      <textarea
+                        {...register("message", { required: "Message is required!" })}
+                        placeholder="Tell us about your requirements or ask any questions"
+                        className="w-full border text-sm rounded-md p-3 min-h-[100px] border-gray-200 focus:outline-none focus:border-green-500 resize-y"
+                      />
+                      {errors.message && (
+                        <span className="text-red-500 text-xs mt-1 block">
+                          {errors.message.message}
+                        </span>
+                      )}
+                    </div>
                     <input
                       type="hidden"
                       value="General Enquiry"
@@ -445,7 +431,7 @@ const Home = ({
                     />
                     <button
                       type="submit"
-                      className="mt-4 w-full bg-[#ED1C24] text-white py-3 rounded-md hover:bg-[#ED1C24] transition font-semibold"
+                      className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-md transition font-semibold"
                     >
                       Submit Enquiry
                     </button>
@@ -1505,7 +1491,7 @@ const Home = ({
                   </div>
 
                   {/* Right Side - Text and Button */}
-                  <div className="space-y-6">
+                  <div className="space-y-6 px-6 lg:px-10 pb-8 lg:pb-12">
                     <p className="text-gray-700 leading-relaxed">
                       At PowerQ, we understand how hazardous an electrocution event can be, which is why we make sure you are prepared with regular testing/tagging.
                     </p>

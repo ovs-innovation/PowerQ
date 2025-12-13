@@ -44,7 +44,7 @@ const RCDSafetySwitches = () => {
               </div>
             </div>
             <div className={`order-1 lg:order-2 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white  transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 mb-3">
                   We at PowerQ Test & Tag Melbourne believe in making relations
                 </h2>
@@ -121,7 +121,7 @@ const RCDSafetySwitches = () => {
               </div>
             </div>
             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+              <div className="bg-white transition-all duration-500">
                 <h2 className="text-3xl lg:text-3xl font-bold text-gray-900 ">
                   RCD or Safety Switches play a vital role in your safety from any hazards with electrical equipment and appliances you use at workplace or at home.
                 </h2>
