@@ -14,13 +14,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* About Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Image
                 src="/logo/full-logo.png"
                 alt="PowerQ"
-                width={180}
-                height={60}
-                className="w-auto h-14"
+                width={260}
+                height={90}
+                className="w-auto h-20"
                 priority
               />
             </div>

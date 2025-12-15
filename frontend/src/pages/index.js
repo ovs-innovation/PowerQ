@@ -958,7 +958,7 @@ const Home = ({
             </div>
             
       {/* Latest Products from Admin */}
-      <div className="bg-white py-16 lg:py-20">
+      {/* <div className="bg-white py-16 lg:py-20">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-10">
           <div className="text-center mb-10">
             <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
@@ -991,7 +991,7 @@ const Home = ({
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
 
 
@@ -1069,7 +1069,7 @@ const Home = ({
                     {/* Image on Left */}
                     <div className="relative h-80 lg:h-full min-h-[400px] order-2 lg:order-1 overflow-hidden border-4 border-red-500 rounded-xl">
                       <img
-                        src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1920&q=80"
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/firefighter-station-with-suit-safety-helmet_23-2149206415.jpg.bv.webp"
                         alt="Testing & Tagging Services"
                         className="w-full h-full object-cover"
                       />
@@ -1159,7 +1159,7 @@ const Home = ({
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[350px] lg:h-[400px] group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:z-10">
                     <div className="absolute inset-0">
                       <Image
-                        src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=1200&q=80"
+                        src="https://scontent.fdel1-7.fna.fbcdn.net/v/t1.6435-9/91908491_555012811788532_2967374638310490112_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=1oNDjnk2URMQ7kNvwEQT9BJ&_nc_oc=AdnQkW_jaL1JfqMQJN4oHwQdkCg3MG0WxuQqCHhuU_u_6iTK4xcqh6A2ifTOYwq4ZTDEvRbQ7i9ujvpJCTMPFELa&_nc_zt=23&_nc_ht=scontent.fdel1-7.fna&_nc_gid=inBF5lCSW12HwihMEnUL5g&oh=00_Afnf-loLEwQxT5uLUvPkZPIihmUJXETLwlJKO0in2OJoDA&oe=69676152"
                         alt="Residential - Person in plaid shirt doing electrical work with wire strippers"
                         width={600}
                         height={800}
@@ -1469,7 +1469,7 @@ const Home = ({
                   <div className="relative">
                     <div className="relative rounded-lg overflow-hidden shadow-lg">
                       <Image
-                        src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=800&q=80"
+                        src="https://www.powerq.com.au/wp-content/uploads/al_opt_content/IMAGE/www.powerq.com.au/wp-content/uploads/2025/02/male-electrician-works-switchboard-with-electrical-connecting-cable_169016-15086-768x512.jpg.bv.webp"
                         alt="Electrician testing electrical panel with multimeter"
                         width={600}
                         height={600}

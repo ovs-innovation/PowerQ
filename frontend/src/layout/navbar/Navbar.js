@@ -32,7 +32,7 @@ const Navbar = () => {
           <div className="h-14 sm:h-16 flex items-center gap-4 sm:gap-6">
             {/* Logo left */}
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <div className="relative w-24 h-8 sm:w-32 sm:h-10">
+              <div className="relative w-42 h-24 sm:w-52 sm:h-26">
                 <Image
                   width="0"
                   height="0"
