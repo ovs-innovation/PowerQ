@@ -133,6 +133,8 @@ const Customers = () => {
                 <TableCell>{t("CustomersName")}</TableCell>
                 <TableCell>{t("CustomersEmail")}</TableCell>
                 <TableCell>{t("CustomersPhone")}</TableCell>
+                <TableCell className="text-center">Cart</TableCell>
+                <TableCell className="text-center">Wishlist</TableCell>
                 <TableCell className="text-right">
                   {t("CustomersActions")}
                 </TableCell>

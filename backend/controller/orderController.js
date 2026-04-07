@@ -75,7 +75,7 @@ const getAllOrders = async (req, res) => {
     const totalDoc = await Order.countDocuments(queryObject);
     const orders = await Order.find(queryObject)
       .select(
-        "_id invoice paymentMethod subTotal total user_info discount shippingCost status createdAt updatedAt"
+        "_id invoice orderId paymentMethod cart subTotal total user_info discount shippingCost status deliveryStatus createdAt updatedAt shiprocketOrderId"
       )
       .sort({ updatedAt: -1 })
       .skip(skip)
@@ -138,9 +138,28 @@ const getOrderCustomer = async (req, res) => {
 
 const getOrderById = async (req, res) => {
   try {
-    // console.log("getOrderById");
+    const order = await Order.findById(req.params.id).lean();
+    
+    if (order && order.cart) {
+      const Product = require("../models/Product");
+      const updatedCart = await Promise.all(
+        order.cart.map(async (item) => {
+          if (!item.sku || !item.barcode) {
+            const product = await Product.findById(item.id || item._id);
+            if (product) {
+              return {
+                ...item,
+                sku: item.sku || product.sku || "",
+                barcode: item.barcode || product.barcode || "",
+              };
+            }
+          }
+          return item;
+        })
+      );
+      order.cart = updatedCart;
+    }
 
-    const order = await Order.findById(req.params.id);
     res.send(order);
   } catch (err) {
     res.status(500).send({

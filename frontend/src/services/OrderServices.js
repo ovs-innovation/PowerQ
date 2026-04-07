@@ -17,6 +17,11 @@ const OrderServices = {
     return requests.post("/order/create/razorpay", body);
   },
 
+  // secure verify razorpay payment + create order
+  verifyRazorpayPaymentAndAddOrder: async (body) => {
+    return requests.post("/order/verify/razorpay", body);
+  },
+
   getOrderCustomer: async ({ page = 1, limit = 8 }) => {
     return requests.get(`/order?limit=${limit}&page=${page}`);
   },

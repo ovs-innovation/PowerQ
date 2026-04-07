@@ -32,7 +32,7 @@ const Uploader = ({
     },
     multiple: product ? true : false,
     maxSize: 5242880, // 5 MB in bytes
-    maxFiles: globalSetting?.number_of_image_per_product || 2,
+    maxFiles: globalSetting?.number_of_image_per_product || 10,
     onDrop: async (acceptedFiles) => {
       const resizedFiles = await Promise.all(
         acceptedFiles.map((file) =>
@@ -55,9 +55,20 @@ const Uploader = ({
 
     await img.decode();
 
+    // Preserve aspect ratio while scaling down (if needed)
+    // If the image is already smaller, we should still use the correct aspect ratio
+    // rather than forcefully squishing it to target width x height.
+    let ratio = Math.min(width / img.width, height / img.height);
+    
+    // If we only want to downscale and never upscale, we can enforce ratio <= 1
+    if (ratio > 1) ratio = 1;
+
+    const canvasWidth = Math.round(img.width * ratio);
+    const canvasHeight = Math.round(img.height * ratio);
+
     const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
 
     return new Promise((resolve) => {
       pica

@@ -5,8 +5,15 @@ const { languageCodes } = require("../utils/data");
 
 const addProduct = async (req, res) => {
   try {
+    const status = req.body.status || req.body.show || "show";
+    const gstPercentage = Number(req.body.gstPercentage || 0);
+    const price = Number(req.body.price || 0);
+    const basePrice = gstPercentage > 0 ? price / (1 + gstPercentage / 100) : price;
+
     const newProduct = new Product({
       ...req.body,
+      status: status,
+      basePrice: basePrice,
       productId: req.body.productId
         ? req.body.productId
         : mongoose.Types.ObjectId(),
@@ -123,7 +130,9 @@ const getAllProducts = async (req, res) => {
 const getProductBySlug = async (req, res) => {
   // console.log("slug", req.params.slug);
   try {
-    const product = await Product.findOne({ slug: req.params.slug });
+    const product = await Product.findOne({ slug: req.params.slug })
+      .populate({ path: "category", select: "_id name" })
+      .populate({ path: "categories", select: "_id name" });
     res.send(product);
   } catch (err) {
     res.status(500).send({
@@ -167,11 +176,19 @@ const updateProduct = async (req, res) => {
       product.slug = req.body.slug;
       product.categories = req.body.categories;
       product.category = req.body.category;
-      product.show = req.body.show;
+      product.status = req.body.status || req.body.show;
       product.isCombination = req.body.isCombination;
       product.variants = req.body.variants;
       product.image = req.body.image;
       product.tag = req.body.tag;
+      product.videoUrl = req.body.videoUrl;
+      product.gstPercentage = Number(req.body.gstPercentage || 0);
+
+      // Recalculate basePrice if price and gstPercentage are present
+      const currentPrice = Number(req.body.price || product.price || 0);
+      const currentGst = Number(req.body.gstPercentage || product.gstPercentage || 0);
+      product.basePrice = currentGst > 0 ? currentPrice / (1 + currentGst / 100) : currentPrice;
+      product.price = currentPrice;
 
       // Handle variant updates with new structure
       if (req.body.variants && Array.isArray(req.body.variants)) {
@@ -271,11 +288,18 @@ const deleteProduct = (req, res) => {
 
 const getShowingStoreProducts = async (req, res) => {
   try {
-    const { category, slug, variantSlug } = req.query;
+    const { category, slug, variantSlug, title, page, limit } = req.query;
     let queryObject = { status: "show" };
 
     if (category) {
       queryObject.categories = category;
+    }
+
+    if (title) {
+      const titleQueries = languageCodes.map((lang) => ({
+        [`title.${lang}`]: { $regex: `${title}`, $options: "i" },
+      }));
+      queryObject.$or = titleQueries;
     }
 
     // If slug is provided, search by main product slug
@@ -283,10 +307,38 @@ const getShowingStoreProducts = async (req, res) => {
       queryObject.slug = slug;
     }
 
-    const products = await Product.find(queryObject)
-      .populate("categories")
-      .populate("category")
-      .sort({ _id: -1 });
+    const pages = Number(page) || 1;
+    const limits = Number(limit) || 60;
+    const skip = (pages - 1) * limits;
+
+    const shouldPaginateList = Boolean((category || title) && !slug && !variantSlug);
+
+    const baseQuery = Product.find(queryObject)
+      .select(
+        "_id title slug image price minOrderQuantity deliveryCharge category categories variants videoUrl createdAt"
+      )
+      .populate({ path: "categories", select: "_id name slug" })
+      .populate({ path: "category", select: "_id name slug" })
+      .populate({ path: "services", select: "_id name slug" })
+      .sort({ _id: -1 })
+      .lean();
+
+    // For category/search listing: return small payload + pagination
+    if (shouldPaginateList) {
+      const [totalDoc, products] = await Promise.all([
+        Product.countDocuments(queryObject),
+        baseQuery.skip(skip).limit(limits),
+      ]);
+
+      return res.send({
+        products,
+        totalDoc,
+        limits,
+        pages,
+      });
+    }
+
+    const products = await baseQuery;
 
     // If variantSlug is provided, search through all products to find the one with this variant
     if (variantSlug) {
@@ -391,6 +443,61 @@ const getProductsByTag = async (req, res) => {
     const products = await Product.find(queryObject)
       .populate("categories")
       .populate("category")
+      .populate("services")
+      .sort({ _id: -1 });
+
+    res.send(products);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const getProductsByService = async (req, res) => {
+  try {
+    const { serviceSlug, serviceId } = req.query;
+    let queryObject = { status: "show" };
+
+    if (serviceId) {
+      // Filter by service ObjectId directly
+      queryObject.services = serviceId;
+    } else if (serviceSlug) {
+      // Find the service by slug first
+      const Service = require("../models/Service");
+      const service = await Service.findOne({ slug: serviceSlug });
+      if (!service) {
+        return res.status(404).send({ message: "Service not found" });
+      }
+      queryObject.services = service._id;
+    }
+
+    const products = await Product.find(queryObject)
+      .populate("categories")
+      .populate("category")
+      .populate("services")
+      .sort({ _id: -1 });
+
+    res.send(products);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+const getProductsByType = async (req, res) => {
+  try {
+    const { type } = req.query;
+    let queryObject = { status: "show" };
+
+    if (type) {
+      queryObject.type = type;
+    }
+
+    const products = await Product.find(queryObject)
+      .populate("categories")
+      .populate("category")
       .sort({ _id: -1 });
 
     res.send(products);
@@ -415,4 +522,6 @@ module.exports = {
   deleteManyProducts,
   getShowingStoreProducts,
   getProductsByTag,
+  getProductsByType,
+  getProductsByService,
 };

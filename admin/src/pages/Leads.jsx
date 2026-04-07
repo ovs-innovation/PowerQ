@@ -189,13 +189,26 @@ const Leads = () => {
       });
       const exportData = (res.leads || []).map((lead) => ({
         name: lead.name,
+        type: lead.isEnterprise ? "Enterprise" : "Individual",
         email: lead.email,
         phone: lead.phone,
+        address: lead.address || "N/A",
+        state: lead.state || "N/A",
+        district: lead.district || "N/A",
+        pincode: lead.pincode || "N/A",
         message: lead.message,
-        product: getLangValue(lead.product?.title),
-        category: getLangValue(lead.product?.category?.name),
-        price: lead.product?.prices?.price,
-        quantity: lead.quantity,
+        product: lead.product?.items?.length > 0
+          ? lead.product.items.map(i => `${i.name} (Qty: ${i.quantity})`).join(', ')
+          : getLangValue(lead.product?.title),
+        category: lead.product?.items?.length > 0
+          ? [...new Set(lead.product.items.map(i => i.category))].join(', ')
+          : getLangValue(lead.product?.category?.name),
+        price: lead.product?.items?.length > 0
+            ? lead.product.items.reduce((acc, i) => acc + (i.price * i.quantity), 0)
+            : lead.product?.prices?.price,
+        quantity: lead.product?.items?.length > 0
+            ? lead.product.items.reduce((acc, i) => acc + i.quantity, 0)
+            : lead.quantity,
         // Variant information
         variantTitle:
           getLangValue(lead.product?.variant?.title) || "No variant",
@@ -347,9 +360,8 @@ const Leads = () => {
             <TableHeader>
               <tr>
                 <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Product</TableCell>
+                <TableCell>Service / Product</TableCell>
+                <TableCell>Schedule</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Actions</TableCell>
@@ -368,41 +380,47 @@ const Leads = () => {
                       setModalOpen(true);
                     }}
                   >
-                    {lead.name}
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    {lead.email}
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    {lead.phone}
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <span>{getLangValue(lead.product?.title)}</span>
-                      {lead.product?.variant && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                          Has Variant
-                        </span>
-                      )}
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-gray-800">{lead.name}</span>
+                        {lead.isEnterprise && (
+                          <span className="text-[9px] bg-[#0b1d3d] text-white px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">Enterprise</span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-gray-500">{lead.email}</span>
+                      <span className="text-[10px] text-gray-500">{lead.phone}</span>
                     </div>
+                  </TableCell>
+                  <TableCell 
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setSelectedLead(lead);
+                      setModalOpen(true);
+                    }}
+                  >
+                    <div className="flex flex-col">
+                      <span className="text-xs font-semibold text-red-600">{lead.service || "N/A"}</span>
+                      <div className="flex items-center space-x-2 mt-1">
+                         {lead.product?.items?.length > 0 ? (
+                          <span className="text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
+                            {lead.product.items.length} Products
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-gray-600 italic truncate w-32">{getLangValue(lead.product?.title) || "No Product"}</span>
+                        )}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell 
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setSelectedLead(lead);
+                      setModalOpen(true);
+                    }}
+                  >
+                    <span className="text-xs text-gray-700 font-medium bg-gray-100 px-2 py-1 rounded">
+                      {lead.serviceDate || "N/A"}
+                    </span>
                   </TableCell>
                   <TableCell>
                     <select
@@ -474,56 +492,63 @@ const Leads = () => {
             {/* Product Images Section */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-300">
-                {selectedLead.product?.variant
+                {selectedLead.product?.items?.length > 0 
+                  ? "Requested Products" 
+                  : selectedLead.product?.variant
                   ? "Variant Images"
                   : "Product Images"}
               </h3>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4">
                 {(() => {
-                  const variantImages = getSafeImages(
-                    selectedLead.product?.variant?.image
-                  );
-                  const mainImages = getSafeImages(
-                    selectedLead.product?.images
-                  );
+                  if (selectedLead.product?.items?.length > 0) {
+                    return selectedLead.product.items.map((item, index) => (
+                      <div key={index} className="flex flex-col items-center gap-2 p-2 border border-gray-100 rounded-lg">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-24 h-24 object-cover rounded-lg border border-gray-200"
+                          onError={(e) => {
+                            e.target.src = "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png";
+                          }}
+                        />
+                        <div className="text-center">
+                          <p className="text-xs font-bold text-gray-800 line-clamp-1 w-24">{item.name}</p>
+                          <p className="text-[10px] text-gray-500 font-medium">{item.category || "No Category"}</p>
+                          <p className="text-[10px] text-green-600 font-bold">Qty: {item.quantity}</p>
+                        </div>
+                      </div>
+                    ));
+                  }
+
+                  const variantImages = getSafeImages(selectedLead.product?.variant?.image);
+                  const mainImages = getSafeImages(selectedLead.product?.images);
 
                   if (variantImages.length > 0) {
-                    // Show variant images if available
                     return variantImages.map((img, index) => (
                       <div key={index} className="relative">
                         <img
                           src={img}
                           alt={`Variant ${index + 1}`}
                           className="w-24 h-24 object-cover rounded-lg border border-gray-200"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png";
-                          }}
+                          onError={(e) => { e.target.src = "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"; }}
                         />
                       </div>
                     ));
                   } else if (mainImages.length > 0) {
-                    // Show main product images if no variant images
                     return mainImages.map((img, index) => (
                       <div key={index} className="relative">
                         <img
                           src={img}
                           alt={`Product ${index + 1}`}
                           className="w-24 h-24 object-cover rounded-lg border border-gray-200"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png";
-                          }}
+                          onError={(e) => { e.target.src = "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"; }}
                         />
                       </div>
                     ));
                   } else {
-                    // Show placeholder if no images
                     return (
                       <div className="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <span className="text-gray-500 text-xs text-center">
-                          No Image
-                        </span>
+                        <span className="text-gray-500 text-xs text-center">No Image</span>
                       </div>
                     );
                   }
@@ -565,6 +590,46 @@ const Leads = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium text-gray-600 dark:text-gray-400">
+                      Type:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200 font-bold">
+                      {selectedLead.isEnterprise ? "Enterprise / Company" : "Individual Customer"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-start">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      Full Address:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200 text-right max-w-[200px]">
+                      {selectedLead.address || "N/A"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      State:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200">
+                      {selectedLead.state || "N/A"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      District:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200">
+                      {selectedLead.district || "N/A"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      Pincode:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200">
+                      {selectedLead.pincode || "N/A"}
+                    </span>
+                  </div>
+                   <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
                       Date:
                     </span>
                     <span className="text-gray-800 dark:text-gray-200">
@@ -582,33 +647,57 @@ const Leads = () => {
                 </div>
               </div>
 
-              {/* Product Information */}
+              {/* Service Requested Details */}
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b pb-2">
-                  Product Information
+                  Service Request Details
                 </h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="font-medium text-gray-600 dark:text-gray-400">
-                      Product:
+                      Selected Service:
                     </span>
-                    <span className="text-gray-800 dark:text-gray-200">
-                      {getLangValue(selectedLead.product?.title)}
+                    <span className="text-gray-800 dark:text-gray-200 font-bold">
+                      {selectedLead.service || "Not specified"}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium text-gray-600 dark:text-gray-400">
-                      Category:
+                      Schedule / Date:
                     </span>
-                    <span className="text-gray-800 dark:text-gray-200">
-                      {getLangValue(selectedLead.product?.category?.name) ||
-                        "Not specified"}
+                    <span className="text-gray-800 dark:text-gray-200 font-bold">
+                      {selectedLead.serviceDate || "Not specified"}
                     </span>
                   </div>
-                  {/* <div className="flex justify-between">
-                    <span className="font-medium text-gray-600 dark:text-gray-400">SKU:</span>
-                    <span className="text-gray-800 dark:text-gray-200">{selectedLead.product?.variant?.sku || selectedLead.product?.sku || "Not specified"}</span>
-                  </div> */}
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              {/* Product Information */}
+              <div className="space-y-3">
+                <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 border-b pb-2">
+                  Product Overview
+                </h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      Total Products:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200">
+                      {selectedLead.product?.items?.length || (selectedLead.product?.title ? 1 : 0)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">
+                      Main Category:
+                    </span>
+                    <span className="text-gray-800 dark:text-gray-200">
+                      {selectedLead.product?.items?.length > 0
+                        ? [...new Set(selectedLead.product.items.map(i => i.category))].join(', ')
+                        : (getLangValue(selectedLead.product?.category?.name) || "Not specified")}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -752,53 +841,98 @@ const Leads = () => {
             </div>
 
             {/* Additional Context */}
-            {selectedLead.selectedVariantDetails && (
+            {(selectedLead.service || selectedLead.serviceDate || selectedLead.message) && (
               <div className="mt-6">
-                <h3 className="text-lg font-semibold mb-3 text-gray-700 dark:text-gray-300 border-b pb-2">
-                  Additional Context
+                <h3 className="text-xl font-bold mb-4 text-[#EF4036] border-b pb-2">
+                  Service Quote Details
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-600 dark:text-gray-400">
-                        Enquiry Date:
-                      </span>
-                      <span className="text-gray-800 dark:text-gray-200">
-                        {selectedLead.enquiryDate
-                          ? new Date(selectedLead.enquiryDate).toLocaleString()
-                          : "Not specified"}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-600 dark:text-gray-400">
-                        Language:
-                      </span>
-                      <span className="text-gray-800 dark:text-gray-200">
-                        {selectedLead.currentLanguage || "Not specified"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-600 dark:text-gray-400">
-                        Has Variants:
-                      </span>
-                      <span className="text-gray-800 dark:text-gray-200">
-                        {selectedLead.product?.hasVariants ? "Yes" : "No"}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-600 dark:text-gray-400">
-                        Total Variants:
-                      </span>
-                      <span className="text-gray-800 dark:text-gray-200">
-                        {selectedLead.product?.totalVariants || "0"}
-                      </span>
-                    </div>
-                  </div>
+                <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl border border-red-100 dark:border-red-900/30">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                      <div className="space-y-4">
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Requested Service</span>
+                          <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{selectedLead.service || "General Test & Tag"}</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Requested Schedule</span>
+                          <span className="text-lg font-bold text-gray-900 dark:text-gray-100">{selectedLead.serviceDate || "Not Specified"}</span>
+                        </div>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="flex flex-col">
+                          <span className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Location / Site</span>
+                          <span className="text-base font-semibold text-gray-800 dark:text-gray-200">{selectedLead.location || "N/A"}</span>
+                          <span className="text-sm text-gray-500">{selectedLead.district}, {selectedLead.state} - {selectedLead.pincode}</span>
+                        </div>
+                      </div>
+                   </div>
+                   <div className="mt-4 pt-4 border-t border-red-200/50">
+                      <span className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1 block">Customer Message</span>
+                      <p className="text-gray-800 dark:text-gray-200 bg-white/50 dark:bg-gray-800 p-4 rounded-lg italic">
+                        "{selectedLead.message || "No special instructions provided."}"
+                      </p>
+                   </div>
                 </div>
               </div>
             )}
+
+            {/* Product Section for Both Single and Multi-Product Leads */}
+            <div className="mt-8">
+              <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-200">
+                {selectedLead.product?.items?.length > 0 ? "Items in Quote Request" : "Product Details"}
+              </h3>
+              
+              <div className="grid grid-cols-1 gap-4">
+                {selectedLead.product?.items?.length > 0 ? (
+                  // MULTI-PRODUCT (from Cart)
+                  selectedLead.product.items.map((item, index) => (
+                    <div key={index} className="flex items-center gap-4 p-4 border rounded-xl bg-gray-50 dark:bg-gray-800/50">
+                      <img 
+                        src={item.image} 
+                        className="w-20 h-20 object-cover rounded-lg shadow-sm border" 
+                        onError={(e) => e.target.src = "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"}
+                      />
+                      <div className="flex-grow">
+                        <h4 className="font-bold text-gray-900 dark:text-gray-100">{item.name}</h4>
+                        <p className="text-sm text-gray-500">{item.category}</p>
+                        <div className="flex justify-between items-center mt-1">
+                          <span className="text-sm font-bold text-red-600">Quantity: {item.quantity}</span>
+                          <span className="text-xs text-gray-400">ID: {item.id}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  // SINGLE PRODUCT (from Product Detail page)
+                  <div className="flex flex-col md:flex-row gap-6 p-4 border rounded-xl bg-gray-50 dark:bg-gray-800/50">
+                    <div className="flex gap-2">
+                       {getSafeImages(selectedLead.product?.variant?.image).concat(getSafeImages(selectedLead.product?.images)).slice(0,1).map((img, i) => (
+                         <img key={i} src={img} className="w-32 h-32 object-cover rounded-xl border shadow-sm" onError={(e) => e.target.src = "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"} />
+                       ))}
+                       {(!selectedLead.product?.images || selectedLead.product.images.length === 0) && !selectedLead.product?.variant?.image && (
+                         <div className="w-32 h-32 bg-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-xs text-center p-2">No Image Found</div>
+                       )}
+                    </div>
+                    <div className="flex-grow space-y-2">
+                       <h4 className="text-xl font-bold text-gray-900">{getLangValue(selectedLead.product?.title) || "Manual Quote"}</h4>
+                       <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">
+                         {getLangValue(selectedLead.product?.category?.name) || "General"}
+                       </span>
+                       <div className="grid grid-cols-2 gap-4 mt-4">
+                          <div>
+                            <p className="text-[10px] text-gray-400 uppercase font-bold">Variant</p>
+                            <p className="text-sm font-semibold">{getLangValue(selectedLead.product?.variant?.title) || "Standard"}</p>
+                          </div>
+                          <div>
+                            <p className="text-[10px] text-gray-400 uppercase font-bold">SKU</p>
+                            <p className="text-sm font-semibold">{selectedLead.product?.variant?.sku || selectedLead.product?.sku || "N/A"}</p>
+                          </div>
+                       </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

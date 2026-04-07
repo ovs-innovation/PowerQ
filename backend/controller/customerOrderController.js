@@ -1,6 +1,7 @@
 require("dotenv").config();
 const stripe = require("stripe");
 const Razorpay = require("razorpay");
+const crypto = require("crypto");
 const MailChecker = require("mailchecker");
 // const stripe = require("stripe")(`${process.env.STRIPE_KEY}` || null); /// use hardcoded key if env not work
 
@@ -14,12 +15,15 @@ const { handleCreateInvoice } = require("../lib/email-sender/create");
 const { handleProductQuantity } = require("../lib/stock-controller/others");
 const customerInvoiceEmailBody = require("../lib/email-sender/templates/order-to-customer");
 
+const generateOrderId = () => "ORD-" + crypto.randomBytes(4).toString("hex").toUpperCase();
+
 const addOrder = async (req, res) => {
   // console.log("addOrder", req.body);
   try {
     const newOrder = new Order({
       ...req.body,
       user: req.user._id,
+      orderId: req.body.orderId || generateOrderId(),
     });
     const order = await newOrder.save();
     res.status(201).send(order);
@@ -91,12 +95,29 @@ const createPaymentIntent = async (req, res) => {
 
 const createOrderByRazorPay = async (req, res) => {
   try {
-    const storeSetting = await Setting.findOne({ name: "storeSetting" });
-    // console.log("createOrderByRazorPay", storeSetting?.setting);
+    const razorpayKeyIdEnv = process.env.RAZORPAY_KEY_ID;
+    const razorpaySecretEnv = process.env.RAZORPAY_KEY_SECRET;
+
+    // Backward compatibility: fallback to DB store settings if env vars are missing.
+    const storeSetting =
+      !razorpayKeyIdEnv || !razorpaySecretEnv
+        ? await Setting.findOne({ name: "storeSetting" })
+        : null;
+
+    const key_id = razorpayKeyIdEnv || storeSetting?.setting?.razorpay_id;
+    const key_secret =
+      razorpaySecretEnv || storeSetting?.setting?.razorpay_secret;
+
+    if (!key_id || !key_secret) {
+      return res.status(500).send({
+        message:
+          "Razorpay credentials not configured. Add RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET to backend .env.",
+      });
+    }
 
     const instance = new Razorpay({
-      key_id: storeSetting?.setting?.razorpay_id,
-      key_secret: storeSetting?.setting?.razorpay_secret,
+      key_id,
+      key_secret,
     });
 
     const options = {
@@ -122,10 +143,85 @@ const addRazorpayOrder = async (req, res) => {
     const newOrder = new Order({
       ...req.body,
       user: req.user._id,
+      orderId: req.body.orderId || generateOrderId(),
     });
     const order = await newOrder.save();
     res.status(201).send(order);
     handleProductQuantity(order.cart);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
+// Securely verify Razorpay signature and (if valid) create the Order record.
+// This prevents spoofing the payment success on the client.
+const verifyRazorpayPaymentAndAddOrder = async (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      ...orderBody
+    } = req.body || {};
+
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).send({
+        message:
+          "Missing Razorpay payment details (order_id/payment_id/signature).",
+      });
+    }
+
+    // Idempotency: if we already created this order for the same payment id, return it.
+    const existingOrder = await Order.findOne({
+      razorpayPaymentId: razorpay_payment_id,
+    });
+    if (existingOrder) {
+      return res.status(200).send(existingOrder);
+    }
+
+    const razorpaySecretEnv = process.env.RAZORPAY_KEY_SECRET;
+    const storeSetting =
+      !razorpaySecretEnv
+        ? await Setting.findOne({ name: "storeSetting" })
+        : null;
+    const razorpaySecret =
+      razorpaySecretEnv || storeSetting?.setting?.razorpay_secret;
+    if (!razorpaySecret) {
+      return res.status(500).send({
+        message:
+          "Razorpay secret not configured. Add RAZORPAY_KEY_SECRET to backend .env.",
+      });
+    }
+
+    const generatedSignature = crypto
+      .createHmac("sha256", razorpaySecret)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (generatedSignature !== razorpay_signature) {
+      return res.status(400).send({
+        message: "Invalid Razorpay signature.",
+      });
+    }
+
+    const newOrder = new Order({
+      ...orderBody,
+      // Always bind the order to the authenticated user
+      user: req.user._id,
+      orderId: orderBody.orderId || generateOrderId(),
+      paymentMethod: orderBody?.paymentMethod || "Razorpay",
+      status: "Processing",
+      razorpayOrderId: razorpay_order_id,
+      razorpayPaymentId: razorpay_payment_id,
+      razorpaySignature: razorpay_signature,
+    });
+
+    const order = await newOrder.save();
+    handleProductQuantity(order.cart);
+
+    res.status(201).send(order);
   } catch (err) {
     res.status(500).send({
       message: err.message,
@@ -305,5 +401,6 @@ module.exports = {
   createPaymentIntent,
   createOrderByRazorPay,
   addRazorpayOrder,
+  verifyRazorpayPaymentAndAddOrder,
   sendEmailInvoiceToCustomer,
 };

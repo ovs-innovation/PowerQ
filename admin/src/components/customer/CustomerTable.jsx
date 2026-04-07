@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from "@windmill/react-ui";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React from "react";
+import React, { useState } from "react";
 import { FiZoomIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -13,14 +13,31 @@ import useToggleDrawer from "@/hooks/useToggleDrawer";
 import Tooltip from "@/components/tooltip/Tooltip";
 import CustomerDrawer from "@/components/drawer/CustomerDrawer";
 import EditDeleteButton from "@/components/table/EditDeleteButton";
+import CustomerProductModal from "@/components/modal/CustomerProductModal";
 
 // internal imports
 
 const CustomerTable = ({ customers }) => {
   const { title, serviceId, handleModalOpen, handleUpdate } = useToggleDrawer();
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalProducts, setModalProducts] = useState([]);
+  const [modalTitle, setModalTitle] = useState("");
+
+  const handleOpenProductModal = (products, type, userName) => {
+    setModalProducts(products || []);
+    setModalTitle(`${userName}'s ${type}`);
+    setModalOpen(true);
+  };
+
   return (
     <>
+      <CustomerProductModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)} 
+        products={modalProducts} 
+        title={modalTitle} 
+      />
       <DeleteModal id={serviceId} title={title} />
 
       <MainDrawer>
@@ -49,6 +66,29 @@ const CustomerTable = ({ customers }) => {
             </TableCell>
             <TableCell>
               <span className="text-sm font-medium">{user.phone}</span>
+            </TableCell>
+            <TableCell>
+              <div className="text-center font-medium">
+                <span 
+                  className="text-sm bg-gray-100 px-3 py-1 rounded-full inline-block cursor-pointer hover:bg-gray-200 transition-colors" 
+                  title={user.cart?.map(i => typeof i.title === 'string' ? i.title : (i.title?.en || i.name?.en || "")).join(', ') || 'Empty Cart'}
+                  onClick={() => handleOpenProductModal(user.cart, "Cart", user.name)}
+                >
+                  {user.cart?.length || 0}
+                </span>
+              </div>
+            </TableCell>
+
+            <TableCell>
+              <div className="text-center font-medium">
+                <span 
+                  className="text-sm bg-gray-100 px-3 py-1 rounded-full inline-block cursor-pointer hover:bg-gray-200 transition-colors" 
+                  title={user.wishlist?.map(i => typeof i.title === 'string' ? i.title : (i.title?.en || i.name?.en || "")).join(', ') || 'Empty Wishlist'}
+                  onClick={() => handleOpenProductModal(user.wishlist, "Wishlist", user.name)}
+                >
+                  {user.wishlist?.length || 0}
+                </span>
+              </div>
             </TableCell>
 
             <TableCell>

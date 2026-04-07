@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { ToastContainer } from "react-toastify";
 import { FiPhoneCall, FiChevronUp } from "react-icons/fi";
 
@@ -8,8 +9,12 @@ import Navbar from "@layout/navbar/Navbar";
 import Footer from "@layout/footer/Footer";
 import MobileFooter from "@layout/footer/MobileFooter";
 import FeatureCard from "@components/feature-card/FeatureCard";
+import CartDrawer from "@components/drawer/CartDrawer";
+import StatsBar from "@components/common/StatsBar";
 
 const Layout = ({ title, description, children }) => {
+  const router = useRouter();
+
   const handleScrollTop = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -36,9 +41,10 @@ const Layout = ({ title, description, children }) => {
               }
             />
           )}
-        <link rel="icon" href="/favicon.png" />
+          <link rel="icon" href="/favicon.png" />
         </Head>
         <Navbar />
+        <CartDrawer />
         <div className="bg-gray-50">{children}</div>
         {/* Floating action buttons */}
         <div className="fixed right-4 md:right-6 bottom-24 flex flex-col gap-3 z-40">
@@ -59,6 +65,7 @@ const Layout = ({ title, description, children }) => {
           </button>
         </div>
         <MobileFooter />
+        {router.pathname === "/" && <StatsBar />}
         <div className="w-full">
           <div className="border-t border-gray-100 w-full">
             <Footer />

@@ -4,9 +4,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 import ReactGA from "react-ga4";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/router";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
@@ -15,7 +15,9 @@ import store from "@redux/store";
 import { handlePageView } from "@lib/analytics";
 import { UserProvider } from "@context/UserContext";
 import DefaultSeo from "@components/common/DefaultSeo";
+import SessionSync from "@components/common/SessionSync";
 import { SidebarProvider } from "@context/SidebarContext";
+import { WishlistProvider } from "@context/WishlistContext";
 import SettingServices from "@services/SettingServices";
 
 let persistor = persistStore(store);
@@ -28,6 +30,14 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+const AppCartProvider = ({ children }) => {
+  return (
+    <CartProvider id="powerq_cart">
+      {children}
+    </CartProvider>
+  );
+};
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -81,8 +91,13 @@ function MyApp({ Component, pageProps }) {
             <Provider store={store}>
               <PersistGate loading={null} persistor={persistor}>
                 <SidebarProvider>
-                  <DefaultSeo />
-                  <Component {...pageProps} />
+                  <WishlistProvider>
+                    <AppCartProvider>
+                      <SessionSync />
+                      <DefaultSeo />
+                      <Component {...pageProps} />
+                    </AppCartProvider>
+                  </WishlistProvider>
                 </SidebarProvider>
               </PersistGate>
             </Provider>

@@ -59,6 +59,12 @@ const MyAccount = () => {
                 </h5>
                 <p className="text-sm text-gray-500">{userInfo?.email}</p>
                 <p className="text-sm text-gray-500">{userInfo?.phone}</p>
+                {userInfo?.address && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    <span className="font-semibold">Address: </span>
+                    {userInfo.address}
+                  </p>
+                )}
               </div>
             </div>
           </div>

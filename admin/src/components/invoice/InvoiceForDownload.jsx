@@ -1,669 +1,158 @@
 import {
   Document,
-  Font,
   Image,
-  // Image,
   Page,
   StyleSheet,
   Text,
   View,
+  Font,
 } from "@react-pdf/renderer";
-import { useTranslation } from "react-i18next";
-import logoDark from "@/assets/img/logo/logo-color.png";
+import React from "react";
+import elecmoonLogo from "@/assets/img/logo/elecmoon-logo.jpg";
 
 Font.register({
   family: "Open Sans",
   fonts: [
-    {
-      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-regular.ttf",
-    },
-    {
-      src: "https://cdn.jsdelivr.net/npm/open-sans-all@0.1.3/fonts/open-sans-600.ttf",
-      fontWeight: 600,
-    },
-  ],
-});
-Font.register({
-  family: "DejaVu Sans",
-  fonts: [
-    {
-      src: "https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans.ttf",
-    },
-    {
-      src: "https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Bold.ttf",
-    },
+    { src: "https://fonts.gstatic.com/s/opensans/v34/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSKmu1aB.ttf" },
+    { src: "https://fonts.gstatic.com/s/opensans/v34/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTSGmu1aB.ttf", fontWeight: 700 },
   ],
 });
 
-const styles = StyleSheet.create({
-  page: {
-    marginRight: 10,
-    marginBottom: 20,
-    marginLeft: 10,
-    paddingTop: 30,
-    paddingLeft: 10,
-    paddingRight: 29,
-    lineHeight: 1.5,
-  },
-  table: {
-    display: "table",
-    width: "auto",
-    color: "#4b5563",
-    marginRight: 10,
-    marginBottom: 20,
-    marginLeft: 10,
-    marginTop: 0,
-    borderRadius: "8px",
-    borderColor: "#e9e9e9",
-    borderStyle: "solid",
-    borderWidth: 0.5,
-    padding: 0,
-    textAlign: "left",
-  },
-  tableRow: {
-    // margin: 'auto',
-    flexDirection: "row",
-    paddingBottom: 2,
-    paddingTop: 2,
-    textAlign: "left",
-    borderWidth: 0.8,
-    borderColor: "#E5E7EB",
-    borderBottom: "0",
-  },
-  tableRowHeder: {
-    // margin: 'auto',
-    flexDirection: "row",
-    backgroundColor: "#f9fafb",
-    paddingBottom: 4,
-    paddingTop: 4,
-    paddingLeft: 0,
-    borderBottomWidth: 0.8,
-    borderColor: "#E5E7EB",
-    borderStyle: "solid",
-    textTransform: "uppercase",
-    textAlign: "left",
-  },
-  tableCol: {
-    width: "25%",
-    textAlign: "left",
-
-    // borderStyle: 'solid',
-    // borderWidth: 1,
-    // borderLeftWidth: 0.5,
-    // borderTopWidth: 0.5,
-    // borderBottomWidth: 0.5,
-    // borderColor: '#d1d5db',
-  },
-  tableCell: {
-    margin: "auto",
-    marginTop: 5,
-    fontSize: 10,
-    // textAlign:'center',
-    paddingLeft: "0",
-    paddingRight: "0",
-    marginLeft: "13",
-    marginRight: "13",
-  },
-
-  tableCellQuantity: {
-    margin: "auto",
-    marginTop: 5,
-    fontSize: 10,
-    textAlign: "center",
-    paddingLeft: "0",
-    paddingRight: "0",
-    marginLeft: "12",
-    marginRight: "12",
-  },
-
-  invoiceFirst: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingBottom: 18,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderBottom: 1,
-    borderColor: "#f3f4f6",
-    // backgroundColor:'#EEF2FF',
-  },
-  invoiceSecond: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: 12,
-    marginLeft: "13",
-    marginRight: "13",
-  },
-  invoiceThird: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "baseline",
-    justifyContent: "space-between",
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderTop: 1,
-    borderColor: "#ffffff",
-    backgroundColor: "#f4f5f7",
-    borderRadius: 12,
-    marginLeft: "13",
-    marginRight: "13",
-
-    // backgroundColor:'#F2FCF9',
-  },
-  logo: {
-    width: 64,
-    height: 25,
-    bottom: 5,
-    right: 10,
-    marginBottom: 10,
-    textAlign: "right",
-    color: "#4b5563",
-    fontFamily: "Open Sans",
-    fontWeight: "bold",
-    fontSize: 10.3,
-
-    marginRight: "39%",
-    textTransform: "uppercase",
-  },
-  title: {
-    color: "#2f3032",
-    fontFamily: "Open Sans",
-    fontWeight: "bold",
-    fontSize: 8.1,
-    textTransform: "uppercase",
-  },
-  info: {
-    fontSize: 9,
-    color: "#6b7280",
-  },
-  infoCost: {
-    fontSize: 10,
-    color: "#6b7280",
-    marginLeft: "4%",
-    marginTop: "7px",
-    textAlign: "left",
-    width: "25%",
-  },
-  invoiceNum: {
-    fontSize: 9,
-    color: "#6b7280",
-    marginLeft: "6%",
-  },
-  topAddress: {
-    fontSize: 10,
-    color: "#6b7280",
-    width: "100%",
-    marginRight: "62%",
-    textAlign: "right",
-    whiteSapce: "nowrap",
-  },
-  amount: {
-    fontSize: 10,
-    color: "#ef4444",
-  },
-  totalAmount: {
-    fontSize: 10,
-    color: "#ef4444",
-    fontFamily: "Open Sans",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    textAlign: "right",
-  },
-  status: {
-    color: "#10b981",
-  },
-  quantity: {
-    color: "#1f2937",
-    textAlign: "center",
-  },
-  itemPrice: {
-    color: "#1f2937",
-    textAlign: "left",
-  },
-  header: {
-    color: "#6b7280",
-    fontSize: 9,
-    fontFamily: "Open Sans",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    textAlign: "left",
-  },
-
-  thanks: {
-    color: "#22c55e",
-  },
-  infoRight: {
-    textAlign: "right",
-    fontSize: 9,
-    color: "#6b7280",
-    width: "25%",
-    marginRight: "39%",
-    fontFamily: "Open Sans",
-  },
-  titleRight: {
-    textAlign: "right",
-    fontFamily: "Open Sans",
-    fontWeight: "bold",
-    fontSize: 8.1,
-    width: "25%",
-    marginRight: "39%",
-    textTransform: "uppercase",
-    color: "#2f3032",
-  },
-  topBg: {
-    // backgroundColor:'#EEF2FF',
-  },
-  invoiceDiv: {
-    alignItems: "baseline",
-  },
-});
-
-const InvoiceForDownload = ({
-  data,
-  currency,
-  globalSetting,
-  showDateFormat,
-  getNumberTwo,
-}) => {
-  const { t } = useTranslation();
-
+const BarcodeView = ({ value = "", width = 120, height = 35 }) => {
+  if (!value) return null;
+  const barcodeUrl = `https://bwipjs-api.metafloor.com/?bcid=code128&text=${encodeURIComponent(value)}&includetext=false`;
   return (
-    <>
-      <Document>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.invoiceFirst}>
-            <View style={styles.invoiceDiv}>
-              <Text
-                style={{
-                  fontFamily: "Open Sans",
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                  alignItems: "baseline",
-                }}
-              >
-                {t("invoice")}
-              </Text>
-              <Text style={styles.info}>
-                Status :{" "}
-                {data?.status === "Merged" && (
-                  <Text style={{ color: "#eab308" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Pending" && (
-                  <Text style={{ color: "#eab308" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Processing" && (
-                  <Text style={{ color: "#14b8a6" }}>{data?.status}</Text>
-                )}
-                {data?.status === "POS-Completed" && (
-                  <Text style={{ color: "#14b8a6" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Fully Returned" && (
-                  <Text style={{ color: "#14b8a6" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Partial Returned" && (
-                  <Text style={{ color: "#14b8a6" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Delivered" && (
-                  <Text style={{ color: "#22c55e" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Cancel" && (
-                  <Text style={{ color: "#f43f5e" }}>{data?.status}</Text>
-                )}
-                {data?.status === "Deleted" && (
-                  <Text style={{ color: "#f43f5e" }}>{data?.status}</Text>
-                )}
-              </Text>
-              {globalSetting?.vat_number && (
-                <Text style={styles.info}>
-                  <Text className="font-semibold text-xs capitalize mt-2">
-                    VAT Number :{" "}
-                    <Text className="text-green-500">
-                      {globalSetting?.vat_number}
-                    </Text>
-                  </Text>
-                </Text>
-              )}
-            </View>
-
-            <View style={{ alignItems: "flex-end" }}>
-              <Text
-                style={{
-                  flexDirection: "row",
-                  marginLeft: 80,
-                  marginTop: 35,
-                  textAlign: "right",
-                }}
-              >
-                <Image
-                  src={logoDark}
-                  alt="PowerQ"
-                  style={{
-                    width: 90,
-                    alignItems: "right",
-                    textAlign: "right",
-                    float: "right",
-                  }}
-                />
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  color: "#888",
-                  marginTop: 2,
-                  textAlign: "right",
-                }}
-              >
-                {globalSetting?.address}
-                {"\n"}
-                {globalSetting?.contact}
-                {"\n"}
-                {globalSetting?.email}
-                {"\n"}
-                {globalSetting?.website}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.invoiceSecond}>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={[styles.title, { fontSize: 10 }]}>{t("date")}</Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  color: "#6b7280",
-                  textAlign: "left",
-                }}
-              >
-                {data?.createdAt !== undefined && (
-                  <Text>{showDateFormat(data?.createdAt)}</Text>
-                )}
-              </Text>
-            </View>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>
-                <Text
-                  style={{ width: "25%", alignItems: "baseline", fontSize: 10 }}
-                >
-                  {t("InvoiceNo")}
-                </Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>
-                  <Text
-                    style={{
-                      fontSize: 9,
-                      color: "#6b7280",
-                      marginLeft: "4%",
-                      marginTop: "7px",
-                      textAlign: "left",
-                    }}
-                  >
-                    #{data?.invoice}
-                  </Text>
-                </Text>
-              </Text>
-            </View>
-
-            <View
-              style={{ width: "25%", alignItems: "baseline", float: "right" }}
-            >
-              <Text style={styles.title}>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    float: "right",
-                    textAlign: "right",
-                    alignItems: "baseline",
-                  }}
-                >
-                  {t("InvoiceTo")}
-                </Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text
-                  style={{
-                    textAlign: "right",
-                    fontSize: 9,
-                    textTransform: "lowercase",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 9,
-                      color: "#6b7280",
-                      marginTop: "7px",
-                      textAlign: "right",
-                      textTransform: "lowercase",
-                    }}
-                  >
-                    {data?.user_info?.name}
-                    {"\n"}
-                    {data?.user_info?.contact}
-                    {"\n"}
-                    {data?.user_info?.email}
-                    {"\n"}
-                    {data?.user_info?.address?.substring(0, 30)}
-                    {"\n"}
-                    {data?.user_info?.city}, {data?.user_info?.country},{" "}
-                    {data?.user_info?.zipCode}
-                  </Text>
-                </Text>
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.table}>
-            <View style={styles.tableRowHeder}>
-              {/* <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  <span style={styles.header}>{t('sr')}</span>
-                </Text>
-              </View> */}
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  <Text
-                    style={{
-                      color: "#6b7280",
-                      fontSize: 9,
-                      fontFamily: "Open Sans",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      textAlign: "left",
-                    }}
-                  >
-                    Product Title
-                  </Text>
-                </Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  <Text
-                    style={{
-                      color: "#6b7280",
-                      fontSize: 9,
-                      fontFamily: "Open Sans",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      textAlign: "center",
-                    }}
-                  >
-                    {t("Quantity")}
-                  </Text>
-                </Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  <Text
-                    style={{
-                      color: "#6b7280",
-                      fontSize: 9,
-                      fontFamily: "Open Sans",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      textAlign: "left",
-                    }}
-                  >
-                    {t("ItemPrice")}
-                  </Text>
-                </Text>
-              </View>
-
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>
-                  <Text
-                    style={{
-                      color: "#6b7280",
-                      fontSize: 9,
-                      fontFamily: "Open Sans",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      textAlign: "right",
-                    }}
-                  >
-                    {t("Amount")}
-                  </Text>
-                </Text>
-              </View>
-            </View>
-            {data?.cart?.map((item, i) => (
-              <View key={i} style={styles.tableRow}>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>
-                    {item.title?.substring(0, 20)}
-                  </Text>
-                </View>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCellQuantity}>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: "bold",
-                        textAlign: "center",
-                        alignItems: "center",
-                        fontFamily: "Open Sans",
-                      }}
-                    >
-                      {item.quantity}
-                    </Text>
-                  </Text>
-                </View>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: "bold",
-                        textAlign: "left",
-                        fontFamily: "Open Sans",
-                      }}
-                    >
-                      {currency}
-                      {getNumberTwo(item.price)}
-                    </Text>
-                  </Text>
-                </View>
-
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        color: "#ef4444",
-                        fontWeight: "bold",
-                        textAlign: "right",
-                        fontFamily: "Open Sans",
-                      }}
-                    >
-                      {currency}
-                      {getNumberTwo(item.price * item.quantity)}
-                    </Text>
-                  </Text>
-                </View>
-              </View>
-            ))}
-          </View>
-
-          <View style={styles.invoiceThird}>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>{t("InvoicepaymentMethod")}</Text>
-              <Text style={{ fontSize: 10, color: "#0e9f6e" }}>
-                {data?.paymentMethod}
-              </Text>
-            </View>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>
-                <Text style={{ width: "25%", alignItems: "baseline" }}>
-                  Sub Total
-                </Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>
-                  <Text style={styles.infoCost}>
-                    {currency}
-
-                    {getNumberTwo(data?.subTotal)}
-                  </Text>
-                </Text>
-              </Text>
-            </View>
-
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>{t("ShippingCost")}</Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>
-                  <Text style={styles.infoCost}>
-                    {currency}
-                    {getNumberTwo(data?.shippingCost)}
-                  </Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>{t("discount")} </Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text style={{ textAlign: "left" }}>
-                  <Text style={styles.infoCost}>
-                    {" "}
-                    {currency}
-                    {getNumberTwo(data?.discount)}
-                  </Text>
-                </Text>
-              </Text>
-            </View>
-            <View style={{ width: "25%", alignItems: "baseline" }}>
-              <Text style={styles.title}>
-                <Text
-                  style={{ width: "45%", textAlign: "right", float: "left" }}
-                >
-                  Total
-                </Text>
-              </Text>
-              <Text style={styles.title}>
-                <Text style={styles.totalAmount}>
-                  {currency}
-
-                  {getNumberTwo(data?.total)}
-                </Text>
-              </Text>
-            </View>
-          </View>
-        </Page>
-      </Document>
-    </>
+    <View style={{ width, height, overflow: "hidden" }}>
+      <Image src={barcodeUrl} style={{ width: "100%", height: "100%", objectFit: "fill" }} />
+    </View>
   );
 };
 
+const S = StyleSheet.create({
+  page: { fontFamily: "Open Sans", fontSize: 11, padding: "40px 50px", color: "#000", backgroundColor: "#fff" },
+  headerRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 40 },
+  logo: { width: 200, height: 60, objectFit: "contain", marginBottom: 15 },
+  companyName: { fontSize: 14, fontWeight: 700, marginBottom: 5 },
+  companyInfoText: { fontSize: 10, color: "#333", lineHeight: 1.5 },
+  headerRight: { width: "45%", alignItems: "flex-end" },
+  poTitle: { fontSize: 46, fontWeight: 400, marginBottom: 10 },
+  invoiceNumText: { fontSize: 14, fontWeight: 700, marginBottom: 10 },
+  vendorDatesRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 35 },
+  vendorBlock: { width: "55%" },
+  labelGray: { fontSize: 12, color: "#666", marginBottom: 6 },
+  boldUpper: { fontSize: 14, fontWeight: 700, textTransform: "uppercase", marginBottom: 8 },
+  datesBlock: { width: "45%", alignItems: "flex-end" },
+  dateEntry: { flexDirection: "row", justifyContent: "flex-end", marginBottom: 8 },
+  dateLabel: { width: 150, textAlign: "right", paddingRight: 25, color: "#444", fontSize: 12 },
+  dateVal: { width: 100, textAlign: "right", fontWeight: 700, fontSize: 12 },
+  table: { marginBottom: 40 },
+  tableHeader: { flexDirection: "row", backgroundColor: "#333", padding: "12px 14px" },
+  thText: { color: "#fff", fontSize: 12, fontWeight: 700 },
+  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#eee", borderBottomStyle: "solid", padding: "15px 14px" },
+  colNum: { width: "6%" },
+  colItem: { width: "44%" },
+  colQty: { width: "12%", textAlign: "right" },
+  colRate: { width: "12%", textAlign: "right" },
+  colIgst: { width: "12%", textAlign: "center" },
+  colAmt: { width: "14%", textAlign: "right" },
+  itemTitle: { fontSize: 12, fontWeight: 700, marginBottom: 6 },
+  skuText: { fontSize: 10, color: "#666", marginTop: 6 },
+  totalsSection: { flexDirection: "row", justifyContent: "space-between", paddingTop: 20, borderTopWidth: 2, borderTopColor: "#333", borderTopStyle: "solid" },
+  totalsBox: { width: 300 },
+  totalRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 10 },
+  grandTotalRow: { flexDirection: "row", justifyContent: "space-between", marginTop: 15, paddingTop: 15, borderTopWidth: 1, borderTopColor: "#ddd" },
+  footer: { marginTop: 80 },
+  signatureLine: { flexDirection: "row", alignItems: "flex-end" },
+  checkedByLabel: { fontSize: 13, marginRight: 10, fontWeight: 700 },
+  borderBottom: { width: 320, borderBottomWidth: 2, borderBottomColor: "#000", borderBottomStyle: "solid", height: 20 },
+});
+
+const InvoiceForDownload = ({ data, currency, globalSetting, showDateFormat, getNumberTwo }) => {
+  const cart = data?.cart || [];
+  const totalQty = cart.reduce((s, i) => s + (i.quantity || 0), 0);
+  const preTaxSubTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * (item.quantity || 1)), 0);
+  const shipping = data?.shippingCost || 0;
+  const total = data?.total || 0;
+  const discount = data?.discount || 0;
+  const taxAmt = total - preTaxSubTotal - shipping + discount;
+  const averageTaxRate = preTaxSubTotal > 0 ? Math.round((taxAmt / preTaxSubTotal) * 100) : 18;
+
+  return (
+    <Document>
+      <Page size="A4" style={S.page}>
+        <View style={S.headerRow}>
+          <View style={{ width: "55%" }}>
+            <Image src={elecmoonLogo} style={S.logo} />
+            <Text style={S.companyName}>{globalSetting?.company_name || "ECOMPASS LLP"}</Text>
+            <Text style={S.companyInfoText}>{globalSetting?.address || "#47, New Anaj Mandi Sector 16, Faridabad - 121002, India"}</Text>
+            <Text style={S.companyInfoText}>{`${globalSetting?.email || "ecompassllp@gmail.com"} | GSTIN: ${globalSetting?.vat_number || "06AAIFE7762K1Z0"}`}</Text>
+          </View>
+          <View style={S.headerRight}>
+            <Text style={S.poTitle}>Purchase Order</Text>
+            <Text style={S.invoiceNumText}># {data?.orderId || data?.invoice}</Text>
+            <BarcodeView value={data?.orderId || data?.invoice?.toString()} width={130} height={35} />
+          </View>
+        </View>
+
+        <View style={S.vendorDatesRow}>
+          <View style={S.vendorBlock}>
+            <Text style={S.labelGray}>Vendor's Details</Text>
+            <Text style={S.boldUpper}>{data?.user_info?.name}</Text>
+            <Text style={S.companyInfoText}>{data?.user_info?.address}</Text>
+            <Text style={S.companyInfoText}>{`| GSTIN ${data?.user_info?.vat_number || "07EDPPK2298G2Z1"}`}</Text>
+          </View>
+          <View style={S.datesBlock}>
+            <View style={S.dateEntry}><Text style={S.dateLabel}>Date :</Text><Text style={S.dateVal}>{showDateFormat(data?.createdAt)}</Text></View>
+            <View style={S.dateEntry}><Text style={S.dateLabel}>Delivery Date :</Text><Text style={S.dateVal}>{showDateFormat(data?.updatedAt)}</Text></View>
+            <View style={S.dateEntry}><Text style={S.dateLabel}>Purchase Person :</Text><Text style={S.dateVal}>{data?.user_info?.name?.split(" ")[0]}</Text></View>
+          </View>
+        </View>
+
+        <View style={S.table}>
+          <View style={S.tableHeader}>
+            <Text style={[S.thText, S.colNum]}>#</Text>
+            <Text style={[S.thText, S.colItem]}>Item & Description</Text>
+            <Text style={[S.thText, S.colQty]}>Qty</Text>
+            <Text style={[S.thText, S.colRate]}>Rate</Text>
+            <Text style={[S.thText, S.colIgst]}>IGST</Text>
+            <Text style={[S.thText, S.colAmt]}>Amount</Text>
+          </View>
+          {cart.map((item, i) => (
+            <View key={i} style={S.tableRow}>
+              <Text style={[S.colNum, { fontSize: 12 }]}>{i + 1}</Text>
+              <View style={S.colItem}>
+                <View style={{ flexDirection: "row" }}>
+                  {item.image && <Image src={item.image} style={{ width: 60, height: 45, marginRight: 15, objectFit: "contain" }} />}
+                  <View style={{ flex: 1 }}>
+                    <Text style={S.itemTitle}>{item.title}</Text>
+                    <BarcodeView value={item.sku || item.barcode || item.slug || item.id} width={100} height={25} />
+                    <Text style={S.skuText}>SKU: {item.sku || item.barcode || (item.slug || item.id)?.substring(0, 10)}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={S.colQty}><Text style={{ fontSize: 12, fontWeight: 700 }}>{item.quantity.toFixed(2)}</Text><Text style={{ fontSize: 10, color: "#666" }}>pcs</Text></View>
+              <Text style={[S.colRate, { fontSize: 12 }]}>{getNumberTwo(item.basePrice || item.price)}</Text>
+              <Text style={[S.colIgst, { fontSize: 12 }]}>{item.gstPercentage || 0}%</Text>
+              <Text style={[S.colAmt, { fontSize: 12, fontWeight: 700 }]}>{getNumberTwo((item.basePrice || item.price) * item.quantity)}</Text>
+            </View>
+          ))}
+        </View>
+
+        <View style={S.totalsSection}>
+          <Text style={{ fontSize: 13, fontWeight: 700 }}>Total No. of Items: {totalQty.toFixed(2)}</Text>
+          <View style={S.totalsBox}>
+            <View style={S.totalRow}><Text style={S.dateLabel}>Sub Total</Text><Text style={S.dateVal}>{getNumberTwo(preTaxSubTotal)}</Text></View>
+            {shipping > 0 && <View style={S.totalRow}><Text style={S.dateLabel}>Delivery Charges</Text><Text style={S.dateVal}>{getNumberTwo(shipping)}</Text></View>}
+            <View style={S.totalRow}><Text style={S.dateLabel}>{`IGST (${averageTaxRate}%)`}</Text><Text style={S.dateVal}>{getNumberTwo(taxAmt)}</Text></View>
+            <View style={S.grandTotalRow}><Text style={[S.dateLabel, { fontSize: 15, fontWeight: 700, color: "#000" }]}>Total</Text><Text style={[S.dateVal, { fontSize: 15, fontWeight: 700 }]}>{currency}{getNumberTwo(total)}</Text></View>
+          </View>
+        </View>
+
+        <View style={S.footer}>
+          <View style={S.signatureLine}><Text style={S.checkedByLabel}>Checked By</Text><View style={S.borderBottom} /></View>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 export default InvoiceForDownload;

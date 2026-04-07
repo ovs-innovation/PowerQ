@@ -50,6 +50,22 @@ const CustomerServices = {
       shippingAddressData
     );
   },
+
+  getCart: async (id) => {
+    return requests.get(`/customer/cart/${id}`);
+  },
+
+  saveCart: async (id, body) => {
+    return requests.put(`/customer/cart/${id}`, body);
+  },
+
+  getWishlist: async (id) => {
+    return requests.get(`/customer/wishlist/${id}`);
+  },
+
+  saveWishlist: async (id, body) => {
+    return requests.put(`/customer/wishlist/${id}`, body);
+  },
 };
 
 export default CustomerServices;

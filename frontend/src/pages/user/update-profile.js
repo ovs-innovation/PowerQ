@@ -12,11 +12,14 @@ import CustomerServices from "@services/CustomerServices";
 import Uploader from "@components/image-uploader/Uploader";
 import { notifySuccess, notifyError } from "@utils/toast";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import { UserContext } from "@context/UserContext";
+import { useContext } from "react";
 
 const UpdateProfile = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const { data: session, update } = useSession();
+  const { dispatch } = useContext(UserContext);
 
   const { storeCustomizationSetting } = useGetSetting();
   const { showingTranslateValue } = useUtilsFunction();
@@ -29,8 +32,6 @@ const UpdateProfile = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    return notifySuccess("This Feature is disabled for demo!");
-
     setLoading(true);
 
     const userData = {
@@ -46,22 +47,27 @@ const UpdateProfile = () => {
         userData
       );
       setLoading(false);
-      //session update
-      update({
+      // Update session and local context for instant header change
+      const updatedUser = {
+        ...session.user,
+        name: data.name,
+        address: data.address,
+        phone: data.phone,
+        image: imageUrl,
+      };
+
+      await update({
         ...session,
-        user: {
-          ...session.user,
-          name: data.name,
-          address: data.address,
-          phone: data.phone,
-          image: data.image,
-        },
+        user: updatedUser,
       });
+
+      dispatch({ type: "USER_LOGIN", payload: updatedUser });
+
       notifySuccess("Profile Update Successfully!");
       // window.location.reload();
     } catch (error) {
       setLoading(false);
-      notifyError(err?.response?.data?.message || err?.message);
+      notifyError(error?.response?.data?.message || error?.message);
     }
   };
 

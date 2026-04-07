@@ -61,15 +61,34 @@ const Category = () => {
           </p>
         ) : (
           <div className="relative grid gap-2 p-6">
-            {data[0]?.children?.map((category) => (
-              <CategoryCard
-                key={category._id}
-                id={category._id}
-                icon={category.icon}
-                nested={category.children}
-                title={showingTranslateValue(category?.name)}
-              />
-            ))}
+            {(() => {
+              const findMainCategories = (list) => {
+                if (list?.length === 1) {
+                  const name = showingTranslateValue(list[0].name)?.toLowerCase()?.trim();
+                  if (name === "home" || name === "all categories" || name === "all departments" || !list[0].parentId) {
+                    if (list[0].children && list[0].children.length > 0) {
+                      return findMainCategories(list[0].children);
+                    }
+                  }
+                }
+                return list || [];
+              };
+
+              const filtered = findMainCategories(data).filter((cat) => {
+                const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
+                return name !== "home" && name !== "all categories" && name !== "all departments" && name !== "";
+              });
+
+              return filtered.map((category) => (
+                <CategoryCard
+                  key={category._id}
+                  id={category._id}
+                  icon={category.icon}
+                  nested={category.children}
+                  title={showingTranslateValue(category?.name)}
+                />
+              ));
+            })()}
           </div>
         )}
 

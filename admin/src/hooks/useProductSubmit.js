@@ -13,7 +13,7 @@ import ProductServices from "@/services/ProductServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useTranslationValue from "./useTranslationValue";
 
-const useProductSubmit = (id) => {
+const useProductSubmit = (id, selectedServices = []) => {
   const location = useLocation();
   const { isDrawerOpen, closeDrawer, setIsUpdate, lang } =
     useContext(SidebarContext);
@@ -167,7 +167,7 @@ const useProductSubmit = (id) => {
           defaultCategory && defaultCategory[0] ? defaultCategory[0]._id : "",
 
         image: imageUrl || [],
-        show: data.show || "show",
+        status: data.status || "show",
         productId: data.productId || productId || "",
         // stock: variants?.length < 1 ? data.stock : Number(totalStock),
         tag: JSON.stringify(tag || []),
@@ -179,6 +179,14 @@ const useProductSubmit = (id) => {
         // },
         isCombination: variants && variants.length > 0 ? isCombination : false,
         variants: isCombination && variants ? variants : [],
+        basePrice: getNumber(data.basePrice),
+        gstPercentage: Number(data.gstPercentage || 0),
+        price: getNumber(data.basePrice) + (getNumber(data.basePrice) * Number(data.gstPercentage || 0)) / 100,
+        minOrderQuantity: Number(data.minOrderQuantity || 1),
+        deliveryCharge: Number(data.deliveryCharge || 0),
+        type: data.type || "normal",
+        services: selectedServices || [],
+        videoUrl: data.videoUrl || "",
       };
 
       // console.log("productData ===========>", productData, "data", data);
@@ -214,7 +222,7 @@ const useProductSubmit = (id) => {
           setValue("title", res.title[language ? language : "en"]);
           setValue("description", res.description[language ? language : "en"]);
           setValue("slug", res.slug);
-          setValue("show", res.show);
+          setValue("status", res.status);
           setValue("barcode", res.barcode);
           setValue("stock", res.stock);
           setTag(JSON.parse(res.tag || "[]"));
@@ -290,12 +298,16 @@ const useProductSubmit = (id) => {
       // setValue("quantity");
       // setValue("stock");
       setValue("originalPrice");
-      setValue("price");
-      setValue("barcode");
       setValue("productId");
+      setValue("basePrice");
+      setValue("price");
+      setValue("gstPercentage", 0);
+      setValue("minOrderQuantity");
+      setValue("deliveryCharge", 0);
+      setValue("videoUrl", "");
 
       setProductId("");
-      // setValue('show');
+      // setValue('status');
       setImageUrl([]);
       setTag([]);
       setVariants([]);
@@ -320,8 +332,9 @@ const useProductSubmit = (id) => {
       // setValue("costPrice", 0);
       // setValue("price", 0);
       // setValue("originalPrice", 0);
-      clearErrors("show");
+      clearErrors("status");
       clearErrors("barcode");
+      clearErrors("deliveryCharge");
       setIsCombination(false);
       setIsBasicComplete(false);
       setIsSubmitting(false);
@@ -364,13 +377,18 @@ const useProductSubmit = (id) => {
                 : ""
             );
             setValue("slug", res.slug || "");
-            setValue("show", res.show || "show");
+            setValue("status", res.status || "show");
             setValue("sku", res.sku || "");
             setValue("barcode", res.barcode || "");
             // setValue("stock", res.stock);
             setValue("productId", res.productId || "");
-            // setValue("price", res?.prices?.price);
-            // setValue("originalPrice", res?.prices?.originalPrice);
+            setValue("basePrice", res.basePrice || res.price);
+            setValue("gstPercentage", res.gstPercentage || 0);
+            setValue("price", res.price);
+            setValue("minOrderQuantity", res.minOrderQuantity || 1);
+            setValue("deliveryCharge", res.deliveryCharge || 0);
+            setValue("type", res.type || "normal");
+            setValue("videoUrl", res.videoUrl || "");
             // setValue("stock", res.stock);
             setProductId(res.productId ? res.productId : res._id);
             setBarcode(res.barcode || "");

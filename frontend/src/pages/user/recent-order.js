@@ -40,52 +40,56 @@ const RecentOrder = ({ data, loading, error }) => {
                       loading={loading}
                     />
                   ) : data?.orders?.length === 0 ? (
-                    <div className="text-center">
-                      <span className="flex justify-center my-30 pt-16 text-green-500 font-semibold text-6xl">
-                        <IoBagHandle />
-                      </span>
-                      <h2 className="font-medium text-md my-4 text-gray-600">
-                        You Have no order Yet!
+                    <div className="flex flex-col items-center justify-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                      <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                        <IoBagHandle className="text-4xl text-[#0b1d3d] opacity-20" />
+                      </div>
+                      <h2 className="font-bold text-lg text-gray-700">
+                        No Orders Yet
                       </h2>
+                      <p className="text-gray-400 text-sm mt-1">When you place orders, they will appear here.</p>
+                      <Link href="/" className="mt-6 px-6 py-2 bg-[#0b1d3d] text-white rounded-lg text-sm font-bold hover:shadow-lg transition-all">
+                        Start Shopping
+                      </Link>
                     </div>
                   ) : (
                     <table className="table-auto min-w-full border border-gray-100 divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr className="bg-gray-100">
+                      <thead className="bg-[#f8fafc]">
+                        <tr>
                           <th
                             scope="col"
-                            className="text-left text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-left text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
                             ID
                           </th>
                           <th
                             scope="col"
-                            className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-center text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
-                            OrderTime
+                            Date
                           </th>
 
                           <th
                             scope="col"
-                            className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-center text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
                             Method
                           </th>
                           <th
                             scope="col"
-                            className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-center text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
                             Status
                           </th>
                           <th
                             scope="col"
-                            className="text-center text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-center text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
                             Total
                           </th>
                           <th
                             scope="col"
-                            className="text-right text-xs font-serif font-semibold px-6 py-2 text-gray-700 uppercase tracking-wider"
+                            className="text-right text-xs font-bold px-6 py-4 text-[#0b1d3d] uppercase tracking-wider"
                           >
                             Action
                           </th>
@@ -94,10 +98,10 @@ const RecentOrder = ({ data, loading, error }) => {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {data?.orders?.map((order) => (
                           <tr key={order._id}>
-                            <OrderHistory order={order} />
-                            <td className="px-5 py-3 whitespace-nowrap text-right text-sm">
+                            <OrderHistory order={order} currency="₹" />
+                            <td className="px-5 py-4 whitespace-nowrap text-right text-sm">
                               <Link
-                                className="px-3 py-1 bg-red-100 text-xs text-red-600 hover:bg-red-500 hover:text-white transition-all font-semibold rounded-full"
+                                className="px-4 py-1.5 bg-[#0b1d3d]/10 text-xs text-[#0b1d3d] hover:bg-[#0b1d3d] hover:text-white transition-all font-bold rounded-lg border border-[#0b1d3d]/20"
                                 href={`/order/${order._id}`}
                               >
                                 Details

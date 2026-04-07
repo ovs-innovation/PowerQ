@@ -8,7 +8,9 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const ImageCarousel = ({ images, handleChangeImage }) => {
+import { FiPlay } from "react-icons/fi";
+
+const ImageCarousel = ({ images, videoUrl, handleChangeImage, handleSelectVideo }) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -18,15 +20,35 @@ const ImageCarousel = ({ images, handleChangeImage }) => {
         spaceBetween={1}
         navigation={true}
         allowTouchMove={false}
-        loop={true}
-        autoplay={{
-          delay: 1000,
-          disableOnInteraction: false,
-        }}
+        loop={false} // Disable loop to keep video at the start/end predictably
+        autoplay={false} // Disable autoplay for carousel with video
         slidesPerView={4}
-        modules={[Autoplay, Navigation, Pagination, Controller]}
+        modules={[Navigation, Pagination, Controller]}
         className="mySwiper image-carousel"
       >
+        {videoUrl && (
+          <SwiperSlide className="group">
+            <button 
+              onClick={handleSelectVideo}
+              className="relative border inline-flex items-center justify-center px-3 py-1 mt-2 w-[135px] h-[100px] bg-gray-100 overflow-hidden"
+            >
+              {images?.[0] ? (
+                <Image
+                  src={images[0]}
+                  alt="video thumbnail"
+                  layout="fill"
+                  objectFit="cover"
+                  className="opacity-50"
+                />
+              ) : null}
+              <div className="absolute inset-0 flex items-center justify-center">
+                 <div className="bg-red-600 rounded-full p-2 text-white shadow-lg">
+                    <FiPlay size={20} />
+                 </div>
+              </div>
+            </button>
+          </SwiperSlide>
+        )}
         {images?.map((img, i) => (
           <SwiperSlide key={i + 1} className="group">
             <button onClick={() => handleChangeImage(img)}>
@@ -40,42 +62,6 @@ const ImageCarousel = ({ images, handleChangeImage }) => {
             </button>
           </SwiperSlide>
         ))}
-        {/* <button
-          ref={prevRef}
-          className="prev"
-          style={{
-            color: "#EF4036",
-            backgroundColor: "rgba(95, 156, 47, 0.1)",
-            border: "1px solid #EF4036",
-            borderRadius: "50%",
-            width: "32px",
-            height: "32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: "all 0.3s ease",
-          }}
-        >
-          <IoChevronBackOutline />
-        </button>
-        <button
-          ref={nextRef}
-          className="next"
-          style={{
-            color: "#EF4036",
-            backgroundColor: "rgba(95, 156, 47, 0.1)",
-            border: "1px solid #EF4036",
-            borderRadius: "50%",
-            width: "32px",
-            height: "32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            transition: "all 0.3s ease",
-          }}
-        >
-          <IoChevronForward />
-        </button> */}
       </Swiper>
     </>
   );

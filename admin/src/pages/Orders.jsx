@@ -184,6 +184,7 @@ const Orders = () => {
                     <option value="Cash">{t("Cash")}</option>
                     <option value="Card">{t("Card")}</option>
                     <option value="Credit">{t("Credit")}</option>
+                    <option value="Razorpay">Razorpay</option>
                   </Select>
                 </div>
                 <div>
@@ -298,14 +299,17 @@ const Orders = () => {
           <Table>
             <TableHeader>
               <tr>
-                <TableCell>{t("InvoiceNo")}</TableCell>
-                <TableCell>{t("TimeTbl")}</TableCell>
-                <TableCell>{t("CustomerName")}</TableCell>
-                <TableCell>{t("MethodTbl")}</TableCell>
-                <TableCell>{t("AmountTbl")}</TableCell>
-                <TableCell>{t("OderStatusTbl")}</TableCell>
-                <TableCell>{t("ActionTbl")}</TableCell>
-                <TableCell className="text-right">{t("InvoiceTbl")}</TableCell>
+                <TableCell>Order ID</TableCell>
+                <TableCell>Invoice No</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Items</TableCell>
+                <TableCell>Amount</TableCell>
+                <TableCell>Order Status</TableCell>
+                <TableCell>Delivery Status</TableCell>
+                <TableCell>View Invoice</TableCell>
+                <TableCell className="text-right">Action</TableCell>
               </tr>
             </TableHeader>
 

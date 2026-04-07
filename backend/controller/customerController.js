@@ -13,29 +13,27 @@ const {
 const { sendVerificationCode } = require("../lib/phone-verification/sender");
 
 const verifyEmailAddress = async (req, res) => {
-  const isAdded = await Customer.findOne({ email: req.body.email });
-  if (isAdded) {
-    return res.status(403).send({
-      message: "This Email already Added!",
+  try {
+    const isAdded = await Customer.findOne({ email: req.body.email });
+    if (isAdded) {
+      return res.status(403).send({
+        message: "This Email already Added!",
+      });
+    } else {
+      const newUser = new Customer({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 10),
+      });
+      await newUser.save();
+      res.send({
+        message: "User created successfully!",
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
     });
-  } else {
-    const token = tokenForVerify(req.body);
-    const option = {
-      name: req.body.name,
-      email: req.body.email,
-      token: token,
-    };
-    const body = {
-      from: process.env.EMAIL_USER,
-      // from: "info@demomailtrap.com",
-      to: `${req.body.email}`,
-      subject: "Email Activation",
-      subject: "Verify Your Email",
-      html: customerRegisterBody(option),
-    };
-
-    const message = "Please check your email to verify your account!";
-    sendEmail(body, res, message);
   }
 };
 
@@ -135,7 +133,7 @@ const registerCustomer = async (req, res) => {
             const newUser = new Customer({
               name,
               email,
-              password: bcrypt.hashSync(password),
+              password: bcrypt.hashSync(password, 10),
             });
 
             await newUser.save();
@@ -193,6 +191,8 @@ const loginCustomer = async (req, res) => {
         address: customer.address,
         phone: customer.phone,
         image: customer.image,
+        cart: customer.cart || [],
+        wishlist: customer.wishlist || [],
       });
     } else {
       res.status(401).send({
@@ -246,7 +246,7 @@ const resetPassword = async (req, res) => {
           message: "Token expired, please try again!",
         });
       } else {
-        customer.password = bcrypt.hashSync(req.body.newPassword);
+        customer.password = bcrypt.hashSync(req.body.newPassword, 10);
         customer.save();
         res.send({
           message: "Your password change successful, you can login now!",
@@ -269,7 +269,7 @@ const changePassword = async (req, res) => {
       customer &&
       bcrypt.compareSync(req.body.currentPassword, customer.password)
     ) {
-      customer.password = bcrypt.hashSync(req.body.newPassword);
+      customer.password = bcrypt.hashSync(req.body.newPassword, 10);
       await customer.save();
       res.send({
         message: "Your password change successfully!",
@@ -303,6 +303,8 @@ const signUpWithProvider = async (req, res) => {
         address: isAdded.address,
         phone: isAdded.phone,
         image: isAdded.image,
+        cart: isAdded.cart || [],
+        wishlist: isAdded.wishlist || [],
       });
     } else {
       const newUser = new Customer({
@@ -319,6 +321,8 @@ const signUpWithProvider = async (req, res) => {
         name: signUpCustomer.name,
         email: signUpCustomer.email,
         image: signUpCustomer.image,
+        cart: signUpCustomer.cart || [],
+        wishlist: signUpCustomer.wishlist || [],
       });
     }
   } catch (err) {
@@ -343,6 +347,8 @@ const signUpWithOauthProvider = async (req, res) => {
         address: isAdded.address,
         phone: isAdded.phone,
         image: isAdded.image,
+        cart: isAdded.cart || [],
+        wishlist: isAdded.wishlist || [],
       });
     } else {
       const newUser = new Customer({
@@ -359,6 +365,8 @@ const signUpWithOauthProvider = async (req, res) => {
         name: signUpCustomer.name,
         email: signUpCustomer.email,
         image: signUpCustomer.image,
+        cart: signUpCustomer.cart || [],
+        wishlist: signUpCustomer.wishlist || [],
       });
     }
   } catch (err) {
@@ -543,6 +551,8 @@ const updateCustomer = async (req, res) => {
       address: updatedUser.address,
       phone: updatedUser.phone,
       image: updatedUser.image,
+      cart: updatedUser.cart || [],
+      wishlist: updatedUser.wishlist || [],
       message: "Customer updated successfully!",
     });
   } catch (err) {
@@ -566,6 +576,66 @@ const deleteCustomer = (req, res) => {
   });
 };
 
+// Save cart for a customer
+const saveCart = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).send({ message: "Customer not found!" });
+    }
+    // console.log("saveCart items:", req.body.cart?.length);
+    customer.cart = req.body.cart || [];
+    customer.markModified("cart");
+    await customer.save();
+    res.send({ message: "Cart saved successfully!", cart: customer.cart });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+// Get cart for a customer
+const getCart = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).send({ message: "Customer not found!" });
+    }
+    // console.log("getCart items found:", customer.cart?.length);
+    res.send({ cart: customer.cart || [] });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+// Save wishlist for a customer
+const saveWishlist = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).send({ message: "Customer not found!" });
+    }
+    customer.wishlist = req.body.wishlist || [];
+    customer.markModified("wishlist");
+    await customer.save();
+    res.send({ message: "Wishlist saved successfully!", wishlist: customer.wishlist });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+// Get wishlist for a customer
+const getWishlist = async (req, res) => {
+  try {
+    const customer = await Customer.findById(req.params.id);
+    if (!customer) {
+      return res.status(404).send({ message: "Customer not found!" });
+    }
+    res.send({ wishlist: customer.wishlist || [] });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 module.exports = {
   loginCustomer,
   verifyPhoneNumber,
@@ -585,4 +655,8 @@ module.exports = {
   getShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
+  saveCart,
+  getCart,
+  saveWishlist,
+  getWishlist,
 };

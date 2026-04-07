@@ -406,12 +406,20 @@ const InvoiceForDownload = ({
               </Text>
             </View>
             <View>
+              <Text style={styles.title}>GST Amount</Text>
+              <Text style={styles.info}>
+                {currency}
+                {getNumberTwo(data?.cart?.reduce((acc, item) => acc + ( (item.price - item.basePrice) * item.quantity ), 0) || 0)}
+              </Text>
+            </View>
+            <View>
               <Text style={styles.title}>Discount</Text>
               <Text style={styles.info}>
                 {currency}
                 {getNumberTwo(data.discount)}
               </Text>
             </View>
+
             <View>
               <Text style={styles.title}>Total Amount</Text>
               <Text style={styles.amount}>

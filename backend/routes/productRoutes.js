@@ -14,6 +14,8 @@ const {
   deleteManyProducts,
   getShowingStoreProducts,
   getProductsByTag,
+  getProductsByType,
+  getProductsByService,
 } = require("../controller/productController");
 
 //add a product
@@ -33,6 +35,12 @@ router.get("/store", getShowingStoreProducts);
 
 //get products by tag
 router.get("/tag", getProductsByTag);
+
+//get products by type (popular, trending, new)
+router.get("/type", getProductsByType);
+
+//get products by service
+router.get("/service", getProductsByService);
 
 //get all products
 router.get("/", getAllProducts);

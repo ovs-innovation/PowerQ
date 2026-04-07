@@ -55,8 +55,59 @@ const productSchema = new mongoose.Schema(
 
     status: {
       type: String,
+      lowercase: true,
       default: "show",
       enum: ["show", "hide"],
+    },
+
+    price: {
+      type: Number,
+      required: false,
+    },
+
+    basePrice: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    gstPercentage: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+
+    // Admin-controlled per-product delivery charge.
+    // Used during checkout to calculate Delivery Charges.
+    deliveryCharge: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    minOrderQuantity: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
+
+    type: {
+      type: String,
+      default: "normal",
+      enum: ["normal", "popular", "trending", "new"],
+    },
+
+    services: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Service",
+        required: false,
+      },
+    ],
+    videoUrl: {
+      type: String,
+      required: false,
     },
   },
   {

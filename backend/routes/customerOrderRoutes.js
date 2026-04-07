@@ -7,6 +7,7 @@ const {
   createPaymentIntent,
   addRazorpayOrder,
   createOrderByRazorPay,
+  verifyRazorpayPaymentAndAddOrder,
   sendEmailInvoiceToCustomer,
 } = require("../controller/customerOrderController");
 
@@ -23,6 +24,9 @@ router.post("/add/razorpay", addRazorpayOrder);
 
 //add a order by razorpay
 router.post("/create/razorpay", createOrderByRazorPay);
+
+// secure verify + create order (after payment success)
+router.post("/verify/razorpay", verifyRazorpayPaymentAndAddOrder);
 
 //get a order by id
 router.get("/:id", getOrderById);

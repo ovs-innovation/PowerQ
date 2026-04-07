@@ -6,10 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 //internal import
 import CategoryServices from "@services/CategoryServices";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import useGetSetting from "@hooks/useGetSetting";
 
 const TopProductsCollage = () => {
   const router = useRouter();
   const { showingTranslateValue } = useUtilsFunction();
+  const { storeCustomizationSetting } = useGetSetting();
 
   const {
     data: categoryData,
@@ -28,10 +30,28 @@ const TopProductsCollage = () => {
     router.push(url);
   };
 
-  // Get first 5 categories to display
-  const displayCategories = categoryData?.[0]?.children?.slice(0, 5) || [];
+  // Robust category filtering logic
+  const findMainCategories = (list) => {
+    if (list?.length === 1) {
+      const name = showingTranslateValue(list[0].name)?.toLowerCase()?.trim();
+      if (name === "home" || name === "all categories" || name === "all departments" || !list[0].parentId) {
+        if (list[0].children && list[0].children.length > 0) {
+          return findMainCategories(list[0].children);
+        }
+      }
+    }
+    return list || [];
+  };
 
-  // Get subcategories from the first category
+  const filteredCategories = findMainCategories(categoryData).filter((cat) => {
+    const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
+    return name !== "home" && name !== "all categories" && name !== "all departments" && name !== "";
+  });
+
+  // Get first 5 categories to display
+  const displayCategories = filteredCategories.slice(0, 5);
+
+  // Get subcategories from the first category if available
   const subCategories = displayCategories[0]?.children?.slice(0, 3) || [];
 
   const handleSubCategoryClick = (subCategory) => {
@@ -48,11 +68,10 @@ const TopProductsCollage = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-            Top Products Collection
+            {showingTranslateValue(storeCustomizationSetting?.home?.feature_title) || "Top Products Collection"}
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover our premium selection of stabilizers, transformers, and
-            power solutions designed for industrial and home applications
+            {showingTranslateValue(storeCustomizationSetting?.home?.feature_description) || "Discover our premium selection of stabilizers, transformers, and power solutions designed for industrial and home applications"}
           </p>
         </div>
 

@@ -36,6 +36,12 @@ const ProductServices = {
   deleteManyProducts: async (body) => {
     return requests.patch("/products/delete/many", body);
   },
+  getProductsByService: async ({ serviceSlug, serviceId } = {}) => {
+    const params = [];
+    if (serviceSlug) params.push(`serviceSlug=${serviceSlug}`);
+    if (serviceId) params.push(`serviceId=${serviceId}`);
+    return requests.get(`/products/service${params.length ? '?' + params.join('&') : ''}`);
+  },
 };
 
 export default ProductServices;

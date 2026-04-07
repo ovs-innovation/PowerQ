@@ -17,6 +17,8 @@ import ProductServices from "@/services/ProductServices";
 import useToggleDrawer from "@/hooks/useToggleDrawer";
 import AttributeServices from "@/services/AttributeServices";
 import CurrencyServices from "@/services/CurrencyServices";
+import ServiceServices from "@/services/ServiceServices";
+import ShortVideoServices from "@/services/ShortVideoServices";
 import { notifyError, notifySuccess } from "@/utils/toast";
 import useDisableForDemo from "@/hooks/useDisableForDemo";
 
@@ -229,6 +231,36 @@ const DeleteModal = ({ id, ids, setIsCheck, category, title, useParamId }) => {
           closeModal();
           setIsSubmitting(false);
         }
+      }
+
+      if (location.pathname === "/services") {
+        if (ids) {
+          // Add batch delete if needed, otherwise loop or notify
+          // For now, let's just use single delete since table doesn't have checkboxes yet
+          // but good for future proofing
+          const res = await ServiceServices.deleteService(id);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+        } else {
+          const res = await ServiceServices.deleteService(id);
+          setIsUpdate(true);
+          notifySuccess(res.message);
+          setServiceId();
+          closeModal();
+          setIsSubmitting(false);
+        }
+      }
+
+      if (location.pathname === "/short-videos") {
+        const res = await ShortVideoServices.deleteShortVideo(id);
+        setIsUpdate(true);
+        notifySuccess(res.message);
+        setServiceId();
+        closeModal();
+        setIsSubmitting(false);
       }
     } catch (err) {
       notifyError(err ? err?.response?.data?.message : err?.message);

@@ -22,9 +22,6 @@ const NavbarPromo = () => {
           <Link href="/" className="hover:text-red-500 transition">
             Home
           </Link>
-          <Link href="/about-us" className="hover:text-red-500 transition">
-            About Us
-          </Link>
           <div
             className="relative"
             onMouseEnter={() => setOpenService(true)}
@@ -53,9 +50,6 @@ const NavbarPromo = () => {
               </div>
             )}
           </div>
-          <Link href="/pricing" className="hover:text-red-500 transition">
-            Pricing
-          </Link>
           <Link href="/faq" className="hover:text-red-500 transition">
             Faq
           </Link>
@@ -64,9 +58,6 @@ const NavbarPromo = () => {
           </Link>
           <Link href="/blog" className="hover:text-red-500 transition">
             Blog
-          </Link>
-          <Link href="/contact-us" className="hover:text-red-500 transition">
-            Contact Us
           </Link>
         </nav>
 

@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function middleware(request) {
   const userInfo = await getToken({
     req: request,
-    // NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
   });
 
   // console.log(

@@ -40,8 +40,8 @@ const useLoginSubmit = () => {
           password,
         });
 
-        // console.log("res", res);
-        notifySuccess(res.message);
+        notifySuccess("User created successfully");
+        router.push("/auth/login");
         return setLoading(false);
       } else if (router.pathname === "/auth/forget-password") {
         // Call the forget password API for reset password
@@ -65,7 +65,7 @@ const useLoginSubmit = () => {
           redirect: false,
           email,
           password,
-          callbackUrl: "/user/dashboard",
+          callbackUrl: "/",
         });
 
         // console.log("result", result);
@@ -75,8 +75,7 @@ const useLoginSubmit = () => {
           console.error("Error during sign-in:", result.error);
           setLoading(false);
         } else if (result?.ok) {
-          const url = redirectUrl ? "/checkout" : result.url;
-          router.push(url);
+          router.push("/");
           setLoading(false);
         }
       }

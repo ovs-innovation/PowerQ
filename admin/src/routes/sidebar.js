@@ -9,6 +9,8 @@ import {
   FiTarget,
   FiFileText,
   FiPackage,
+  FiBattery,
+  FiPlayCircle,
 } from "react-icons/fi";
 
 /**
@@ -24,6 +26,11 @@ const sidebar = [
     icon: FiGrid, // icon
     name: "Dashboard", // name that appear in Sidebar
   },
+  {
+    path: "/orders",
+    icon: FiCompass,
+    name: "Orders",
+  },
 
   {
     icon: FiSlack,
@@ -36,6 +43,10 @@ const sidebar = [
       {
         path: "/categories",
         name: "Categories",
+      },
+      {
+        path: "/services",
+        name: "Services",
       },
       {
         path: "/attributes",
@@ -59,9 +70,24 @@ const sidebar = [
     name: "Leads",
   },
   {
+    path: "/reviews",
+    icon: FiFileText,
+    name: "Reviews",
+  },
+  {
+    path: "/battery-services",
+    icon: FiBattery,
+    name: "Battery Services",
+  },
+  {
     path: "/blogs",
     icon: FiFileText,
     name: "Blogs",
+  },
+  {
+    path: "/short-videos",
+    icon: FiPlayCircle,
+    name: "ShortVideos",
   },
   {
     path: "/our-staff",

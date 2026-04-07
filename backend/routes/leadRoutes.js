@@ -13,6 +13,9 @@ router.get('/dashboard/count', leadController.getDashboardCount);
 router.get('/dashboard/recent', leadController.getDashboardRecentLeads);
 router.get('/dashboard/data', leadController.getDashboardLeadData);
 
+// Get user leads
+router.get('/user/:userId', leadController.getUserLeads);
+
 // Get a single lead by ID
 router.get('/:id', leadController.getLeadById);
 

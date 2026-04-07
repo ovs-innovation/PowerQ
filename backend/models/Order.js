@@ -8,6 +8,12 @@ const orderSchema = new mongoose.Schema(
       ref: "Customer",
       required: true,
     },
+    orderId: {
+      type: String,
+      required: false,
+      unique: true,
+      sparse: true,
+    },
     invoice: {
       type: Number,
       required: false,
@@ -73,9 +79,41 @@ const orderSchema = new mongoose.Schema(
       type: Object,
       required: false,
     },
+    // Razorpay payment fields for traceability + idempotency
+    razorpayOrderId: {
+      type: String,
+      required: false,
+    },
+    razorpayPaymentId: {
+      type: String,
+      required: false,
+      index: true,
+    },
+    razorpaySignature: {
+      type: String,
+      required: false,
+    },
     status: {
       type: String,
-      enum: ["Pending", "Processing", "Delivered", "Cancel"],
+      enum: ["Pending", "Processing", "Cancelled", "Delivered", "Cancel"], // Keeping Delivered and Cancel for backward compatibility if needed, but adding Cancelled
+      default: "Pending",
+    },
+    deliveryStatus: {
+      type: String,
+      enum: ["Shipped", "In Transit", "Delivered"],
+      required: false,
+    },
+    shiprocketOrderId: {
+      type: String,
+      required: false,
+    },
+    shiprocketShipmentId: {
+      type: String,
+      required: false,
+    },
+    shiprocketStatus: {
+      type: String,
+      required: false,
     },
   },
   {

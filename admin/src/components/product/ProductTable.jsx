@@ -91,27 +91,22 @@ const ProductTable = ({ products, isCheck, setIsCheck }) => {
               </span>
             </TableCell>
 
-            {/* <TableCell>
+            <TableCell>
+              <span className="text-sm">{product?.sku}</span>
+            </TableCell>
+
+            <TableCell>
               <span className="text-sm font-semibold">
                 {currency}
-                {product?.isCombination
-                  ? getNumberTwo(product?.variants[0]?.originalPrice)
-                  : getNumberTwo(product?.prices?.originalPrice)}
+                {getNumberTwo(product?.price || 0)}
               </span>
-            </TableCell> */}
+            </TableCell>
 
-            {/* <TableCell>
+            <TableCell>
               <span className="text-sm font-semibold">
-                {currency}
-                {product?.isCombination
-                  ? getNumberTwo(product?.variants[0]?.price)
-                  : getNumberTwo(product?.prices?.price)}
+                {product?.minOrderQuantity || 1}
               </span>
-            </TableCell> */}
-
-            {/* <TableCell>
-              <span className="text-sm">{product.stock}</span>
-            </TableCell> */}
+            </TableCell>
             <TableCell>
               <span className="text-sm">
                 {product.highlights

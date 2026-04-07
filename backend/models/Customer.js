@@ -80,6 +80,16 @@ const customerSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    cart: {
+      type: Array,
+      required: false,
+      default: [],
+    },
+    wishlist: {
+      type: Array,
+      required: false,
+      default: [],
+    },
   },
   {
     timestamps: true,

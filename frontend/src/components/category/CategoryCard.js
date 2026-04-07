@@ -43,9 +43,10 @@ const CategoryCard = ({ title, icon, nested, id }) => {
       setShow(!show);
     } else {
       const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-      router.push(`/search?category=${name}&_id=${id}`);
+      const url = `/search?category=${name}&_id=${id}`;
+      setIsLoading(true);
+      router.push(url);
       closeCategoryDrawer();
-      setIsLoading(!isLoading);
     }
   };
 
@@ -57,22 +58,24 @@ const CategoryCard = ({ title, icon, nested, id }) => {
   // handle sub category - navigate to subcategory page
   const handleSubCategory = (id, categoryName) => {
     const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-    router.push(`/search?category=${name}&_id=${id}`);
+    const url = `/search?category=${name}&_id=${id}`;
+    setIsLoading(true);
+    router.push(url);
     closeCategoryDrawer();
-    setIsLoading(!isLoading);
   };
 
   // handle sub-subcategory - navigate and close drawer on mobile
   const handleSubSubCategory = (id, categoryName) => {
     const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-    router.push(`/search?category=${name}&_id=${id}`);
+    const url = `/search?category=${name}&_id=${id}`;
+    setIsLoading(true);
+    router.push(url);
 
     // Close drawer on mobile when navigating to sub-subcategory
     if (isMobile) {
       closeCategoryDrawer();
     }
 
-    setIsLoading(!isLoading);
   };
 
   return (
@@ -80,7 +83,12 @@ const CategoryCard = ({ title, icon, nested, id }) => {
       <div className="relative group">
         <a
           onClick={() => showCategory(id, title)}
-          className="p-3 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-[#EF4036] transition-colors duration-200 cursor-pointer"
+          onMouseEnter={() => {
+            if (nested?.length > 0) return;
+            const name = title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
+            router.prefetch(`/search?category=${name}&_id=${id}`);
+          }}
+          className="p-3 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-[#A821A8] transition-colors duration-200 cursor-pointer"
           role="button"
         >
           {icon ? (
@@ -101,7 +109,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
             />
           )}
 
-          <div className="inline-flex items-center justify-between ml-3 text-sm font-medium w-full hover:text-[#EF4036]">
+          <div className="inline-flex items-center justify-between ml-3 text-sm font-medium w-full hover:text-[#A821A8]">
             <span className="truncate">{title}</span>
             {nested?.length > 0 && (
               <span className="transition duration-300 ease-in-out inline-flex loading-none items-end text-gray-400 ml-2 flex-shrink-0">
@@ -125,7 +133,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
                           showingTranslateValue(children.name)
                         )
                       }
-                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-[#EF4036] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
+                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-[#A821A8] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
                     >
                       <span className="text-xs text-gray-400 mr-2">
                         <IoRemoveSharp />
@@ -153,7 +161,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
                           showingTranslateValue(children.name)
                         )
                       }
-                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-[#EF4036] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
+                      className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-[#A821A8] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
                     >
                       <span className="text-xs text-gray-400 mr-2">
                         <IoRemoveSharp />
@@ -179,7 +187,7 @@ const CategoryCard = ({ title, icon, nested, id }) => {
                                   showingTranslateValue(subChildren?.name)
                                 )
                               }
-                              className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-[#EF4036] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
+                              className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-[#A821A8] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
                             >
                               <span className="text-xs text-gray-400 mr-2">
                                 <IoRemoveSharp />

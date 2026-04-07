@@ -19,6 +19,10 @@ const {
   getShippingAddress,
   updateShippingAddress,
   deleteShippingAddress,
+  saveCart,
+  getCart,
+  saveWishlist,
+  getWishlist,
 } = require("../controller/customerController");
 const {
   passwordVerificationLimit,
@@ -79,5 +83,13 @@ router.put("/:id", updateCustomer);
 
 //delete a user
 router.delete("/:id", deleteCustomer);
+
+//save and get cart
+router.put("/cart/:id", saveCart);
+router.get("/cart/:id", getCart);
+
+//save and get wishlist
+router.put("/wishlist/:id", saveWishlist);
+router.get("/wishlist/:id", getWishlist);
 
 module.exports = router;

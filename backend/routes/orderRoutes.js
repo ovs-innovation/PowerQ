@@ -43,4 +43,9 @@ router.put("/:id", updateOrder);
 //delete a order
 router.delete("/:id", deleteOrder);
 
+//create a shiprocket order
+const { createShiprocketOrder, handleShiprocketWebhook } = require("../controller/shiprocketController");
+router.post("/:id/shiprocket", createShiprocketOrder);
+router.post("/shiprocket/webhook", handleShiprocketWebhook);
+
 module.exports = router;

@@ -94,6 +94,10 @@ const OrderServices = {
   sendEmailInvoiceToCustomer: async (body) => {
     return requests.post("/order/customer/invoice", body);
   },
+
+  createShiprocketOrder: async (id) => {
+    return requests.post(`/orders/${id}/shiprocket`);
+  },
 };
 
 export default OrderServices;

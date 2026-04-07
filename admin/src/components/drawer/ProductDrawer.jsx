@@ -9,7 +9,7 @@ import {
   Table,
 } from "@windmill/react-ui";
 import Multiselect from "multiselect-react-dropdown";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { MultiSelect } from "react-multi-select-component";
 import { Modal } from "react-responsive-modal";
@@ -17,6 +17,7 @@ import "react-responsive-modal/styles.css";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
+import ServiceServices from "@/services/ServiceServices";
 
 //internal import
 
@@ -40,6 +41,10 @@ import SwitchToggleForCombination from "@/components/form/switch/SwitchToggleFor
 
 const ProductDrawer = ({ id }) => {
   const { t } = useTranslation();
+
+  // Service selection state — MUST be declared before useProductSubmit
+  const [allServices, setAllServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
 
   const {
     tag,
@@ -87,9 +92,34 @@ const ProductDrawer = ({ id }) => {
     handleSelectInlineImage,
     handleGenerateCombination,
     handleUpdateVariant,
-  } = useProductSubmit(id);
+  } = useProductSubmit(id, selectedServices);
 
   const { showingTranslateValue } = useUtilsFunction();
+
+  // Load all services on mount
+  useEffect(() => {
+    ServiceServices.getAllServices()
+      .then((data) => setAllServices(Array.isArray(data) ? data : []))
+      .catch(() => setAllServices([]));
+  }, []);
+
+  // When editing a product, pre-populate selected services
+  useEffect(() => {
+    if (id && allServices.length > 0) {
+      import("@/services/ProductServices").then(({ default: PS }) => {
+        PS.getProductById(id).then((res) => {
+          if (res && res.services && Array.isArray(res.services)) {
+            const serviceIds = res.services.map((s) =>
+              typeof s === "object" ? s._id : s
+            );
+            setSelectedServices(serviceIds);
+          }
+        }).catch(() => {});
+      });
+    } else if (!id) {
+      setSelectedServices([]);
+    }
+  }, [id, allServices]);
 
   return (
     <>
@@ -225,6 +255,20 @@ const ProductDrawer = ({ id }) => {
                   <Error errorName={errors.highlights} />
                 </div>
               </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Product Video (YT Link)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Product Video URL"
+                    name="videoUrl"
+                    type="text"
+                    placeholder="Enter YouTube Video URL"
+                  />
+                  <Error errorName={errors.videoUrl} />
+                </div>
+              </div>
               <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
                 <LabelArea label={t("ProductImage")} />
                 <div className="col-span-8 sm:col-span-4">
@@ -248,6 +292,79 @@ const ProductDrawer = ({ id }) => {
                     placeholder={t("ProductSKU")}
                   />
                   <Error errorName={errors.sku} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Base Price (GST Excl.)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Base Price"
+                    name="basePrice"
+                    type="number"
+                    placeholder="Enter price without GST"
+                  />
+                  <Error errorName={errors.basePrice} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="GST Percentage" />
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("gstPercentage")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                    name="gstPercentage"
+                  >
+                    <option value="0">0% GST</option>
+                    <option value="18">18% GST</option>
+                  </select>
+                  <Error errorName={errors.gstPercentage} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Final Price (GST Incl.)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
+                    type="number"
+                    className="border text-sm block w-full bg-gray-200 border-gray-200"
+                    readOnly
+                    value={(Number(watch("basePrice") || 0) * (1 + Number(watch("gstPercentage") || 0) / 100)).toFixed(2)}
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Auto-calculated final price including GST.
+                  </p>
+                </div>
+              </div>
+
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Min Order Quantity" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Min Order Quantity"
+                    name="minOrderQuantity"
+                    type="number"
+                    placeholder="Minimum Order Quantity"
+                  />
+                  <Error errorName={errors.minOrderQuantity} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Delivery Charge" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Delivery Charge"
+                    name="deliveryCharge"
+                    type="number"
+                    placeholder="Delivery Charge"
+                  />
+                  <Error errorName={errors.deliveryCharge} />
                 </div>
               </div>
 
@@ -330,17 +447,85 @@ const ProductDrawer = ({ id }) => {
                 <LabelArea label={t("ProductStatus")} />
                 <div className="col-span-8 sm:col-span-4">
                   <select
-                    {...register("show", {
+                    {...register("status", {
                       required: "Status is required!",
                     })}
                     className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                    name="show"
-                    defaultValue={values?.show || "show"}
+                    name="status"
+                    defaultValue={values?.status || "show"}
                   >
                     <option value="show">{t("Published")}</option>
                     <option value="hide">{t("Unpublished")}</option>
                   </select>
-                  <Error errorName={errors.show} />
+                  <Error errorName={errors.status} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Product Type" />
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("type")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                    name="type"
+                    defaultValue={values?.type || "normal"}
+                  >
+                    <option value="normal">Normal</option>
+                    <option value="popular">⭐ Popular</option>
+                    <option value="trending">🔥 Trending</option>
+                    <option value="new">🆕 New Arrival</option>
+                  </select>
+                  <p className="text-xs text-gray-400 mt-1">Select to feature this product on the homepage.</p>
+                </div>
+              </div>
+
+              {/* ── Service Selector ── */}
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Link to Services" />
+                <div className="col-span-8 sm:col-span-4">
+                  {allServices.length > 0 ? (
+                    <div className="border border-gray-200 bg-gray-50 rounded-md p-3 space-y-2 max-h-48 overflow-y-auto">
+                      {allServices.map((service) => {
+                        const svcName =
+                          typeof service.name === "object"
+                            ? service.name.en || Object.values(service.name)[0]
+                            : service.name;
+                        const isChecked = selectedServices.includes(service._id);
+                        return (
+                          <label
+                            key={service._id}
+                            className="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-white transition-colors"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => {
+                                setSelectedServices((prev) =>
+                                  isChecked
+                                    ? prev.filter((id) => id !== service._id)
+                                    : [...prev, service._id]
+                                );
+                              }}
+                              className="w-4 h-4 accent-green-600"
+                            />
+                            <span className="text-sm font-medium text-gray-700">
+                              {svcName || "Unknown Service"}
+                            </span>
+                            {service.group && (
+                              <span className="text-xs text-gray-400 ml-auto">
+                                {service.group}
+                              </span>
+                            )}
+                          </label>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-400 italic">No services found. Add services first.</p>
+                  )}
+                  <p className="text-xs text-gray-400 mt-1">
+                    Select the services this product belongs to. It will appear on those service pages.
+                  </p>
                 </div>
               </div>
             </div>

@@ -106,6 +106,8 @@ export const getDynamicAuthOptions = async () => {
           token.phone = user.phone;
           token.image = user.image;
           token.token = user.token;
+          token.cart = user.cart || [];
+          token.wishlist = user.wishlist || [];
         }
 
         if (trigger === "update" && session) {
@@ -125,6 +127,8 @@ export const getDynamicAuthOptions = async () => {
         session.user.phone = token.phone;
         session.user.image = token.image;
         session.user.token = token.token;
+        session.user.cart = token.cart || [];
+        session.user.wishlist = token.wishlist || [];
 
         return session;
       },

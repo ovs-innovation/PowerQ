@@ -1,11 +1,15 @@
 import { lazy } from "react";
 import Leads from "@/pages/Leads";
+import Reviews from "@/pages/Reviews";
+import BatteryServices from "@/pages/BatteryServices";
+const ShortVideos = lazy(() => import("@/pages/ShortVideos"));
 
 // use lazy for better code splitting
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const Attributes = lazy(() => import("@/pages/Attributes"));
 const ChildAttributes = lazy(() => import("@/pages/ChildAttributes"));
 const Category = lazy(() => import("@/pages/Category"));
+const Services = lazy(() => import("@/pages/Services"));
 const ChildCategory = lazy(() => import("@/pages/ChildCategory"));
 const Staff = lazy(() => import("@/pages/Staff"));
 const Customers = lazy(() => import("@/pages/Customers"));
@@ -54,6 +58,10 @@ const routes = [
     component: Category,
   },
   {
+    path: "/services",
+    component: Services,
+  },
+  {
     path: "/languages",
     component: Languages,
   },
@@ -81,6 +89,10 @@ const routes = [
   {
     path: "/leads",
     component: Leads,
+  },
+  {
+    path: "/orders",
+    component: Orders,
   },
   {
     path: "/order/:id",
@@ -123,6 +135,18 @@ const routes = [
     path: "/products",
     component: Products,
   },
+  {
+    path: "/reviews",
+    component: Reviews,
+  },
+  {
+    path: "/battery-services",
+    component: BatteryServices,
+  },
+  {
+    path: "/short-videos",
+    component: ShortVideos,
+  },
 ];
 
 const routeAccessList = [
@@ -132,6 +156,7 @@ const routeAccessList = [
   // },
   { label: "Dashboard", value: "dashboard" },
   { label: "Categories", value: "categories" },
+  { label: "Services", value: "services" },
   { label: "Attributes", value: "attributes" },
   { label: "Coupons", value: "coupons" },
   { label: "Customers", value: "customers" },
@@ -153,6 +178,9 @@ const routeAccessList = [
   { label: "Coming Soon", value: "coming-soon" },
   { label: "Blogs", value: "blogs" },
   { label: "Products", value: "products" },
+  { label: "Reviews", value: "reviews" },
+  { label: "BatteryServices", value: "battery-services" },
+  { label: "ShortVideos", value: "short-videos" },
 ];
 
 export { routeAccessList, routes };

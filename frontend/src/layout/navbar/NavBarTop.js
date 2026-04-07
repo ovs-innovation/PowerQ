@@ -23,7 +23,9 @@ const NavBarTop = () => {
 
   const handleLogOut = () => {
     signOut();
+    Cookies.remove("userInfo");
     Cookies.remove("couponInfo");
+    Cookies.remove("shippingAddress");
     router.push("/");
   };
 
@@ -71,32 +73,7 @@ const NavBarTop = () => {
             </span>
 
             <div className="text-center sm:text-right flex items-center justify-center sm:justify-end navBar gap-2 sm:gap-0">
-              {storeCustomizationSetting?.navbar?.about_menu_status && (
-                <div>
-                  <Link
-                    href="/about-us"
-                    className="font-medium hover:text-[#EF4036] text-xs sm:text-xs"
-                  >
-                    {showingTranslateValue(
-                      storeCustomizationSetting?.navbar?.about_us
-                    )}
-                  </Link>
-                  <span className="mx-1 sm:mx-2 hidden sm:inline">|</span>
-                </div>
-              )}
-              {storeCustomizationSetting?.navbar?.contact_menu_status && (
-                <div>
-                  <Link
-                    href="/contact-us"
-                    className="font-medium hover:text-[#EF4036] text-xs sm:text-xs"
-                  >
-                    {showingTranslateValue(
-                      storeCustomizationSetting?.navbar?.contact_us
-                    )}
-                  </Link>
-                  {/* <span className="mx-2">|</span> */}
-                </div>
-              )}
+              {/* Contact item removed as per request */}
               {/* <Link
                 href="/user/my-account"
                 className="font-medium hover:text-[#EF4036]"

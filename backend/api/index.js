@@ -19,7 +19,11 @@ const languageRoutes = require("../routes/languageRoutes");
 const notificationRoutes = require("../routes/notificationRoutes");
 const leadRoutes = require("../routes/leadRoutes");
 const blogRoutes = require("../routes/blogRoutes");
+const serviceRoutes = require("../routes/serviceRoutes");
 const commentRoutes = require("../routes/commentRoutes");
+const reviewRoutes = require("../routes/reviewRoutes");
+const batteryServiceRoutes = require("../routes/batteryServiceRoutes");
+const shortVideoRoutes = require("../routes/shortVideoRoutes");
 const { isAuth, isAdmin } = require("../config/auth")
 
 connectDB();
@@ -56,7 +60,11 @@ app.use("/api/language/", languageRoutes);
 app.use("/api/notification/", isAuth, notificationRoutes);
 app.use("/api/leads/", leadRoutes);
 app.use("/api/blogs/", blogRoutes);
+app.use("/api/services/", serviceRoutes);
 app.use("/api/comments/", commentRoutes);
+app.use("/api/reviews/", reviewRoutes);
+app.use("/api/battery-service/", batteryServiceRoutes);
+app.use("/api/short-videos/", shortVideoRoutes);
 
 //if you not use admin dashboard then these two route will not needed.
 app.use("/api/admin/", adminRoutes);

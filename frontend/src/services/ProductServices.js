@@ -21,8 +21,18 @@ const ProductServices = {
     return requests.get("/products/discount");
   },
 
+  getProductsByType: async (type) => {
+    return requests.get(`/products/type?type=${type}`);
+  },
+
   getProductBySlug: async (slug) => {
-    return requests.get(`/products/${slug}`);
+    return requests.get(`/products/product/${slug}`);
+  },
+  getProductsByService: async ({ serviceSlug, serviceId } = {}) => {
+    const params = [];
+    if (serviceSlug) params.push(`serviceSlug=${serviceSlug}`);
+    if (serviceId) params.push(`serviceId=${serviceId}`);
+    return requests.get(`/products/service${params.length ? '?' + params.join('&') : ''}`);
   },
 };
 

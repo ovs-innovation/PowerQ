@@ -8,490 +8,224 @@ import {
   TableRow,
 } from "@windmill/react-ui";
 import dayjs from "dayjs";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
+import elecmoonLogo from "@/assets/img/logo/elecmoon-logo.jpg";
+
+import Barcode from 'react-barcode';
+
+// ── Screen barcode using react-barcode ─────────────────────────────────────
+const ScreenBarcode = ({ value = "", width = 120, height = 30 }) => {
+  if (!value) return null;
+  return (
+    <div style={{ display: "flex", height, width, overflow: "hidden" }}>
+      <Barcode 
+        value={value} 
+        width={1.5} 
+        height={height} 
+        displayValue={false} 
+        margin={0} 
+        background="transparent" 
+      />
+    </div>
+  );
+};
 
 const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
   const { t } = useTranslation();
+  const currency = globalSetting?.default_currency || "₹";
 
-  const currency = globalSetting?.default_currency || "$";
+  const renderSingleInvoice = (or, index) => {
+    // ── Calculations Logic ──────────────────────────────────────────
+    const cart = or?.cart || [];
+    const totalQty = cart.reduce((s, i) => s + (i.quantity || 0), 0);
+    
+    // Using basePrice to determine the real pre-tax subtotal
+    const preTaxSubTotal = cart.reduce((acc, item) => acc + ((item.basePrice || item.price) * (item.quantity || 1)), 0);
+    
+    const shipping = or?.shippingCost || 0;
+    const total = or?.total || 0;
+    const discount = or?.discount || 0;
 
-  return (
-    <div ref={printRef} className="p-4">
-      {Array.isArray(data) ? (
-        data?.map((or, i) => (
-          <div className="mb-8" key={i + 1}>
-            {globalSetting?.logo && (
-              <img
-                className="flex mx-auto"
-                size="large"
-                src={globalSetting?.logo}
-                alt=""
-                width={50}
-              />
-            )}
+    const taxAmt = total - preTaxSubTotal - shipping + discount;
+    const averageTaxRate = preTaxSubTotal > 0 ? Math.round((taxAmt / preTaxSubTotal) * 100) : 18;
 
-            <div className="my-1">
-              <div className="flex justify-center">
-                <h1 className="font-bold text-xl">
-                  {globalSetting?.company_name}
-                </h1>
-              </div>
+    return (
+      <div 
+        key={index} 
+        style={{ 
+          fontFamily: "'Inter', sans-serif", 
+          color: "#000", 
+          padding: "10mm 15mm",
+          width: "210mm",
+          boxSizing: "border-box",
+          backgroundColor: "#fff",
+          pageBreakAfter: "always",
+        }}
+      >
+        <style>
+          {`
+            @media print {
+              @page { size: A4; margin: 0; }
+              body { margin: 0; padding: 0; }
+            }
+          `}
+        </style>
 
-              <ModalBody className="flex flex-col justify-center text-center">
-                <span className="flex-row">{globalSetting?.address}</span>
+        {/* ── HEADER ── */}
+        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "30px" }}>
+          <tbody>
+            <tr>
+              <td style={{ width: "60%", textAlign: "left", verticalAlign: "top" }}>
+                <img src={globalSetting?.logo || elecmoonLogo} alt="Logo" style={{ width: "220px", objectFit: "contain", marginBottom: "15px" }} />
+                <div style={{ fontWeight: "700", fontSize: "17px", marginBottom: "5px" }}>
+                  {globalSetting?.company_name || "ECOMPASS LLP"}
+                </div>
+                <div style={{ fontSize: "12px", color: "#333", lineHeight: "1.5", maxWidth: "450px" }}>
+                  {globalSetting?.address || "#47, New Anaj Mandi Sector 16, Faridabad - 121002, Haryana, India"}
+                  <br />
+                  {globalSetting?.email || "ecompassllp@gmail.com"} | 
+                  GSTIN: {globalSetting?.vat_number || "06AAIFE7762K1Z0"}
+                </div>
+              </td>
+              <td style={{ width: "40%", textAlign: "right", verticalAlign: "top" }}>
+                <div style={{ fontSize: "35px", fontWeight: "400", marginBottom: "8px", lineHeight: "1" }}>Purchase Order</div>
+                <div style={{ fontSize: "16px", fontWeight: "600", marginBottom: "12px" }}># {or?.orderId || or?.invoice}</div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <ScreenBarcode value={or?.orderId || or?.invoice?.toString()} width={140} height={40} />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-                <span className="flex justify-center">
-                  {globalSetting?.contact}
-                </span>
-
-                {globalSetting?.web_site}
-                <br />
-                {globalSetting?.email}
-              </ModalBody>
-            </div>
-
-            <TableContainer className="my-4 rounded-b-lg">
-              <Table>
-                <TableHeader>
-                  <tr>
-                    <TableCell className="bg-white">
-                      <span className="text-xs capitalize text-gray-700">
-                        {t("Item")}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-xs bg-white capitalize text-center text-gray-700">
-                      {t("QTY")}
-                    </TableCell>
-                    <TableCell className="text-xs bg-white capitalize text-right text-gray-700">
-                      {t("Amount")}
-                    </TableCell>
-                  </tr>
-                </TableHeader>
-                <TableBody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 text-serif text-sm">
-                  {or?.cart?.map((item, i) => (
-                    <TableRow
-                      key={i}
-                      className="dark:border-gray-700 dark:text-gray-400 bill"
-                    >
-                      <TableCell className="py-1">
-                        <span className="font-normal text-gray-600 bill">
-                          {" "}
-                          {item.title?.substring(0, 15)}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-center py-1">
-                        <span className="font-bold text-center bill">
-                          {" "}
-                          {item.quantity}{" "}
-                        </span>
-                      </TableCell>
-
-                      <TableCell className="text-right py-1">
-                        <span className="text-right font-bold text-gray-700 bill">
-                          {" "}
-                          {currency}
-                          {(item.price * item.quantity).toFixed(2)}
-                        </span>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <ModalBody>
-              <div className="flex justify-between -mt-3 mr-1 mb-4">
-                <div className="mt-2">
-                  {or?.paymentMethod === "Combined" ? (
-                    <p className="bill">
-                      <span className="mb-1 font-semibold bill font-serif text-xs text-gray-700 dark:text-gray-500 block">
-                        {t("Paymentmethod")} :{" "}
-                        <span className="text-gray-600 bill">
-                          {or.paymentMethod}
-                        </span>
-                      </span>
-                      {or?.paymentDetails?.selectPaymentOption_Card !==
-                        undefined && (
-                        <span className="text-xs bill">
-                          {or?.paymentDetails?.selectPaymentOption_Card}:{" "}
-                          <span className="font-semibold text-gray-900">
-                            {" "}
-                            {currency}
-                            {parseFloat(
-                              or?.paymentDetails?.paymentAmount_Card
-                            ).toFixed(2)}
-                          </span>
-                        </span>
-                      )}
-                      <br />
-                      {or?.paymentDetails?.selectPaymentOption_Cash !==
-                        undefined && (
-                        <span className="text-xs bill">
-                          {or?.paymentDetails?.selectPaymentOption_Cash}:{" "}
-                          <span className="font-semibold text-gray-900">
-                            {currency}
-                            {parseFloat(
-                              or?.paymentDetails?.paymentAmount_Cash
-                            ).toFixed(2)}
-                          </span>
-                        </span>
-                      )}
-                      <br />
-                      {or?.paymentDetails?.selectPaymentOption_Credit !==
-                        undefined && (
-                        <span className="text-xs bill">
-                          {or?.paymentDetails?.selectPaymentOption_Credit}:{" "}
-                          <span className="font-semibold text-gray-900">
-                            {currency}
-                            {parseFloat(
-                              or?.paymentDetails?.paymentAmount_Credit
-                            ).toFixed(2)}
-                          </span>
-                        </span>
-                      )}
-                    </p>
-                  ) : (
-                    <p className="bill">
-                      <span className="font-semibold bill font-serif text-xs text-gray-600 dark:text-gray-500 block">
-                        {t("Paymentmethod")} :{" "}
-                        <span className="text-gray-700 bill">
-                          {or.paymentMethod}
-                        </span>
-                      </span>
-                    </p>
-                  )}
-
-                  <div className="text-xs bill">
-                    {or?.shippingOption && (
-                      <>
-                        <span className="text-gray-600">
-                          {t("ShippingMethodLower")} :
-                          <span className="font-semibold text-gray-900">
-                            {or?.shippingOption}
-                          </span>
-                        </span>
-                        <br />
-                      </>
-                    )}
-                    <span className="text-gray-600">
-                      {t("NoofItems")} :{" "}
-                      <span className="font-semibold text-gray-900">
-                        {or?.cart?.length}
-                      </span>{" "}
-                    </span>{" "}
-                    <br />
-                    <span className="text-gray-600">
-                      {t("BillNo")} :{" "}
-                      <span className="font-semibold text-gray-900">
-                        {" "}
-                        {or?.invoice}
-                      </span>{" "}
-                    </span>{" "}
-                    <br />
-                    <br />
-                    {globalSetting?.vat_number && (
-                      <>
-                        <span className="text-gray-600">
-                          {t("VATNumber")}:{" "}
-                          <span className="font-semibold text-gray-900">
-                            {" "}
-                            {globalSetting?.vat_number}
-                          </span>{" "}
-                        </span>
-                        <br />
-                      </>
-                    )}
-                    <span className="text-gray-600">
-                      {t("Date")} :{" "}
-                      <span className="font-semibold text-gray-700">
-                        {" "}
-                        {/* {dayjs(new Date()).format('MMMM D, YYYY h:mm A')} */}
-                        {dayjs(new Date()).format("MM/D/YYYY")}
-                      </span>{" "}
-                    </span>
+        {/* ── VENDOR & DATES ── */}
+        <table style={{ width: "100%", borderCollapse: "collapse", marginBottom: "40px" }}>
+          <tbody>
+            <tr>
+              <td style={{ width: "60%", textAlign: "left", verticalAlign: "top" }}>
+                <div style={{ fontSize: "14px", color: "#666", marginBottom: "6px" }}>Vendor's Details</div>
+                <div style={{ fontWeight: "700", fontSize: "18px", textTransform: "uppercase", marginBottom: "8px" }}>
+                  {or?.user_info?.name}
+                </div>
+                <div style={{ fontSize: "13px", color: "#333", lineHeight: "1.6", maxWidth: "450px" }}>
+                  {or?.user_info?.address}
+                  <br />
+                  | GSTIN {or?.user_info?.vat_number || "07EDPPK2298G2Z1"}
+                </div>
+              </td>
+              <td style={{ width: "40%", textAlign: "right", verticalAlign: "bottom" }}>
+                <div style={{ display: "inline-block", textAlign: "right", width: "100%" }}>
+                  <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "14px", color: "#555", width: "160px", textAlign: "right", paddingRight: "20px" }}>Date :</span>
+                    <span style={{ fontSize: "14px", fontWeight: "600", width: "110px", textAlign: "right" }}>{dayjs(or?.createdAt).format("DD/MM/YYYY")}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "14px", color: "#555", width: "160px", textAlign: "right", paddingRight: "20px" }}>Delivery Date :</span>
+                    <span style={{ fontSize: "14px", fontWeight: "600", width: "110px", textAlign: "right" }}>{dayjs(or?.updatedAt).format("DD/MM/YYYY")}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <span style={{ fontSize: "14px", color: "#555", width: "160px", textAlign: "right", paddingRight: "20px" }}>Purchase Person :</span>
+                    <span style={{ fontSize: "14px", fontWeight: "600", width: "110px", textAlign: "right" }}>{or?.user_info?.name?.split(" ")[0]}</span>
                   </div>
                 </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-                <div className="mt-2">
-                  <h5 className="flex justify-between font-medium text-xs ">
-                    <span>{t("GrossTotal")} :</span>{" "}
-                    <span className="font-semibold ">
-                      {currency}
-                      {parseFloat(or?.subTotal).toFixed(2)}
-                    </span>
-                  </h5>
-
-                  {or?.shippingCost > 0 && (
-                    <h5 className="flex justify-between font-medium text-xs">
-                      <span> {t("ShippingCostLower")} :</span>{" "}
-                      <span className="font-semibold ">
-                        {currency}
-                        {parseFloat(or?.shippingCost).toFixed(2)}
-                      </span>
-                    </h5>
-                  )}
-                  {or?.discount > 0 && (
-                    <h5 className="flex justify-between font-medium text-xs">
-                      <span> {t("DiscountLower")} :</span>{" "}
-                      <span className="font-semibold">
-                        {currency}
-                        {parseFloat(or?.discount).toFixed(2)}
-                      </span>
-                    </h5>
-                  )}
-                  <h3 className="flex justify-between font-medium text-xs border-t border-black mt-2">
-                    <span> {t("Total")} : </span>
-                    <span className="font-semibold ">
-                      {currency}
-                      {parseFloat(or?.total).toFixed(2)}
-                    </span>
-                  </h3>
-                </div>
-              </div>
-            </ModalBody>
-
-            <h2 className="mb-2 text-center font-medium text-sm">
-              {t("ThankYouMsg")}
-            </h2>
-          </div>
-        ))
-      ) : (
-        <Fragment>
-          {globalSetting?.logo && (
-            <img
-              className="flex mx-auto"
-              size="large"
-              src={globalSetting?.logo}
-              alt=""
-              width={50}
-            />
-          )}
-
-          <div className="my-1">
-            <div className="flex justify-center">
-              <h1 className="font-bold text-xl">
-                {globalSetting?.company_name}
-              </h1>
-            </div>
-
-            <ModalBody className="flex flex-col justify-center text-center">
-              <span className="flex-row">{globalSetting?.address}</span>
-
-              <span className="flex justify-center">
-                {globalSetting?.contact}
-              </span>
-
-              {globalSetting?.web_site}
-              <br />
-              {globalSetting?.email}
-            </ModalBody>
-          </div>
-
-          <TableContainer className="my-4 rounded-b-lg">
-            <Table>
-              <TableHeader>
-                <tr>
-                  <TableCell className="bg-white">
-                    <span className="text-xs capitalize text-gray-700">
-                      {t("Item")}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-xs bg-white capitalize text-center text-gray-700">
-                    {t("QTY")}
-                  </TableCell>
-                  <TableCell className="text-xs bg-white capitalize text-right text-gray-700">
-                    {t("Amount")}
-                  </TableCell>
+        {/* ── ITEMS TABLE ── */}
+        <div style={{ width: "100%", marginBottom: "45px" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#333" }}>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "left", width: "50px" }}>#</th>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "left" }}>Item & Description</th>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "right", width: "100px" }}>Qty</th>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "right", width: "110px" }}>Rate</th>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "center", width: "100px" }}>IGST</th>
+                <th style={{ color: "#fff", padding: "14px", fontSize: "15px", textAlign: "right", width: "130px" }}>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item, i) => (
+                <tr key={i} style={{ borderBottom: "1px solid #eee" }}>
+                  <td style={{ padding: "20px 12px", fontSize: "15px", verticalAlign: "top" }}>{i + 1}</td>
+                  <td style={{ padding: "20px 12px", verticalAlign: "top" }}>
+                    <div style={{ display: "flex", gap: "25px" }}>
+                      {item.image && <img src={item.image} alt="" style={{ width: "80px", height: "65px", objectFit: "contain" }} />}
+                      <div>
+                        <div style={{ fontWeight: "700", fontSize: "15px", marginBottom: "8px" }}>{item.title}</div>
+                        <ScreenBarcode value={item.sku || item.barcode || item.slug || item.id} width={110} height={35} />
+                        <div style={{ fontSize: "12px", color: "#666", marginTop: "8px" }}>SKU: {item.sku || item.barcode || (item.slug || item.id)?.substring(0, 10)}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={{ padding: "20px 12px", textAlign: "right", verticalAlign: "top" }}>
+                    <div style={{ fontSize: "15px", fontWeight: "700" }}>{item.quantity.toFixed(2)}</div>
+                    <div style={{ fontSize: "12px", color: "#666" }}>pcs</div>
+                  </td>
+                  <td style={{ padding: "20px 12px", textAlign: "right", fontSize: "15px", verticalAlign: "top" }}>{(item.basePrice || item.price).toFixed(2)}</td>
+                  <td style={{ padding: "20px 12px", textAlign: "center", fontSize: "15px", verticalAlign: "top" }}>{item.gstPercentage || 0}%</td>
+                  <td style={{ padding: "20px 12px", textAlign: "right", fontWeight: "700", fontSize: "15px", verticalAlign: "top" }}>
+                    {((item.basePrice || item.price) * item.quantity).toFixed(2)}
+                  </td>
                 </tr>
-              </TableHeader>
-              <TableBody className="bg-white dark:bg-gray-800 divide-y divide-gray-100 text-serif text-sm">
-                {data?.cart?.map((item, i) => (
-                  <TableRow
-                    key={i}
-                    className="dark:border-gray-700 dark:text-gray-400 bill"
-                  >
-                    <TableCell className="py-1">
-                      <span className="font-normal text-gray-600 bill">
-                        {" "}
-                        {item.title?.substring(0, 15)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-center py-1">
-                      <span className="font-bold text-center bill">
-                        {" "}
-                        {item.quantity}{" "}
-                      </span>
-                    </TableCell>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-                    <TableCell className="text-right py-1">
-                      <span className="text-right font-bold text-gray-700 bill">
-                        {" "}
-                        {currency}
-                        {(item.price * item.quantity).toFixed(2)}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <ModalBody>
-            <div className="flex justify-between -mt-3 mr-1 mb-4">
-              <div className="mt-2">
-                {data?.paymentMethod === "Combined" ? (
-                  <p className="bill">
-                    <span className="mb-1 font-semibold bill font-serif text-xs text-gray-700 dark:text-gray-500 block">
-                      {t("Paymentmethod")} :{" "}
-                      <span className="text-gray-600 bill">
-                        {data.paymentMethod}
-                      </span>
-                    </span>
-                    {data?.paymentDetails?.selectPaymentOption_Card !==
-                      undefined && (
-                      <span className="text-xs bill">
-                        {data?.paymentDetails?.selectPaymentOption_Card}:{" "}
-                        <span className="font-semibold text-gray-900">
-                          {" "}
-                          {currency}
-                          {parseFloat(
-                            data?.paymentDetails?.paymentAmount_Card
-                          ).toFixed(2)}
-                        </span>
-                      </span>
-                    )}
-                    <br />
-                    {data?.paymentDetails?.selectPaymentOption_Cash !==
-                      undefined && (
-                      <span className="text-xs bill">
-                        {data?.paymentDetails?.selectPaymentOption_Cash}:{" "}
-                        <span className="font-semibold text-gray-900">
-                          {currency}
-                          {parseFloat(
-                            data?.paymentDetails?.paymentAmount_Cash
-                          ).toFixed(2)}
-                        </span>
-                      </span>
-                    )}
-                    <br />
-                    {data?.paymentDetails?.selectPaymentOption_Credit !==
-                      undefined && (
-                      <span className="text-xs bill">
-                        {data?.paymentDetails?.selectPaymentOption_Credit}:{" "}
-                        <span className="font-semibold text-gray-900">
-                          {currency}
-                          {parseFloat(
-                            data?.paymentDetails?.paymentAmount_Credit
-                          ).toFixed(2)}
-                        </span>
-                      </span>
-                    )}
-                  </p>
-                ) : (
-                  <p className="bill">
-                    <span className="font-semibold bill font-serif text-xs text-gray-600 dark:text-gray-500 block">
-                      {t("Paymentmethod")} :{" "}
-                      <span className="text-gray-700 bill">
-                        {data.paymentMethod}
-                      </span>
-                    </span>
-                  </p>
-                )}
-
-                <div className="text-xs bill">
-                  {data?.shippingOption && (
-                    <>
-                      <span className="text-gray-600">
-                        {t("ShippingMethodLower")} :
-                        <span className="font-semibold text-gray-900">
-                          {data?.shippingOption}
-                        </span>
-                      </span>
-                      <br />
-                    </>
+        {/* ── TOTALS ── */}
+        <table style={{ width: "100%", borderTop: "2.5px solid #333", paddingTop: "25px" }}>
+          <tbody>
+            <tr>
+              <td style={{ textAlign: "left", verticalAlign: "top", fontSize: "16px", fontWeight: "600" }}>
+                Total No. of Items: {totalQty.toFixed(2)}
+              </td>
+              <td style={{ textAlign: "right", verticalAlign: "top" }}>
+                <div style={{ display: "inline-block", width: "350px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                    <span style={{ fontSize: "15px", color: "#444" }}>Sub Total</span>
+                    <span style={{ fontSize: "15px", fontWeight: "600" }}>{preTaxSubTotal.toFixed(2)}</span>
+                  </div>
+                  {shipping > 0 && (
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                      <span style={{ fontSize: "15px", color: "#444" }}>Delivery Charges</span>
+                      <span style={{ fontSize: "15px", fontWeight: "600" }}>{shipping.toFixed(2)}</span>
+                    </div>
                   )}
-                  <span className="text-gray-600">
-                    {t("NoofItems")} :{" "}
-                    <span className="font-semibold text-gray-900">
-                      {data?.cart?.length}
-                    </span>{" "}
-                  </span>{" "}
-                  <br />
-                  <span className="text-gray-600">
-                    {t("BillNo")} :{" "}
-                    <span className="font-semibold text-gray-900">
-                      {" "}
-                      {data?.invoice}
-                    </span>{" "}
-                  </span>{" "}
-                  <br />
-                  <br />
-                  {globalSetting?.vat_number && (
-                    <>
-                      <span className="text-gray-600">
-                        {t("VATNumber")}:{" "}
-                        <span className="font-semibold text-gray-900">
-                          {" "}
-                          {globalSetting?.vat_number}
-                        </span>{" "}
-                      </span>
-                      <br />
-                    </>
-                  )}
-                  <span className="text-gray-600">
-                    {t("Date")} :{" "}
-                    <span className="font-semibold text-gray-700">
-                      {" "}
-                      {/* {dayjs(new Date()).format('MMMM D, YYYY h:mm A')} */}
-                      {dayjs(new Date()).format("MM/D/YYYY")}
-                    </span>{" "}
-                  </span>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                    <span style={{ fontSize: "15px", color: "#444" }}>{`IGST (${averageTaxRate}%)`}</span>
+                    <span style={{ fontSize: "15px", fontWeight: "600" }}>{taxAmt.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "15px", paddingTop: "15px", borderTop: "1px solid #ccc" }}>
+                    <span style={{ fontSize: "18px", fontWeight: "700" }}>Total</span>
+                    <span style={{ fontSize: "18px", fontWeight: "700" }}>{currency}{total.toFixed(2)}</span>
+                  </div>
                 </div>
-              </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-              <div className="mt-2">
-                <h5 className="flex justify-between font-medium text-xs ">
-                  <span>{t("GrossTotal")} :</span>{" "}
-                  <span className="font-semibold ">
-                    {currency}
-                    {parseFloat(data?.subTotal).toFixed(2)}
-                  </span>
-                </h5>
+        {/* ── FOOTER ── */}
+        <div style={{ marginTop: "120px" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: "10px" }}>
+            <span style={{ fontSize: "16px", fontWeight: "700" }}>Checked By</span>
+            <div style={{ flex: "1", maxWidth: "500px", borderBottom: "2.5px solid #000", height: "24px" }}></div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-                {data?.shippingCost > 0 && (
-                  <h5 className="flex justify-between font-medium text-xs">
-                    <span> {t("ShippingCostLower")} :</span>{" "}
-                    <span className="font-semibold ">
-                      {currency}
-                      {parseFloat(data?.shippingCost).toFixed(2)}
-                    </span>
-                  </h5>
-                )}
-                {data?.discount > 0 && (
-                  <h5 className="flex justify-between font-medium text-xs">
-                    <span> {t("DiscountLower")} :</span>{" "}
-                    <span className="font-semibold">
-                      {currency}
-                      {parseFloat(data?.discount).toFixed(2)}
-                    </span>
-                  </h5>
-                )}
-                <h3 className="flex justify-between font-medium text-xs border-t border-black mt-2">
-                  <span> {t("Total")} : </span>
-                  <span className="font-semibold ">
-                    {currency}
-                    {parseFloat(data?.total).toFixed(2)}
-                  </span>
-                </h3>
-              </div>
-            </div>
-          </ModalBody>
-
-          <h2 className="mb-2 text-center font-medium text-sm">
-            {t("ThankYouMsg")}
-          </h2>
-        </Fragment>
+  return (
+    <div ref={printRef}>
+      {Array.isArray(data) ? (
+        data.map((or, i) => renderSingleInvoice(or, i))
+      ) : (
+        renderSingleInvoice(data, 0)
       )}
     </div>
   );

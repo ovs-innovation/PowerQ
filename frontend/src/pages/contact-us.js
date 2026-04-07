@@ -207,7 +207,7 @@ const ContactUs = () => {
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-lg w-full"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-gradient-to-r from-[#051124] to-[#0b1d3d] hover:from-[#0b1d3d] hover:to-[#162542] text-white font-semibold transition shadow-[0_0_15px_rgba(255,255,255,0.3)] w-full"
               >
                 Submit
               </button>

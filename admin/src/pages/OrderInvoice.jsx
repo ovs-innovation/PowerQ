@@ -1,319 +1,278 @@
-import { useParams } from "react-router";
-import ReactToPrint from "react-to-print";
-import React, { useContext, useRef, useState } from "react";
-import { FiPrinter, FiMail } from "react-icons/fi";
-import { IoCloudDownloadOutline } from "react-icons/io5";
-import { Button } from "@windmill/react-ui";
 import {
+  Button,
+  Card,
+  CardBody,
   TableCell,
   TableHeader,
-  Table,
-  TableContainer,
-  WindmillContext,
+  TableRow,
 } from "@windmill/react-ui";
+import dayjs from "dayjs";
+import { useEffect, useRef, useState } from "react";
+import { IoCloudDownloadOutline, IoPrintOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReactToPrint from "react-to-print";
 
-//internal import
+// internal import
 import useAsync from "@/hooks/useAsync";
-import useError from "@/hooks/useError";
-import Status from "@/components/table/Status";
-import { notifyError, notifySuccess } from "@/utils/toast";
-import { AdminContext } from "@/context/AdminContext";
 import OrderServices from "@/services/OrderServices";
-import Invoice from "@/components/invoice/Invoice";
 import Loading from "@/components/preloader/Loading";
-import logoDark from "@/assets/img/logo/logo-dark.svg";
-import logoLight from "@/assets/img/logo/logo-color.svg";
 import PageTitle from "@/components/Typography/PageTitle";
-import spinnerLoadingImage from "@/assets/img/spinner.gif";
-import useUtilsFunction from "@/hooks/useUtilsFunction";
-import useDisableForDemo from "@/hooks/useDisableForDemo";
 import InvoiceForDownload from "@/components/invoice/InvoiceForDownload";
+import InvoiceForPrint from "@/components/invoice/InvoiceForPrint";
+import SettingServices from "@/services/SettingServices";
+import elecmoonLogo from "@/assets/img/logo/elecmoon-logo.jpg";
+
+import Barcode from 'react-barcode';
+
+// ── Screen barcode using react-barcode ─────────────────────────────────────
+const ScreenBarcode = ({ value = "", width = 120, height = 30 }) => {
+  if (!value) return null;
+  return (
+    <div style={{ display: "flex", height, width, overflow: "hidden" }}>
+      <Barcode 
+        value={value} 
+        width={1.5} 
+        height={height} 
+        displayValue={false} 
+        margin={0} 
+        background="transparent" 
+      />
+    </div>
+  );
+};
 
 const OrderInvoice = () => {
   const { t } = useTranslation();
-  const { mode } = useContext(WindmillContext);
-  const { state } = useContext(AdminContext);
-  const { adminInfo } = state;
   const { id } = useParams();
   const printRef = useRef();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { data, loading, error } = useAsync(() =>
-    OrderServices.getOrderById(id)
-  );
+  const { data, loading, error } = useAsync(() => OrderServices.getOrderById(id));
+  const { data: globalSetting } = useAsync(SettingServices.getGlobalSetting);
 
-  const { handleErrorNotification } = useError();
-  const { handleDisableForDemo } = useDisableForDemo();
+  const currency = globalSetting?.default_currency || "₹";
 
-  // console.log("data", data);
-
-  const { currency, globalSetting, showDateFormat, getNumberTwo } =
-    useUtilsFunction();
-
-  const handleEmailInvoice = async (inv) => {
-    // console.log("inv", inv);
-    if (handleDisableForDemo()) {
-      return; // Exit the function if the feature is disabled
-    }
-
-    // if (adminInfo?.role !== "Super Admin")
-    //   return notifyError(
-    //     "You don't have permission to sent email of this order!"
-    //   );
-    setIsSubmitting(true);
-    try {
-      const updatedData = {
-        ...inv,
-        date: showDateFormat(inv.createdAt),
-        company_info: {
-          currency: currency,
-          vat_number: globalSetting?.vat_number,
-          company: globalSetting?.company_name,
-          address: globalSetting?.address,
-          phone: globalSetting?.contact,
-          email: globalSetting?.email,
-          website: globalSetting?.website,
-          from_email: globalSetting?.from_email,
-        },
-      };
-      // console.log("updatedData", updatedData);
-
-      // return setIsSubmitting(false);
-      const res = await OrderServices.sendEmailInvoiceToCustomer(updatedData);
-      notifySuccess(res.message);
-      setIsSubmitting(false);
-    } catch (err) {
-      setIsSubmitting(false);
-      handleErrorNotification(err, "handleEmailInvoice");
-    }
+  const getNumberTwo = (num) => {
+    return parseFloat(num || 0).toFixed(2);
   };
+
+  const showDateFormat = (date) => {
+    return dayjs(date).format("DD/MM/YYYY");
+  };
+
+  const totalQty = (data?.cart || []).reduce((s, i) => s + (i.quantity || 0), 0);
+  const preTaxSubTotal = (data?.cart || []).reduce((acc, item) => acc + ((item.basePrice || item.price) * (item.quantity || 1)), 0);
+
+  const shipping = data?.shippingCost || 0;
+  const total = data?.total || 0;
+  const discount = data?.discount || 0;
+
+  const taxAmt = total - preTaxSubTotal - shipping + discount;
+  const averageTaxRate = preTaxSubTotal > 0 ? Math.round((taxAmt / preTaxSubTotal) * 100) : 18;
 
   return (
     <>
-      <PageTitle> {t("InvoicePageTittle")} </PageTitle>
+      <PageTitle>{t("InvoicePageTittle")}</PageTitle>
 
+      {/* ══ SCREEN INVOICE (Purchase Order - Exact Design Match) ══════════ */}
       <div
         ref={printRef}
-        className="bg-white dark:bg-gray-800 mb-4 p-6 lg:p-8 rounded-xl shadow-sm overflow-hidden"
+        className="bg-white mb-8 rounded-xl shadow-md overflow-hidden"
+        style={{ 
+          fontFamily: "'Inter', sans-serif", 
+          color: "#000", 
+          padding: "50px 60px",
+          width: "100%",
+          margin: "0 auto",
+          fontSize: "14px",
+          backgroundColor: "#fff",
+          boxSizing: "border-box"
+        }}
       >
-        {!loading && (
-          <div className="">
-            <div className="flex lg:flex-row md:flex-row flex-col lg:items-center justify-between pb-4 border-b border-gray-50 dark:border-gray-700 dark:text-gray-300">
-              <h1 className="font-bold font-serif text-xl uppercase">
-                {t("InvoicePageTittle")}
-                <p className="text-xs mt-1 text-gray-500">
-                  {t("InvoiceStatus")}
-                  <span className="pl-2 font-medium text-xs capitalize">
-                    {" "}
-                    <Status status={data.status} />
-                  </span>
-                </p>
-              </h1>
-              <div className="lg:text-right text-left">
-                <h2 className="lg:flex lg:justify-end text-lg font-serif font-semibold mt-4 lg:mt-0 lg:ml-0 md:mt-0">
-                  {mode === "dark" ? (
-                    <img src={logoDark} alt="PowerQ" width="110" />
-                  ) : (
-                    <img src={logoLight} alt="PowerQ" width="110" />
-                  )}
-                </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                  {globalSetting?.address} <br />
-                  {globalSetting?.contact} <br />{" "}
-                  <span> {globalSetting?.email} </span> <br />
-                  {globalSetting?.website}
-                </p>
+        {loading ? (
+          <Loading loading={loading} />
+        ) : error ? (
+          <span className="text-center mx-auto text-red-500">{error}</span>
+        ) : (
+          <div>
+            {/* Header Section */}
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "40px", width: "100%" }}>
+              <div style={{ width: "55%" }}>
+                <img src={elecmoonLogo} alt="Logo" style={{ width: "220px", objectFit: "contain", marginBottom: "15px" }} />
+                <div style={{ fontWeight: "700", fontSize: "16px", marginBottom: "5px" }}>
+                  {globalSetting?.company_name || "ECOMPASS LLP"}
+                </div>
+                <div style={{ fontSize: "12px", color: "#333", lineHeight: "1.5", maxWidth: "450px" }}>
+                  {globalSetting?.address || "#47, New Anaj Mandi Sector 16, Faridabad - 121002, Haryana, India"}
+                  <br />
+                  {globalSetting?.email || "ecompassllp@gmail.com"} |
+                  <br />
+                  GSTIN: {globalSetting?.vat_number || "06AAIFE7762K1Z0"}
+                </div>
+              </div>
+              <div style={{ width: "45%", textAlign: "right" }}>
+                <div style={{ fontSize: "30px", fontWeight: "400", marginBottom: "8px", lineHeight: "1", whiteSpace: "nowrap" }}>Purchase Order</div>
+                <div style={{ fontSize: "16px", fontWeight: "600", marginBottom: "12px" }}># {data?.orderId || data?.invoice}</div>
+                <div className="flex justify-end">
+                  <ScreenBarcode value={data?.orderId || data?.invoice?.toString()} width={150} height={45} />
+                </div>
               </div>
             </div>
-            <div className="flex lg:flex-row md:flex-row flex-col justify-between pt-4">
-              <div className="mb-3 md:mb-0 lg:mb-0 flex flex-col">
-                <span className="font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoiceDate")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 block">
-                  {showDateFormat(data?.createdAt)}
-                </span>
-              </div>
-              <div className="mb-3 md:mb-0 lg:mb-0 flex flex-col">
-                <span className="font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoiceNo")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 block">
-                  #{data?.invoice}
-                </span>
-              </div>
-              <div className="flex flex-col lg:text-right text-left">
-                <span className="font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoiceTo")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 block">
-                  {data?.user_info?.name} <br />
-                  {data?.user_info?.email}{" "}
-                  <span className="ml-2">{data?.user_info?.contact}</span>
-                  <br />
-                  {data?.user_info?.address?.substring(0, 30)}
-                  <br />
-                  {data?.user_info?.city}, {data?.user_info?.country},{" "}
-                  {data?.user_info?.zipCode}
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-        <div>
-          {loading ? (
-            <Loading loading={loading} />
-          ) : error ? (
-            <span className="text-center mx-auto text-red-500">{error}</span>
-          ) : (
-            <TableContainer className="my-8">
-              <Table>
-                <TableHeader>
-                  <tr>
-                    <TableCell>{t("Sr")}</TableCell>
-                    <TableCell>Product Title</TableCell>
-                    <TableCell className="text-center">
-                      {t("Quantity")}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {t("ItemPrice")}
-                    </TableCell>
-                    <TableCell className="text-right">{t("Amount")}</TableCell>
-                  </tr>
-                </TableHeader>
-                <Invoice
-                  data={data}
-                  currency={currency}
-                  getNumberTwo={getNumberTwo}
-                />
-              </Table>
-            </TableContainer>
-          )}
-        </div>
 
-        {!loading && (
-          <div className="border rounded-xl border-gray-100 p-8 py-6 bg-gray-50 dark:bg-gray-900 dark:border-gray-800">
-            <div className="flex lg:flex-row md:flex-row flex-col justify-between">
-              <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
-                <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoicepaymentMethod")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 font-semibold font-serif block">
-                  {data.paymentMethod}
-                </span>
+            {/* Vendor & Dates Section */}
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "45px", width: "100%" }}>
+              <div style={{ width: "55%" }}>
+                <div style={{ fontSize: "14px", color: "#666", marginBottom: "6px" }}>Vendor's Details </div>
+                <div style={{ fontWeight: "700", fontSize: "17px", textTransform: "uppercase", marginBottom: "8px" }}>{data?.user_info?.name}</div>
+                <div style={{ fontSize: "14px", color: "#333", lineHeight: "1.6", maxWidth: "450px" }}>
+                  {data?.user_info?.address}
+                  <br />
+                  |
+                  <br />
+                  GSTIN {data?.user_info?.vat_number || "07EDPPK2298G2Z1"}
+                </div>
               </div>
-              <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
-                <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("ShippingCost")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 font-semibold font-serif block">
-                  {currency}
-                  {getNumberTwo(data.shippingCost)}
-                </span>
+              <div style={{ width: "45%", textAlign: "right", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <span style={{ fontSize: "15px", color: "#555", width: "180px", textAlign: "right", paddingRight: "30px" }}>Date :</span>
+                  <span style={{ fontSize: "15px", fontWeight: "600", width: "120px", textAlign: "right" }}>{showDateFormat(data?.createdAt)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <span style={{ fontSize: "15px", color: "#555", width: "180px", textAlign: "right", paddingRight: "30px" }}>Delivery Date :</span>
+                  <span style={{ fontSize: "15px", fontWeight: "600", width: "120px", textAlign: "right" }}>{showDateFormat(data?.updatedAt)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <span style={{ fontSize: "15px", color: "#555", width: "180px", textAlign: "right", paddingRight: "30px" }}>Purchase Person :</span>
+                  <span style={{ fontSize: "15px", fontWeight: "600", width: "120px", textAlign: "right" }}>{data?.user_info?.name?.split(" ")[0]}</span>
+                </div>
               </div>
-              <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
-                <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoiceDicount")}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400 font-semibold font-serif block">
-                  {currency}
-                  {getNumberTwo(data.discount)}
-                </span>
+            </div>
+
+            {/* Items Table */}
+            <div style={{ width: "100%", marginBottom: "45px" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                  <tr style={{ backgroundColor: "#333", color: "#fff" }}>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "left", width: "50px" }}>#</th>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "left" }}>Item & Description</th>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "right", width: "100px" }}>Qty</th>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "right", width: "110px" }}>Rate</th>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "center", width: "100px" }}>IGST</th>
+                    <th style={{ padding: "14px", fontSize: "15px", textAlign: "right", width: "130px" }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(data?.cart || []).map((item, i) => {
+                    return (
+                      <tr key={i} style={{ borderBottom: "1px solid #eee" }}>
+                        <td style={{ padding: "20px 12px", fontSize: "15px", verticalAlign: "top" }}>{i + 1}</td>
+                        <td style={{ padding: "20px 12px", verticalAlign: "top" }}>
+                          <div style={{ display: "flex", gap: "25px" }}>
+                            {item.image && <img src={item.image} alt="" style={{ width: "80px", height: "65px", objectFit: "contain", border: "1px solid #f0f0f0" }} />}
+                            <div>
+                              <div style={{ fontWeight: "700", fontSize: "15px", marginBottom: "8px" }}>{item.title}</div>
+                              <ScreenBarcode value={item.sku || item.barcode || item.slug || item.id} width={110} height={35} />
+                              <div style={{ fontSize: "12px", color: "#666", marginTop: "8px" }}>SKU: {item.sku || item.barcode || (item.slug || item.id)?.substring(0, 10)}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td style={{ padding: "20px 12px", textAlign: "right", verticalAlign: "top" }}>
+                          <div style={{ fontSize: "15px", fontWeight: "700" }}>{item.quantity.toFixed(2)}</div>
+                          <div style={{ fontSize: "12px", color: "#666" }}>pcs</div>
+                        </td>
+                        <td style={{ padding: "20px 12px", textAlign: "right", fontSize: "15px", verticalAlign: "top" }}>{getNumberTwo(item.basePrice || item.price)}</td>
+                        <td style={{ padding: "20px 12px", textAlign: "center", fontSize: "15px", verticalAlign: "top" }}>{item.gstPercentage || 0}%</td>
+                        <td style={{ padding: "20px 12px", textAlign: "right", fontWeight: "700", fontSize: "15px", verticalAlign: "top" }}>
+                          {getNumberTwo((item.basePrice || item.price) * item.quantity)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Totals Section */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", borderTop: "2.5px solid #333", paddingTop: "25px" }}>
+              <div style={{ fontWeight: "600", fontSize: "16px" }}>Total No. of Items: {totalQty.toFixed(2)}</div>
+              <div style={{ width: "350px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "15px", color: "#444" }}>Sub Total</span>
+                  <span style={{ fontSize: "15px", fontWeight: "600" }}>{getNumberTwo(preTaxSubTotal)}</span>
+                </div>
+                {shipping > 0 && (
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                    <span style={{ fontSize: "15px", color: "#444" }}>Delivery Charges</span>
+                    <span style={{ fontSize: "15px", fontWeight: "600" }}>{getNumberTwo(shipping)}</span>
+                  </div>
+                )}
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "15px", color: "#444" }}>{`IGST (${averageTaxRate}%)`}</span>
+                  <span style={{ fontSize: "15px", fontWeight: "600" }}>{getNumberTwo(taxAmt)}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "15px", paddingTop: "15px", borderTop: "1px solid #ccc" }}>
+                  <span style={{ fontSize: "18px", fontWeight: "700" }}>Total</span>
+                  <span style={{ fontSize: "18px", fontWeight: "700" }}>{currency}{getNumberTwo(total)}</span>
+                </div>
               </div>
-              <div className="flex flex-col sm:flex-wrap">
-                <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 dark:text-gray-500 block">
-                  {t("InvoiceTotalAmount")}
-                </span>
-                <span className="text-xl font-serif font-bold text-red-500 dark:text-green-500 block">
-                  {currency}
-                  {getNumberTwo(data.total)}
-                </span>
+            </div>
+
+            {/* Footer */}
+            <div style={{ marginTop: "100px" }}>
+              <div style={{ display: "flex", alignItems: "flex-end", gap: "10px" }}>
+                <span style={{ fontSize: "16px", fontWeight: "600" }}>Checked By</span>
+                <div style={{ flex: "1", maxWidth: "450px", borderBottom: "2px solid #000", height: "22px" }}></div>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* ── ACTION BUTTONS ────────────────────────────────────────────────── */}
       {!loading && !error && (
-        <div className="mb-4 mt-3 flex md:flex-row flex-col items-center justify-between">
+        <div className="flex flex-col lg:flex-row justify-between gap-4 mt-6">
           <PDFDownloadLink
             document={
               <InvoiceForDownload
-                t={t}
                 data={data}
                 currency={currency}
-                getNumberTwo={getNumberTwo}
+                globalSetting={globalSetting}
                 showDateFormat={showDateFormat}
+                getNumberTwo={getNumberTwo}
               />
             }
-            fileName="Invoice"
+            fileName={`Invoice-${data?.orderId || data?.invoice}.pdf`}
+            className="flex-1"
           >
-            {({ blob, url, loading, error }) =>
-              loading ? (
-                "Loading..."
-              ) : (
-                <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-green-500 border border-transparent active:bg-green-600 hover:bg-green-600  w-auto cursor-pointer">
-                  Download Invoice
-                  <span className="ml-2 text-base">
-                    <IoCloudDownloadOutline />
-                  </span>
-                </button>
-              )
-            }
+            {({ loading }) => (
+              <Button disabled={loading} block className="bg-emerald-500 hover:bg-emerald-600">
+                <IoCloudDownloadOutline className="mr-2 h-5 w-5" />
+                {loading ? t("LoadingInvoice") : t("DownloadInvoice")}
+              </Button>
+            )}
           </PDFDownloadLink>
 
-          <div className="flex md:mt-0 mt-3 gap-4 md:w-auto w-full">
-            {globalSetting?.email_to_customer && (
-              <div className="flex justify-end md:w-auto w-full">
-                {isSubmitting ? (
-                  <Button
-                    disabled={true}
-                    type="button"
-                    className="text-sm h-10 leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold font-serif text-center justify-center border-0 border-transparent rounded-md focus-visible:outline-none focus:outline-none text-white px-2 ml-4 md:px-4 lg:px-6 py-4 md:py-3.5 lg:py-4 hover:text-white bg-green-400 hover:bg-green-500"
-                  >
-                    <img
-                      src={spinnerLoadingImage}
-                      alt="Loading"
-                      width={20}
-                      height={10}
-                    />{" "}
-                    <span className="font-serif ml-2 font-light">
-                      {" "}
-                      Processing
-                    </span>
-                  </Button>
-                ) : (
-                  <button
-                    onClick={() => handleEmailInvoice(data)}
-                    className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-teal-500 border border-transparent active:bg-teal-600 hover:bg-teal-600  md:w-auto w-full h-10 justify-center"
-                  >
-                    Email Invoice
-                    <span className="ml-2">
-                      <FiMail />
-                    </span>
-                  </button>
-                )}
-              </div>
+          <ReactToPrint
+            trigger={() => (
+              <Button block className="flex-1 bg-gray-500 hover:bg-gray-600">
+                <IoPrintOutline className="mr-2 h-5 w-5" />
+                {t("PrintInvoice")}
+              </Button>
             )}
-
-            <div className="md:w-auto w-full">
-              <ReactToPrint
-                trigger={() => (
-                  <button className="flex items-center text-sm leading-5 transition-colors duration-150 font-medium focus:outline-none px-5 py-2 rounded-md text-white bg-green-500 border border-transparent active:bg-green-600 hover:bg-green-600  md:w-auto w-full h-10 justify-center">
-                    {t("PrintInvoice")}{" "}
-                    <span className="ml-2">
-                      <FiPrinter />
-                    </span>
-                  </button>
-                )}
-                content={() => printRef.current}
-                documentTitle={data?.invoice}
-              />
-            </div>
-          </div>
+            content={() => printRef.current}
+          />
         </div>
       )}
+
+      {/* HIDDEN PRINT VIEW (Rendered off-screen to ensure full-width calculation) */}
+      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
+        <InvoiceForPrint 
+          data={data} 
+          globalSetting={globalSetting} 
+          printRef={printRef} 
+        />
+      </div>
     </>
   );
 };

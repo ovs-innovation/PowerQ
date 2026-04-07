@@ -45,8 +45,8 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
                 <Image
                   width={110}
                   height={40}
-                  src="/logo/logo.png"
-                  alt="PowerQ"
+                  src="/logo/elecmoon-transparent.png"
+                  alt="Elecmoon"
                 />
               </Link>
             </h2>
@@ -72,7 +72,7 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               Invoice No.
             </span>
             <span className="text-sm text-gray-500 block">
-              #{data?.invoice}
+              #{data?.orderId || data?.invoice}
             </span>
           </div>
           <div className="flex flex-col lg:text-right text-left">
@@ -157,6 +157,15 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
           </div>
           <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
             <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 block">
+              GST Amount
+            </span>
+            <span className="text-sm text-gray-500 font-semibold font-serif block">
+              {currency}
+              {getNumberTwo(data?.cart?.reduce((acc, item) => acc + ( (item.price - item.basePrice) * item.quantity ), 0) || 0)}
+            </span>
+          </div>
+          <div className="mb-3 md:mb-0 lg:mb-0  flex flex-col sm:flex-wrap">
+            <span className="mb-1 font-bold font-serif text-sm uppercase text-gray-600 block">
               Discount
             </span>
             <span className="text-sm text-gray-500 font-semibold font-serif block">
@@ -172,7 +181,9 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
               {currency}
               {getNumberTwo(data.total)}
             </span>
+            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">(Inclusive of all taxes)</span>
           </div>
+
         </div>
       </div>
     </div>

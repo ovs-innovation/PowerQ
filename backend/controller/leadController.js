@@ -11,6 +11,29 @@ exports.createLead = async (req, res) => {
   }
 };
 
+// Get a single lead by ID
+exports.getLeadById = async (req, res) => {
+  try {
+    const lead = await Lead.findById(req.params.id);
+    if (!lead) {
+      return res.status(404).json({ success: false, message: 'Lead not found' });
+    }
+    res.status(200).json({ success: true, lead });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get leads by user ID
+exports.getUserLeads = async (req, res) => {
+  try {
+    const leads = await Lead.find({ user: req.params.userId }).sort({ createdAt: -1 });
+    res.status(200).json(leads);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // Get all leads with filtering and pagination
 exports.getLeads = async (req, res) => {
   try {
@@ -245,4 +268,4 @@ exports.getDashboardLeadData = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
-}; 
+};

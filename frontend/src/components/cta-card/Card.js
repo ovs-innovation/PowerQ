@@ -36,7 +36,7 @@ const Card = () => {
                   Best prices, limited time
                 </p>
                 <Link href="/contact-us">
-                  <button className="text-xs mx-auto leading-6 font-serif font-medium mt-3 md:mt-4 px-4 py-1 bg-green-500 text-center rounded-full text-white hover:bg-green-600 transition-colors duration-200">
+                  <button className="text-xs mx-auto leading-6 font-serif font-medium mt-3 md:mt-4 px-4 py-1 bg-gradient-to-r from-[#051124] to-[#0b1d3d] hover:from-[#0b1d3d] hover:to-[#162542] text-center rounded-full text-white shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-200">
                     Enquire Now
                   </button>
                 </Link>

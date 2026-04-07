@@ -252,11 +252,10 @@ const Products = () => {
                 </TableCell>
                 <TableCell>{t("ProductNameTbl")}</TableCell>
                 <TableCell>{t("CategoryTbl")}</TableCell>
-                {/* <TableCell>{t("PriceTbl")}</TableCell> */}
-                {/* <TableCell>Sale Price</TableCell> */}
-                {/* <TableCell>{t("StockTbl")}</TableCell> */}
+                <TableCell>SKU</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Min Order Qty</TableCell>
                 <TableCell>Highlights</TableCell>
-                {/* <TableCell>{t("StatusTbl")}</TableCell> */}
                 <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
                 <TableCell className="text-center">
                   {t("PublishedTbl")}

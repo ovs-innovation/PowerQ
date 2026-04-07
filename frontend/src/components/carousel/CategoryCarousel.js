@@ -115,35 +115,54 @@ const CategoryCarousel = () => {
           </p>
         ) : (
           <div>
-            {data[0]?.children?.map((category, i) => (
-              <SwiperSlide key={i + 1} className="group">
-                <div
-                  onClick={() =>
-                    handleCategoryClick(category?._id, category.name)
+            {(() => {
+              const findMainCategories = (list) => {
+                if (list?.length === 1) {
+                  const name = showingTranslateValue(list[0].name)?.toLowerCase()?.trim();
+                  if (name === "home" || name === "all categories" || name === "all departments" || !list[0].parentId) {
+                    if (list[0].children && list[0].children.length > 0) {
+                      return findMainCategories(list[0].children);
+                    }
                   }
-                  className="text-center cursor-pointer p-3 bg-white rounded-lg"
-                >
-                  <div className="bg-white p-2 mx-auto w-10 h-10 rounded-full shadow-md">
-                    <div className="relative w-6 h-8">
-                      <Image
-                        src={
-                          category?.icon ||
-                          "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
-                        }
-                        alt="category"
-                        width={40}
-                        height={40}
-                        className="object-fill"
-                      />
-                    </div>
-                  </div>
+                }
+                return list || [];
+              };
 
-                  <h3 className="text-xs text-gray-600 mt-2 font-serif group-hover:text-green-500">
-                    {showingTranslateValue(category?.name)}
-                  </h3>
-                </div>
-              </SwiperSlide>
-            ))}
+              const filtered = findMainCategories(data).filter((cat) => {
+                const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
+                return name !== "home" && name !== "all categories" && name !== "all departments" && name !== "";
+              });
+
+              return filtered.map((category, i) => (
+                <SwiperSlide key={i + 1} className="group">
+                  <div
+                    onClick={() =>
+                      handleCategoryClick(category?._id, category.name)
+                    }
+                    className="text-center cursor-pointer p-3 bg-white rounded-lg"
+                  >
+                    <div className="bg-white p-2 mx-auto w-10 h-10 rounded-full shadow-md">
+                      <div className="relative w-6 h-8">
+                        <Image
+                          src={
+                            category?.icon ||
+                            "https://res.cloudinary.com/ahossain/image/upload/v1655097002/placeholder_kvepfp.png"
+                          }
+                          alt="category"
+                          width={40}
+                          height={40}
+                          className="object-fill"
+                        />
+                      </div>
+                    </div>
+
+                    <h3 className="text-xs text-gray-600 mt-2 font-serif group-hover:text-[#A821A8] transition-colors duration-200">
+                      {showingTranslateValue(category?.name)}
+                    </h3>
+                  </div>
+                </SwiperSlide>
+              ));
+            })()}
           </div>
         )}
         <button ref={prevRef} className="prev">

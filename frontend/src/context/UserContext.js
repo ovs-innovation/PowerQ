@@ -42,13 +42,16 @@ function reducer(state, action) {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data: session, status } = useSession();
-  // const status = "loading";
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
       setToken(session.user.token);
+      dispatch({ type: "USER_LOGIN", payload: session.user });
+      Cookies.set("userInfo", JSON.stringify(session.user));
     } else if (status === "unauthenticated") {
       setToken(null);
+      dispatch({ type: "USER_LOGOUT" });
+      Cookies.remove("userInfo");
     }
   }, [session, status]);
 
