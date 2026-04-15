@@ -179,7 +179,7 @@ const getStoreSeoSetting = async (req, res) => {
       { "setting.seo": 1, _id: 0 }
     );
     // console.log("storeCustomizationSetting", storeCustomizationSetting);
-    res.send(storeCustomizationSetting?.setting);
+    res.send(storeCustomizationSetting?.setting || {});
   } catch (err) {
     res.status(500).send({
       message: err.message,
