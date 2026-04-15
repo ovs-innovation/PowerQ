@@ -52,13 +52,19 @@ import { sanitizeProduct, sanitizeData } from "@utils/dataSanitizer";
 import Uploader from "@components/image-uploader/Uploader";
 import { UserContext } from "@context/UserContext";
 
-const ProductScreen = ({ product, attributes, relatedProducts }) => {
+const ProductScreen = ({ product: initialProduct, attributes: initialAttributes, relatedProducts: initialRelatedProducts }) => {
   const router = useRouter();
+  const { slug } = router.query;
 
   const { lang, showingTranslateValue, getNumberTwo } = useUtilsFunction();
   const { state: { userInfo } } = useContext(UserContext);
   const { isLoading, setIsLoading } = useContext(SidebarContext);
   const { addItem } = useCart();
+
+  const [product, setProduct] = useState(initialProduct);
+  const [attributes, setAttributes] = useState(initialAttributes || []);
+  const [relatedProducts, setRelatedProducts] = useState(initialRelatedProducts || []);
+  const [pageLoading, setPageLoading] = useState(!initialProduct);
 
   // react hook
   const [value, setValue] = useState("");
@@ -79,6 +85,43 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
   const [editId, setEditId] = useState(null);
   const [reviewImg, setReviewImg] = useState([]);
   const [showVideo, setShowVideo] = useState(false);
+
+  useEffect(() => {
+    if (!product && slug) {
+      const fetchData = async () => {
+        try {
+          setPageLoading(true);
+          const [productData, attributesData] = await Promise.all([
+            ProductServices.getProductBySlug(slug),
+            AttributeServices.getShowingAttributes({}),
+          ]);
+
+          if (productData) {
+            const sanitizedProduct = sanitizeProduct(productData);
+            setProduct(sanitizedProduct);
+            setAttributes(sanitizeData(attributesData) || []);
+
+            if (sanitizedProduct?.category?._id) {
+              const categoryData = await ProductServices.getShowingStoreProducts({
+                category: sanitizedProduct.category._id,
+              });
+              const products = Array.isArray(categoryData) ? categoryData : (categoryData?.products || []);
+              setRelatedProducts(sanitizeData(products.filter((p) => p._id !== sanitizedProduct._id).slice(0, 8)));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching product data:", error);
+        } finally {
+          setPageLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [slug]);
+
+  // Rest of the component logic remains the same... (abbreviated for the tool call)
+  // ...
+
 
   // Helper to convert YT URL to embed URL
   const getYoutubeEmbedUrl = (url) => {
@@ -1073,51 +1116,6 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
       )}
     </>
   );
-};
-
-export const getServerSideProps = async (context) => {
-  const { slug } = context.params;
-
-  try {
-    // Optimization: Fetch only the specific product first by slug
-    // This is much faster than fetching multiple products
-    const [productData, attributes] = await Promise.all([
-      ProductServices.getProductBySlug(slug),
-      AttributeServices.getShowingAttributes({}),
-    ]);
-
-    if (!productData) {
-      return { props: { product: null } };
-    }
-
-    let product = sanitizeProduct(productData);
-
-    // Fetch related products separately or keep it empty if not needed immediately
-    // For speed, we can fetch related products based on category of the main product
-    let relatedProducts = [];
-    if (product?.category?._id) {
-      const categoryData = await ProductServices.getShowingStoreProducts({
-        category: product.category._id,
-      });
-      const products = Array.isArray(categoryData) ? categoryData : (categoryData?.products || []);
-      relatedProducts = sanitizeData(
-        products.filter((p) => p._id !== product._id).slice(0, 8)
-      );
-    }
-
-    return {
-      props: {
-        product,
-        attributes: sanitizeData(attributes) || [],
-        relatedProducts,
-      },
-    };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-    return {
-      props: { product: null, attributes: [], relatedProducts: [] },
-    };
-  }
 };
 
 export default ProductScreen;

@@ -75,7 +75,18 @@ router.post("/add/all", addAllCustomers);
 //get all user
 router.get("/", getAllCustomers);
 
-//get a user
+// ⚠️ IMPORTANT: Specific routes MUST come BEFORE the wildcard /:id route
+// Otherwise Express matches /cart/:id as /:id (id="cart") and wrong handler is called
+
+//save and get cart
+router.get("/cart/:id", getCart);
+router.put("/cart/:id", saveCart);
+
+//save and get wishlist
+router.get("/wishlist/:id", getWishlist);
+router.put("/wishlist/:id", saveWishlist);
+
+//get a user  (wildcard - must be AFTER specific routes)
 router.get("/:id", getCustomerById);
 
 //update a user
@@ -83,13 +94,5 @@ router.put("/:id", updateCustomer);
 
 //delete a user
 router.delete("/:id", deleteCustomer);
-
-//save and get cart
-router.put("/cart/:id", saveCart);
-router.get("/cart/:id", getCart);
-
-//save and get wishlist
-router.put("/wishlist/:id", saveWishlist);
-router.get("/wishlist/:id", getWishlist);
 
 module.exports = router;

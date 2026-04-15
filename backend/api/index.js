@@ -76,15 +76,21 @@ app.use((err, req, res, next) => {
   res.status(400).json({ message: err.message });
 });
 
-// Serve static files from the "dist" directory
-app.use("/static", express.static("public"));
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, "..", "public")));
 
-// Serve the index.html file for all routes
+// Serve the index.html file for all non-API routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  const indexPath = path.join(__dirname, "..", "public", "index.html");
+  if (require("fs").existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(200).send("Backend is running! Frontend build is not yet deployed.");
+  }
 });
 
 const PORT = process.env.PORT || 5058;
+
 
 
 app.listen(PORT, () => console.log(`server running on port ${PORT}`));

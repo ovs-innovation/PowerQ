@@ -15,19 +15,50 @@ import AttributeServices from "@services/AttributeServices";
 import CategoryCarousel from "@components/carousel/CategoryCarousel";
 import { sanitizeData } from "@utils/dataSanitizer";
 
-const Search = ({ products, attributes }) => {
+const Search = ({ products: initialProducts, attributes: initialAttributes }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { isLoading, setIsLoading } = useContext(SidebarContext);
   const [visibleProduct, setVisibleProduct] = useState(18);
+  const [products, setProducts] = useState(initialProducts || []);
+  const [attributes, setAttributes] = useState(initialAttributes || []);
+  const [pageLoading, setPageLoading] = useState(!initialProducts);
 
-  const { category } = router.query;
+  const { query, _id, page, limit } = router.query;
 
   useEffect(() => {
-    setIsLoading(false);
-  }, [products]);
+    if (!initialProducts && (query || _id)) {
+      const fetchData = async () => {
+        try {
+          setPageLoading(true);
+          const [data, attributesData] = await Promise.all([
+            ProductServices.getShowingStoreProducts({
+              category: _id ? _id : "",
+              title: query ? encodeURIComponent(query) : "",
+              page: page ? String(page) : "1",
+              limit: limit ? String(limit) : "60",
+            }),
+            AttributeServices.getShowingAttributes({}),
+          ]);
+
+          setProducts(sanitizeData(data?.products) || []);
+          setAttributes(sanitizeData(attributesData) || []);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        } finally {
+          setIsLoading(false);
+          setPageLoading(false);
+        }
+      };
+      fetchData();
+    } else {
+      setIsLoading(false);
+    }
+  }, [query, _id, page, limit]);
 
   const { setSortedField, productData } = useFilter(products);
+// ... Rest of the component
+
 
   // Capitalize name for cleaner display
   const categoryTitle = category ? category.toString().replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : "All Products";
@@ -109,40 +140,3 @@ const Search = ({ products, attributes }) => {
 };
 
 export default Search;
-
-export const getServerSideProps = async (context) => {
-  const { query, _id, page, limit } = context.query;
-
-  try {
-    const [data, attributes] = await Promise.all([
-      ProductServices.getShowingStoreProducts({
-        category: _id ? _id : "",
-        title: query ? encodeURIComponent(query) : "",
-        page: page ? String(page) : "1",
-        limit: limit ? String(limit) : "60",
-      }),
-      AttributeServices.getShowingAttributes({}),
-    ]);
-
-    // Sanitize all data to prevent serialization issues
-    const sanitizedAttributes = sanitizeData(attributes) || [];
-    const sanitizedProducts = sanitizeData(data?.products) || [];
-
-    return {
-      props: {
-        attributes: sanitizedAttributes,
-        products: sanitizedProducts,
-      },
-    };
-  } catch (error) {
-    console.error("Error in getServerSideProps:", error);
-
-    // Return fallback data on error
-    return {
-      props: {
-        attributes: [],
-        products: [],
-      },
-    };
-  }
-};
