@@ -15,18 +15,13 @@ import OrderServices from "@services/OrderServices";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import InvoiceForDownload from "@components/invoice/InvoiceForDownload";
 
-const Order = () => {
+const Order = ({ params }) => {
   const printRef = useRef();
-  const router = useRouter();
-  const { id: orderId } = router.query;
+  const orderId = params.id;
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ["order", orderId],
-    queryFn: async () => {
-      if (!orderId) return null;
-      return await OrderServices.getOrderById(orderId);
-    },
-    enabled: !!orderId,
+    queryKey: ["order"],
+    queryFn: async () => await OrderServices.getOrderById(orderId),
   });
 
   const { showingTranslateValue, getNumberTwo, currency } = useUtilsFunction();
@@ -112,6 +107,12 @@ const Order = () => {
       )}
     </Layout>
   );
+};
+
+export const getServerSideProps = ({ params }) => {
+  return {
+    props: { params },
+  };
 };
 
 export default dynamic(() => Promise.resolve(Order), { ssr: false });

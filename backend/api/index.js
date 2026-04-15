@@ -4,29 +4,6 @@ const helmet = require("helmet");
 const cors = require("cors");
 const path = require("path");
 
-const app = express();
-
-// Set up CORS and security first
-app.use(cors({
-  origin: ["http://localhost:3000", "https://elecmoon-backend.vercel.app"],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
-
-app.use(express.json({ limit: "4mb" }));
-app.set("trust proxy", 1);
-
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
-
-// Import database connection and routes
 const { connectDB } = require("../config/db");
 const productRoutes = require("../routes/productRoutes");
 const customerRoutes = require("../routes/customerRoutes");
@@ -47,12 +24,30 @@ const commentRoutes = require("../routes/commentRoutes");
 const reviewRoutes = require("../routes/reviewRoutes");
 const batteryServiceRoutes = require("../routes/batteryServiceRoutes");
 const shortVideoRoutes = require("../routes/shortVideoRoutes");
-const { isAuth, isAdmin } = require("../config/auth");
+const { isAuth, isAdmin } = require("../config/auth")
 
-// Connect to Database
 connectDB();
+const app = express();
 
-// API Routes
+app.set("trust proxy", 1);
+
+app.use(express.json({ limit: "4mb" }));
+app.use(helmet());
+
+app.use(cors({
+  origin: true, 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+
+//root route
+app.get("/", (req, res) => {
+  res.send("App works properly!");
+});
+
+//this for route will need for store front, also for admin dashboard
 app.use("/api/products/", productRoutes);
 app.use("/api/category/", categoryRoutes);
 app.use("/api/coupon/", couponRoutes);
@@ -71,37 +66,26 @@ app.use("/api/reviews/", reviewRoutes);
 app.use("/api/battery-service/", batteryServiceRoutes);
 app.use("/api/short-videos/", shortVideoRoutes);
 
-// Admin and Order Management Routes
+//if you not use admin dashboard then these two route will not needed.
 app.use("/api/admin/", adminRoutes);
 app.use("/api/orders/", orderRoutes);
 
-// Error handling middleware
+// Use express's default error handling middleware
 app.use((err, req, res, next) => {
-  console.error("Error:", err.message);
   if (res.headersSent) return next(err);
-  res.status(err.status || 500).json({ 
-    message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === "development" ? err : {}
-  });
+  res.status(400).json({ message: err.message });
 });
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, "..", "public")));
+// Serve static files from the "dist" directory
+app.use("/static", express.static("public"));
 
-// Serve the index.html file for all non-API routes
+// Serve the index.html file for all routes
 app.get("*", (req, res) => {
-  const indexPath = path.join(__dirname, "..", "public", "index.html");
-  if (require("fs").existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(200).send("Backend is running! Frontend build is not yet deployed.");
-  }
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
+
 
 const PORT = process.env.PORT || 5058;
 
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
 
-module.exports = app;
+app.listen(PORT, () => console.log(`server running on port ${PORT}`));

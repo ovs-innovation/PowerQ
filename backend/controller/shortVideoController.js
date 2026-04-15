@@ -1,5 +1,4 @@
 const ShortVideo = require("../models/ShortVideo");
-require("../models/Product"); // Ensure Product model is registered for populate
 
 const addShortVideo = async (req, res) => {
   try {
@@ -29,7 +28,6 @@ const getShowingShortVideos = async (req, res) => {
     const shortVideos = await ShortVideo.find({ status: "show" }).populate('product').sort({ order: 1, createdAt: -1 });
     res.send(shortVideos);
   } catch (err) {
-    console.error("Error in getShowingShortVideos:", err);
     res.status(500).send({
       message: err.message,
     });

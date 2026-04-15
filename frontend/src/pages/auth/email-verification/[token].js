@@ -9,14 +9,16 @@ import { notifySuccess } from "@utils/toast";
 import Loading from "@components/preloader/Loading";
 import CustomerServices from "@services/CustomerServices";
 
-const EmailVerification = () => {
+const EmailVerification = ({ params }) => {
   const [success, setSuccess] = useState("");
+
   const router = useRouter();
-  const { token } = router.query;
+
+  // console.log("params", params);
   const { error, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ["registerCustomer", token],
+    mutationKey: ["registerCustomer", params?.token],
     mutationFn: async () =>
-      await CustomerServices.registerCustomer(token),
+      await CustomerServices.registerCustomer(params?.token),
     onSuccess: async (data) => {
       notifySuccess(data.message || "Registration successful!");
       setSuccess(data.message);
@@ -50,14 +52,14 @@ const EmailVerification = () => {
   useEffect(() => {
     let debounceTimer;
 
-    if (token) {
+    if (params?.token) {
       debounceTimer = setTimeout(() => {
         mutate(); // Trigger the mutation after a delay
       }, 500); // Adjust delay as needed
     }
 
     return () => clearTimeout(debounceTimer); // Cleanup on unmount
-  }, [token, mutate]);
+  }, [params?.token, mutate]);
 
   //automatically go to home page
   useEffect(() => {
@@ -102,6 +104,12 @@ const EmailVerification = () => {
       ) : null}
     </div>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  return {
+    props: { params },
+  };
 };
 
 export default EmailVerification;
