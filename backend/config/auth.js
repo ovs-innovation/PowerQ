@@ -59,7 +59,7 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-const secretKey = process.env.ENCRYPT_PASSWORD;
+const secretKey = process.env.ENCRYPT_PASSWORD || "fallback_secret_key_for_encryption";
 
 // Ensure the secret key is exactly 32 bytes (256 bits)
 const key = crypto.createHash("sha256").update(secretKey).digest();
