@@ -1,5 +1,6 @@
 //models
 const Setting = require("../models/Setting");
+const mongoose = require("mongoose");
 
 //global setting controller
 const addGlobalSetting = async (req, res) => {
@@ -76,6 +77,12 @@ const addStoreSetting = async (req, res) => {
 
 const getStoreSetting = async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).send({
+        message: "Database not connected",
+        readyState: mongoose.connection.readyState
+      });
+    }
     // console.log("getStoreSetting");
 
     const storeSetting = await Setting.findOne({ name: "storeSetting" });
@@ -86,6 +93,8 @@ const getStoreSetting = async (req, res) => {
   } catch (err) {
     res.status(500).send({
       message: err.message,
+      stack: err.stack,
+      error: err
     });
   }
 };
