@@ -26,8 +26,20 @@ const batteryServiceRoutes = require("../routes/batteryServiceRoutes");
 const shortVideoRoutes = require("../routes/shortVideoRoutes");
 const { isAuth, isAdmin } = require("../config/auth")
 
-connectDB();
 const app = express();
+
+// Database connection middleware
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(503).json({
+      message: "Database connection failed",
+      error: err.message
+    });
+  }
+});
 
 app.set("trust proxy", 1);
 

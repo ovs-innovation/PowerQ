@@ -77,12 +77,6 @@ const addStoreSetting = async (req, res) => {
 
 const getStoreSetting = async (req, res) => {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      return res.status(503).send({
-        message: "Database not connected",
-        readyState: mongoose.connection.readyState
-      });
-    }
     // console.log("getStoreSetting");
 
     const storeSetting = await Setting.findOne({ name: "storeSetting" });
