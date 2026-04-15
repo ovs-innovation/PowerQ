@@ -31,18 +31,21 @@ const app = express();
 
 app.set("trust proxy", 1);
 
+app.use(cors({
+  origin: ["http://localhost:3000", "https://elecmoon-backend.vercel.app"],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
 app.use(express.json({ limit: "4mb" }));
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
-app.use(helmet());
 
-app.use(cors({
-  origin: true, 
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
 
