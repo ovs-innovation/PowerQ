@@ -21,8 +21,12 @@ const getGlobalSetting = async (req, res) => {
     // console.log("getGlobalSetting");
 
     const globalSetting = await Setting.findOne({ name: "globalSetting" });
+    if (!globalSetting) {
+      return res.status(200).send({}); // Return empty object if missing
+    }
     res.send(globalSetting.setting);
   } catch (err) {
+    console.error("Error in getGlobalSetting:", err);
     res.status(500).send({
       message: err.message,
     });
@@ -76,8 +80,12 @@ const getStoreSetting = async (req, res) => {
     // console.log("getStoreSetting");
 
     const storeSetting = await Setting.findOne({ name: "storeSetting" });
+    if (!storeSetting) {
+      return res.status(200).send({});
+    }
     res.send(storeSetting.setting);
   } catch (err) {
+    console.error("Error in getStoreSetting:", err);
     res.status(500).send({
       message: err.message,
     });
@@ -154,11 +162,12 @@ const getStoreCustomizationSetting = async (req, res) => {
     );
 
     if (!storeCustomizationSetting) {
-      return res.status(404).send({ message: "Settings not found" });
+      return res.status(200).send({}); // Return empty object instead of 404/Error
     }
 
     res.send(storeCustomizationSetting.setting);
   } catch (err) {
+    console.error("Error in getStoreCustomizationSetting:", err);
     res.status(500).send({ message: err.message });
   }
 };
@@ -172,9 +181,12 @@ const getStoreSeoSetting = async (req, res) => {
       },
       { "setting.seo": 1, _id: 0 }
     );
-    // console.log("storeCustomizationSetting", storeCustomizationSetting);
+    if (!storeCustomizationSetting) {
+      return res.status(200).send({});
+    }
     res.send(storeCustomizationSetting?.setting);
   } catch (err) {
+    console.error("Error in getStoreSeoSetting:", err);
     res.status(500).send({
       message: err.message,
     });
