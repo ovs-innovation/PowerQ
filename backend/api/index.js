@@ -42,10 +42,10 @@ app.use(cors({
 }));
 
 
-//root route
-app.get("/", (req, res) => {
-  res.send("App works properly!");
-});
+// root route - commented out to allow frontend serving
+// app.get("/", (req, res) => {
+//   res.send("App works properly!");
+// });
 
 //this for route will need for store front, also for admin dashboard
 app.use("/api/products/", productRoutes);
