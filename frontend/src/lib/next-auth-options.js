@@ -86,6 +86,8 @@ export const getDynamicAuthOptions = async () => {
               user.address = res.address;
               user.phone = res.phone;
               user.image = res.image;
+              user.cart = res.cart || [];
+              user.wishlist = res.wishlist || [];
             } else {
               console.error("OAuth sign-in: No token received");
               return false;

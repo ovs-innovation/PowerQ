@@ -31,9 +31,9 @@ const Navbar = () => {
   const { state: { userInfo } } = useContext(UserContext);
   const { storeCustomizationSetting } = useGetSetting();
   const { toggleCartDrawer, categories, services, isCategoriesLoading } = useContext(SidebarContext);
-  const { items, emptyCart } = useCart();
+  const { items, emptyCart, cartTotal } = useCart();
   const { totalWishlistItems, clearWishlist } = useContext(WishlistContext);
-  const { showingTranslateValue, lang } = useUtilsFunction();
+  const { showingTranslateValue, getNumberTwo, currency, lang } = useUtilsFunction();
 
   const handleLogOut = () => {
     signOut();
@@ -164,7 +164,10 @@ const Navbar = () => {
                       </span>
                     )}
                   </div>
-                  <span className="hidden lg:block font-bold text-sm">$0.00</span>
+                  <span className="hidden lg:block font-bold text-sm">
+                    {currency}
+                    {getNumberTwo(cartTotal)}
+                  </span>
                 </button>
 
                 <Link href={userInfo ? "/user/dashboard" : "/auth/login"} className="flex flex-col sm:flex-row items-center gap-2 hover:text-[#0b1d3d] transition-colors">

@@ -19,18 +19,17 @@ const SessionSync = () => {
     const [isRestoring, setIsRestoring] = useState(false);
     const [isRestored, setIsRestored] = useState(false);
 
-    // Maintain refs to get latest values in async functions
     const itemsRef = useRef(items);
     useEffect(() => { itemsRef.current = items; }, [items]);
     const wishRef = useRef(wishlistItems);
     useEffect(() => { wishRef.current = wishlistItems; }, [wishlistItems]);
 
-    // Handles Restoration
+    // Handles Restoration on Login
     useEffect(() => {
         if (status === "authenticated" && session?.user?.id) {
             const userId = session.user.id;
 
-            // Trigger restoration only on login or brand new session
+            // Trigger restoration only on login or user switch
             if (prevStatus.current !== "authenticated" || !isRestored || prevUserId.current !== userId) {
                 prevUserId.current = userId;
 
@@ -38,51 +37,46 @@ const SessionSync = () => {
                     setIsRestoring(true);
 
                     try {
-                        let finalCart = [...itemsRef.current];
-                        let finalWishlist = [...wishRef.current];
+                        // ALWAYS fetch fresh data from API (DB is source of truth)
+                        // Session token cart is stale (set at login time only)
+                        let dbCart = [];
+                        let dbWishlist = [];
 
-                        // 1. Prioritize Session Data (Immediate results)
-                        let dbCart = session.user.cart || [];
-                        let dbWishlist = session.user.wishlist || [];
-
-                        // 2. Fallback to API if session data is empty (just in case)
-                        if (dbCart.length === 0 || dbWishlist.length === 0) {
-                            try {
-                                const [cartRes, wishRes] = await Promise.all([
-                                    CustomerServices.getCart(userId),
-                                    CustomerServices.getWishlist(userId)
-                                ]);
-                                if (dbCart.length === 0) dbCart = cartRes?.cart || [];
-                                if (dbWishlist.length === 0) dbWishlist = wishRes?.wishlist || [];
-                            } catch (err) {
-                                console.error("Error fetching cart/wishlist from API:", err);
-                            }
+                        try {
+                            const [cartRes, wishRes] = await Promise.all([
+                                CustomerServices.getCart(userId),
+                                CustomerServices.getWishlist(userId)
+                            ]);
+                            dbCart = cartRes?.cart || [];
+                            dbWishlist = wishRes?.wishlist || [];
+                        } catch (err) {
+                            // If API fails, fall back to session data
+                            console.error("Error fetching cart/wishlist from API, using session data:", err);
+                            dbCart = session.user.cart || [];
+                            dbWishlist = session.user.wishlist || [];
                         }
 
-                        // 3. Merge Cart Logic
-                        // We use the DB cart as the base, then append unique items from guest session
+                        // Merge: DB cart is source of truth, append unique guest items
                         const mergedCart = [...dbCart];
                         itemsRef.current.forEach(guestItem => {
-                            const exists = dbCart.some(dbItem => (dbItem.id || dbItem._id) === (guestItem.id || guestItem._id));
+                            const exists = dbCart.some(dbItem =>
+                                (dbItem.id || dbItem._id) === (guestItem.id || guestItem._id)
+                            );
                             if (!exists) mergedCart.push(guestItem);
                         });
-                        finalCart = mergedCart;
 
-                        // 4. Merge Wishlist Logic
+                        // Merge: DB wishlist is source of truth, append unique guest items
                         const mergedWish = [...dbWishlist];
                         wishRef.current.forEach(guestItem => {
-                            const exists = dbWishlist.some(dbItem => (dbItem._id || dbItem.id) === (guestItem._id || guestItem.id));
+                            const exists = dbWishlist.some(dbItem =>
+                                (dbItem._id || dbItem.id) === (guestItem._id || guestItem.id)
+                            );
                             if (!exists) mergedWish.push(guestItem);
                         });
-                        finalWishlist = mergedWish;
 
-                        // 5. Update State (Synchronous-like updates)
-                        if (finalCart.length > 0) {
-                            setItems(finalCart);
-                        }
-                        if (finalWishlist.length > 0) {
-                            loadWishlist(finalWishlist);
-                        }
+                        // Always apply final state (even if empty - clears stale guest data)
+                        setItems(mergedCart);
+                        loadWishlist(mergedWish);
 
                     } catch (e) {
                         console.error("SessionSync restoration error:", e);
@@ -95,12 +89,21 @@ const SessionSync = () => {
                 startRestoration();
             }
         } else if (status === "unauthenticated" && prevStatus.current === "authenticated") {
+            // User logged out
             setIsRestored(false);
             setIsRestoring(false);
+
+            // IMMEDIATE SYNC BEFORE CLEARING (Fixes rapid testing Add -> Logout issue)
+            const userId = prevUserId.current;
+            if (userId && itemsRef.current) {
+                // Fire and forget the exact state right before clearing
+                Promise.all([
+                    CustomerServices.saveCart(userId, { cart: itemsRef.current }),
+                    CustomerServices.saveWishlist(userId, { wishlist: wishRef.current })
+                ]).catch(e => console.error("Final sync error on logout:", e));
+            }
+
             prevUserId.current = null;
-            
-            // Clear local state on logout for privacy.
-            // This ensures the next user doesn't see the previous user's cart.
             emptyCart();
             if (typeof clearWishlist === 'function') clearWishlist();
         }
@@ -108,33 +111,29 @@ const SessionSync = () => {
         prevStatus.current = status;
     }, [status, session?.user?.id]);
 
-    // Handles Synchronization
+    // Sync Cart/Wishlist changes to DB (debounced, only after restoration is done)
     useEffect(() => {
-        // Only sync if we are authenticated AND restoration has finished
-        if (status === "authenticated" && !isRestoring && isRestored && session?.user?.id) {
-            const userId = session.user.id;
+        if (status !== "authenticated" || isRestoring || !isRestored || !session?.user?.id) return;
 
-            const syncData = async () => {
-                try {
-                    // Sync both to DB
-                    await Promise.all([
-                        CustomerServices.saveCart(userId, { cart: items }),
-                        CustomerServices.saveWishlist(userId, { wishlist: wishlistItems })
-                    ]);
-                    // console.log("Cart/Wishlist synced to DB");
-                } catch (error) {
-                    console.error("Failed to sync cart/wishlist:", error);
-                }
-            };
+        const userId = session.user.id;
 
-            const timeout = setTimeout(syncData, 2000); // 2s debounce
-            return () => clearTimeout(timeout);
-        }
+        const syncData = async () => {
+            try {
+                await Promise.all([
+                    CustomerServices.saveCart(userId, { cart: items }),
+                    CustomerServices.saveWishlist(userId, { wishlist: wishlistItems })
+                ]);
+            } catch (error) {
+                console.error("Failed to sync cart/wishlist to DB:", error);
+            }
+        };
+
+        // 2 second debounce to avoid excessive API calls on rapid changes
+        const timeout = setTimeout(syncData, 2000);
+        return () => clearTimeout(timeout);
     }, [items, wishlistItems, status, isRestored, isRestoring, session?.user?.id]);
 
     return null;
 };
 
 export default SessionSync;
-
-
